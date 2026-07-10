@@ -4,7 +4,7 @@
 
 @layer base {
 	body {
-		@apply font-sans m-0 p-8 bg-slate-900 text-slate-100;
+		@apply font-sans m-0 p-8 bg-background text-slate-100;
 		background-image: radial-gradient(ellipse at 20% 10%, rgba(124,58,237,0.06), transparent 10%), radial-gradient(ellipse at 80% 90%, rgba(212,175,55,0.03), transparent 10%);
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
@@ -12,12 +12,12 @@
 
 	/* Default card surface for dark theme */
 	.card-surface {
-		@apply bg-slate-800/80;
+		@apply bg-surface/80;
 	}
 
 	/* Accent text for WoW/gold look */
 	.text-gold {
-		color: theme('colors.wow.gold');
+		color: theme('colors.primary');
 	}
 }
 

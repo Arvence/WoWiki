@@ -1,6 +1,7 @@
-const { COLORS } = require('./src/constants/colors')
+import type { Config } from 'tailwindcss'
+import { COLORS } from './src/constants/colors'
 
-module.exports = {
+export default {
   darkMode: 'class',
   content: ['./index.html', './src/**/*.{ts,tsx,js,jsx}'],
   theme: {
@@ -25,4 +26,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+} satisfies Config
