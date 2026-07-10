@@ -1,32 +1,36 @@
+import wowClassicLogo from '../../assets/images/wow_classic_logo.png'
+
 export default function HeroArticle(): JSX.Element {
   return (
-    <article className="rounded-2xl overflow-hidden shadow-lg bg-surface/80 border border-border">
+    <article className="overflow-hidden rounded-2xl border border-border bg-surface/80 shadow-lg">
       <div className="relative">
-        <img src="https://images.unsplash.com/photo-1600375964243-6b1f5a8d3f0b?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=abc" alt="WoW" className="w-full h-56 object-cover opacity-80" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-        <div className="absolute bottom-4 left-6 text-white">
-          <h2 className="text-3xl font-bold">The Fall of Quel'Thalas</h2>
-          <p className="text-sm opacity-90">An illustrated deep-dive into the Battle for Silvermoon and its aftermath.</p>
+        <div className="h-[20rem] bg-background sm:h-[24rem] lg:h-[25rem]">
+          <img src={wowClassicLogo} alt="WoW Classic logo" className="h-full w-full object-contain p-4 pb-16 opacity-90 sm:p-6 sm:pb-24" />
+        </div>
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background/90 via-background/50 to-transparent sm:h-52" />
+        <div className="absolute bottom-3 left-4 right-4 z-10 text-text sm:bottom-4 sm:left-6 sm:right-6">
+          <h2 className="text-2xl font-bold sm:text-3xl">The Fall of Quel'Thalas</h2>
+          <p className="mt-2 text-sm opacity-90">An illustrated deep-dive into the Battle for Silvermoon and its aftermath.</p>
         </div>
       </div>
 
-      <div className="p-6">
-        <div className="flex items-center gap-4 text-sm text-slate-400 mb-4">
-          <span className="px-2 py-1 bg-primary/10 text-primary rounded">Lore</span>
+      <div className="p-4 sm:p-6">
+        <div className="mb-4 flex flex-wrap items-center gap-2 text-sm text-muted sm:gap-4">
+          <span className="rounded bg-primary/10 px-2 py-1 text-primary">Lore</span>
           <span>Updated 3 days ago</span>
           <span>·</span>
-          <span>By <strong className="text-slate-100">Archivist</strong></span>
+          <span>By <strong className="text-text">Archivist</strong></span>
         </div>
 
-        <p className="text-slate-200 leading-relaxed">
+        <p className="leading-relaxed text-text">
           Quel'Thalas, the home of the high elves, stood proud for millennia. This article traces the political tensions,
           the military campaigns, and the tragic fall that reshaped Azeroth's history.
         </p>
 
-        <div className="mt-6 flex gap-3">
-          <button className="px-4 py-2 rounded-md bg-primary text-slate-900">Read full article</button>
-          <button className="px-4 py-2 rounded-md border border-border text-slate-200 hover:bg-surface">Save</button>
-          <button className="ml-auto text-sm text-slate-400">Share</button>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <button className="rounded-md bg-primary px-4 py-2 text-background">Read full article</button>
+          <button className="rounded-md border border-border px-4 py-2 text-text hover:bg-surface">Save</button>
+          <button className="ml-0 text-sm text-muted sm:ml-auto">Share</button>
         </div>
       </div>
     </article>

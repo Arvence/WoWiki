@@ -39,8 +39,8 @@ export default function App(): JSX.Element {
     <div className="min-h-screen bg-background">
       <AppHeader />
 
-      <main className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <section className="lg:col-span-2">
+      <main className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 py-6 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,2fr)_320px] lg:gap-8">
+        <section className="lg:col-span-1">
           <HeroArticle />
           <CharacterList characters={characters} loading={loading} error={error} />
           <PopularContent items={popular} />
@@ -49,8 +49,8 @@ export default function App(): JSX.Element {
         <Sidebar categories={categories} popular={popular.map(({ title, views }) => ({ title, views }))} />
       </main>
 
-      <footer className="border-t border-slate-800 py-8 mt-12">
-        <div className="max-w-6xl mx-auto px-6 text-sm text-slate-400">© {new Date().getFullYear()} WoWiki — a community-driven World of Warcraft encyclopedia.</div>
+      <footer className="mt-8 border-t border-border py-8 sm:mt-12">
+        <div className="mx-auto max-w-6xl px-4 text-sm text-muted sm:px-6">© {new Date().getFullYear()} WoWiki — a community-driven World of Warcraft encyclopedia.</div>
       </footer>
     </div>
   )
