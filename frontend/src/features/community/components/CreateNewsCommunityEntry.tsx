@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { createCommunityEntry } from '../../api/communityService'
+import { createCommunityEntry } from '../api/communityService'
 
 type CreateNewsCommunityEntryProps = {
   newsId: string

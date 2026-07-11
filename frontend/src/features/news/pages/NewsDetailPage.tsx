@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { fetchNewsById, setNewsLiked } from '../api/newsService'
-import CreateNewsCommunityEntry from '../components/community/CreateNewsCommunityEntry'
-import AppFooter from '../components/layout/AppFooter'
-import AppHeader from '../components/layout/AppHeader'
+import AppFooter from '../../../components/layout/AppFooter'
+import AppHeader from '../../../components/layout/AppHeader'
+import CreateNewsCommunityEntry from '../../community/components/CreateNewsCommunityEntry'
 import type { News } from '../types/news'
 
 function formatDate(value: string): string {

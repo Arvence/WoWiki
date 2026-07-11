@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { fetchNews } from '../../../api/newsService'
-import type { News } from '../../../types/news'
+import { fetchNews } from '../api/newsService'
+import type { News } from '../types/news'
 import NewsList from './NewsList'
 
 export default function Feed(): JSX.Element {

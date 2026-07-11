@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { fetchCharacters } from '../../../api/characterService'
-import type { Character } from '../../../types/character'
+import { fetchCharacters } from '../../../features/characters/api/characterService'
+import type { Character } from '../../../features/characters/types/character'
 
 export default function PopularCharactersSection(): JSX.Element {
   const [characters, setCharacters] = useState<Character[]>([])

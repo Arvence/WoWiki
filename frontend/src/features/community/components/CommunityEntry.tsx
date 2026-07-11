@@ -1,4 +1,4 @@
-import type { CommunityEntryData } from '../../../types/community'
+import type { CommunityEntryData } from '../types/community'
 
 type CommunityEntryProps = {
   entry: CommunityEntryData

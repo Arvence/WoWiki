@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { fetchCommunityEntries } from '../../../api/communityService'
-import type { CommunityEntryData } from '../../../types/community'
+import { fetchCommunityEntries } from '../api/communityService'
+import type { CommunityEntryData } from '../types/community'
 import CommunityEntry from './CommunityEntry'
 
 export default function Community(): JSX.Element {

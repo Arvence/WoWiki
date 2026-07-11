@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import CreateNewsCommunityEntry from '../../community/CreateNewsCommunityEntry'
-import type { News } from '../../../types/news'
+import CreateNewsCommunityEntry from '../../community/components/CreateNewsCommunityEntry'
+import type { News } from '../types/news'
 
 type NewsListProps = {
   news: News[]

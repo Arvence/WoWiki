@@ -1,6 +1,6 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom'
 import App from './App'
-import NewsDetailPage from './pages/NewsDetailPage'
+import NewsDetailPage from './features/news/pages/NewsDetailPage'
 
 export const router = createBrowserRouter([
   {

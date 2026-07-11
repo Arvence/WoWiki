@@ -1,8 +1,8 @@
 import AppFooter from './components/layout/AppFooter'
 import AppHeader from './components/layout/AppHeader'
 import Sidebar from './components/layout/Sidebar'
-import Community from './components/layout/community/Community'
-import Feed from './components/sections/Feed/Feed'
+import Community from './features/community/components/Community'
+import Feed from './features/news/components/Feed'
 
 export default function App(): JSX.Element {
   return (
