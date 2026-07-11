@@ -7,8 +7,13 @@ const navButtons = [
   { label: "Tools", items: ["Map", "Auction House", "Calculator"] },
   { label: "Guides", items: ["Class Builds", "Raids", "PvP"] },
   { label: "Community", items: ["Forums", "Discord", "Events"] },
-  { label: "More", items: ["About", "Support", "Privacy"] },
 ]
+
+const profileButton = {
+  label: "Profile",
+  items: ["View Profile", "Saved Articles", "Settings", "Sign Out", "About", "Support", "Privacy"],
+  dividerBefore: 4,
+}
 
 export default function AppHeader(): JSX.Element {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -57,6 +62,19 @@ export default function AppHeader(): JSX.Element {
               onClose={() => setOpenDropdown(null)}
             />
           ))}
+          <div className="ml-1 flex items-center gap-2 border-l border-border pl-3">
+            <DropdownMenu
+              label={profileButton.label}
+              items={profileButton.items}
+              isOpen={openDropdown === profileButton.label}
+              onToggle={() => setOpenDropdown((current) => (current === profileButton.label ? null : profileButton.label))}
+              onOpen={() => setOpenDropdown(profileButton.label)}
+              onClose={() => setOpenDropdown(null)}
+              variant="profile"
+              align="right"
+              dividerBefore={profileButton.dividerBefore}
+            />
+          </div>
         </div>
       </div>
 
@@ -78,6 +96,25 @@ export default function AppHeader(): JSX.Element {
                     >
                       {item}
                     </a>
+                  ))}
+                </div>
+              </details>
+            ))}
+            <div className="my-3 border-t border-border" />
+            {[profileButton].map((button) => (
+              <details key={button.label} className="rounded-md border border-primary/40 bg-background/80">
+                <summary className="flex cursor-pointer items-center justify-between gap-2 px-3 py-2 text-sm font-medium text-text hover:bg-background/90">
+                  <span className="flex items-center gap-2">
+                    {button.label === 'Profile' && <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary font-bold text-background" aria-hidden="true">P</span>}
+                    {button.label}
+                  </span>
+                  <span className="text-muted">&#9662;</span>
+                </summary>
+                <div className="space-y-1 border-t border-border px-3 py-2">
+                  {button.items.map((item, index) => (
+                    <div key={item} className={index === button.dividerBefore ? 'border-t border-border pt-2' : ''}>
+                      <a href="#" className="block rounded-md px-2 py-2 text-sm text-text transition hover:bg-background/90">{item}</a>
+                    </div>
                   ))}
                 </div>
               </details>

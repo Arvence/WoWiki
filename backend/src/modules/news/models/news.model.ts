@@ -8,4 +8,5 @@ export class News {
   updatedAt!: string
   imageUrl?: string
   viewerCount?: number
+  likeCount?: number
 }

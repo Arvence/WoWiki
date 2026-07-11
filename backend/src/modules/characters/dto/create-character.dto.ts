@@ -3,21 +3,21 @@ import { IsNotEmpty, IsString } from 'class-validator'
 export class CreateCharacterDto {
   @IsString()
   @IsNotEmpty()
-  name: string
+  name!: string
 
   @IsString()
   @IsNotEmpty()
-  race: string
+  race!: string
 
   @IsString()
   @IsNotEmpty()
-  className: string
+  className!: string
 
   @IsString()
   @IsNotEmpty()
-  faction: string
+  faction!: string
 
   @IsString()
   @IsNotEmpty()
-  description: string
+  description!: string
 }

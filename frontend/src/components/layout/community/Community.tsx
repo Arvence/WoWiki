@@ -20,6 +20,8 @@ export default function Community(): JSX.Element {
     }
 
     void loadEntries()
+    window.addEventListener('wowiki:community-entry-created', loadEntries)
+    return () => window.removeEventListener('wowiki:community-entry-created', loadEntries)
   }, [])
 
   return (

@@ -5,5 +5,5 @@ export class CommunityEntry {
   excerpt!: string
   category!: string
   publishedAt!: string
-  comments!: number
+  newsId?: string
 }

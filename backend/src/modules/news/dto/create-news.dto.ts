@@ -28,4 +28,5 @@ export class CreateNewsDto {
   @IsString()
   @IsOptional()
   imageUrl?: string
+
 }

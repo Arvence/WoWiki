@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
 import { CreateNewsDto } from './dto/create-news.dto'
+import { LikeNewsDto } from './dto/like-news.dto'
 import { UpdateNewsDto } from './dto/update-news.dto'
 import { NewsService } from './news.service'
 
@@ -15,6 +16,11 @@ export class NewsController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.newsService.findOne(id)
+  }
+
+  @Post(':id/like')
+  setLiked(@Param('id') id: string, @Body() likeNewsDto: LikeNewsDto) {
+    return this.newsService.setLiked(id, likeNewsDto.liked)
   }
 
   @Post()

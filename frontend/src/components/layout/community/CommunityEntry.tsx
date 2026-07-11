@@ -27,6 +27,7 @@ export default function CommunityEntry({ entry }: CommunityEntryProps): JSX.Elem
         </a>
       </h3>
       <p className="mt-1 line-clamp-2 text-sm leading-5 text-muted">{entry.excerpt}</p>
+      {entry.newsId && <a href={`/news/${entry.newsId}`} className="relative mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary-hover">View related news <span aria-hidden="true">&rarr;</span></a>}
 
       <div className="mt-2.5 flex items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-2">
@@ -40,7 +41,7 @@ export default function CommunityEntry({ entry }: CommunityEntryProps): JSX.Elem
           <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z" />
           </svg>
-          {entry.comments}
+          {entry.commentCount}
         </span>
       </div>
     </article>

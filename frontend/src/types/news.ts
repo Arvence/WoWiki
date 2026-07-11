@@ -8,4 +8,5 @@ export interface News {
   updatedAt: string
   imageUrl?: string
   viewerCount?: number
+  likeCount?: number
 }

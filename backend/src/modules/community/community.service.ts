@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
+import { CommentsService } from '../comments/comments.service'
 import { CreateCommunityEntryDto } from './dto/create-community-entry.dto'
 import { UpdateCommunityEntryDto } from './dto/update-community-entry.dto'
 import { CommunityEntry } from './models/community-entry.model'
@@ -9,16 +10,18 @@ export class CommunityService {
   private entries: CommunityEntry[] = [...COMMUNITY_ENTRIES]
   private nextId = this.entries.length + 1
 
-  findAll(): CommunityEntry[] {
-    return this.entries
+  constructor(private readonly commentsService: CommentsService) {}
+
+  findAll(): Array<CommunityEntry & { commentCount: number }> {
+    return this.entries.map((entry) => this.withCommentCount(entry))
   }
 
-  findOne(id: string): CommunityEntry {
+  findOne(id: string): CommunityEntry & { commentCount: number } {
     const entry = this.entries.find((item) => item.id === id)
     if (!entry) {
       throw new NotFoundException(`Community entry with id ${id} not found`)
     }
-    return entry
+    return this.withCommentCount(entry)
   }
 
   create(createCommunityEntryDto: CreateCommunityEntryDto): CommunityEntry {
@@ -27,7 +30,7 @@ export class CommunityService {
       ...createCommunityEntryDto,
     }
     this.entries.push(entry)
-    return entry
+    return this.withCommentCount(entry)
   }
 
   update(id: string, updateCommunityEntryDto: UpdateCommunityEntryDto): CommunityEntry {
@@ -38,7 +41,7 @@ export class CommunityService {
 
     const updatedEntry = { ...this.entries[index], ...updateCommunityEntryDto }
     this.entries[index] = updatedEntry
-    return updatedEntry
+    return this.withCommentCount(updatedEntry)
   }
 
   remove(id: string): void {
@@ -47,5 +50,15 @@ export class CommunityService {
       throw new NotFoundException(`Community entry with id ${id} not found`)
     }
     this.entries.splice(index, 1)
+    this.commentsService.removeForTarget('community', id)
+  }
+
+  private withCommentCount(
+    entry: CommunityEntry,
+  ): CommunityEntry & { commentCount: number } {
+    return {
+      ...entry,
+      commentCount: this.commentsService.countForTarget('community', entry.id),
+    }
   }
 }

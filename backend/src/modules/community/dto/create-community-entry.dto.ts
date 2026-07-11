@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString, Min } from 'class-validator'
+import { IsNotEmpty, IsString } from 'class-validator'
 
 export class CreateCommunityEntryDto {
   @IsString()
@@ -21,7 +21,8 @@ export class CreateCommunityEntryDto {
   @IsNotEmpty()
   publishedAt!: string
 
-  @IsInt()
-  @Min(0)
-  comments!: number
+  @IsString()
+  @IsNotEmpty()
+  newsId!: string
+
 }

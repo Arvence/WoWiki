@@ -3,9 +3,17 @@ import { News } from '../models/news.model'
 export const NEWS: News[] = [
   {
     id: '1',
-    title: 'WoW Classic',
-    summary: 'Return to Azeroth and relive the original World of Warcraft experience.',
-    content: 'WoW Classic brings the foundational adventures, lands, and legends of Azeroth back into focus for veterans and new adventurers alike.',
+    title: 'WoW Classic: The Road Back to Azeroth',
+    summary: 'From dangerous first steps outside the capital cities to forty-player raids, WoW Classic continues to thrive on preparation, cooperation, and the stories players create together.',
+    content: `Azeroth feels larger when every journey matters. In WoW Classic, crossing a contested zone can become an adventure of its own, a dungeon group often begins with a conversation in town, and a new piece of equipment can change the course of an entire evening.
+
+That slower rhythm remains central to the experience. Class trainers, profession recipes, long quest chains, and hard-earned flight paths give each character a history that develops alongside their power. Progress is measured not only by levels, but by the allies made and the places learned along the way.
+
+At the heart of Classic is its community. Five-player dungeons reward coordination, guilds organize supplies before raid nights, and rival factions turn familiar roads into unpredictable battlegrounds. Even routine trips can produce the kind of unscripted stories players remember years later.
+
+For returning veterans, the familiar zones offer a chance to revisit old decisions with new knowledge. For first-time adventurers, Classic presents Azeroth without shortcuts: mysterious, demanding, and full of reasons to ask another player for help.
+
+WoWiki will continue documenting the quests, characters, dungeons, and histories that shape this version of the world. Whether you are preparing for your first journey into the Deadmines or assembling a raid for Molten Core, the road ahead begins in the same place: with one character and an open map.`,
     category: 'News',
     author: 'WoWiki Editors',
     updatedAt: '2026-07-10T12:00:00.000Z',

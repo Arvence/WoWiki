@@ -5,5 +5,6 @@ export interface CommunityEntryData {
   excerpt: string
   category: string
   publishedAt: string
-  comments: number
+  commentCount: number
+  newsId?: string
 }

@@ -22,8 +22,18 @@ export class NewsService {
   }
 
   create(createNewsDto: CreateNewsDto): News {
-    const newsItem: News = { id: String(this.nextId++), ...createNewsDto }
+    const newsItem: News = { id: String(this.nextId++), ...createNewsDto, likeCount: 0 }
     this.news.push(newsItem)
+    return newsItem
+  }
+
+  setLiked(id: string, liked: boolean): News {
+    const newsItem = this.news.find((item) => item.id === id)
+    if (!newsItem) {
+      throw new NotFoundException(`News item with id ${id} not found`)
+    }
+
+    newsItem.likeCount = Math.max(0, (newsItem.likeCount ?? 0) + (liked ? 1 : -1))
     return newsItem
   }
 
