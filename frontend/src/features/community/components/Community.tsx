@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { fetchCommunityEntries } from '../api/communityService'
 import type { CommunityEntryData } from '../types/community'
 import CommunityEntry from './CommunityEntry'
+import CreateNewsCommunityEntry from './CreateNewsCommunityEntry'
 
 export default function Community(): JSX.Element {
   const [entries, setEntries] = useState<CommunityEntryData[]>([])
@@ -34,12 +35,7 @@ export default function Community(): JSX.Element {
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">From the community</p>
                 <h2 id="community-heading" className="mt-1 text-xl font-bold text-text">Member Entries</h2>
               </div>
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-primary" aria-hidden="true">
-                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M8 12h8M12 8v8" />
-                  <circle cx="12" cy="12" r="9" />
-                </svg>
-              </span>
+              <CreateNewsCommunityEntry plus />
             </div>
             <p className="mt-1.5 text-sm leading-5 text-muted">Guides, discoveries, and stories written by WoWiki members.</p>
           </div>

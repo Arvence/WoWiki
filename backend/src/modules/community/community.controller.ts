@@ -19,7 +19,7 @@ export class CommunityController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.communityService.findOne(id)
+    return this.communityService.findOne(id, true)
   }
 
   @Get(':id/comments')

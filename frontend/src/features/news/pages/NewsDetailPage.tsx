@@ -5,6 +5,7 @@ import AppFooter from '../../../components/layout/AppFooter'
 import AppHeader from '../../../components/layout/AppHeader'
 import CreateNewsCommunityEntry from '../../community/components/CreateNewsCommunityEntry'
 import Actions from '../../../components/ui/Actions'
+import ViewerCount from '../../../components/ui/ViewerCount'
 import type { News } from '../types/news'
 
 function formatDate(value: string): string {
@@ -75,10 +76,7 @@ export default function NewsDetailPage(): JSX.Element {
             <header className="border-b border-border px-4 py-6 sm:px-8 sm:py-8">
               <div className="flex items-center gap-3">
                 <span className="rounded bg-primary/10 px-2 py-1 text-sm font-semibold text-primary">{article.category}</span>
-                <span className="inline-flex items-center gap-2 border-l border-border pl-3 text-sm tabular-nums text-muted" aria-label={`${article.viewerCount?.toLocaleString() ?? 0} views`}>
-                  <svg className="h-[18px] w-[18px] text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" /><circle cx="12" cy="12" r="2.5" /></svg>
-                  {article.viewerCount?.toLocaleString() ?? 0}
-                </span>
+                <ViewerCount count={article.viewerCount} className="border-l border-border pl-3" />
               </div>
               <h1 className="mt-4 text-3xl font-bold text-text sm:text-4xl">{article.title}</h1>
             </header>

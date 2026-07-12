@@ -13,6 +13,7 @@ Work through the opening tunnels one pack at a time. Goblin Engineers can summon
 The ship is where new groups most often lose control. Clear every deck before moving upward, watch for patrols, and fight bosses with your backs away from the ledges. On Edwin VanCleef, defeat his adds quickly before returning to the boss. A calm group with clear targets will have a smoother run than a stronger group that pulls ahead.`,
     category: 'Dungeon Guide',
     publishedAt: '2026-07-10T00:00:00.000Z',
+    viewerCount: 1847,
   },
   {
     id: '2',
@@ -26,6 +27,7 @@ That distinction matters when we look at the world trees. Each tree connects mor
 My theory is that the trees act as anchors between possible versions of Azeroth. Druids do not only protect nature as it exists; they help decide which possibilities are allowed to take root. That would explain why corruption in the Dream is so dangerous: it changes the range of futures available to the waking world.`,
     category: 'Lore',
     publishedAt: '2026-07-08T00:00:00.000Z',
+    viewerCount: 1264,
   },
   {
     id: '3',
@@ -39,5 +41,6 @@ Ask everyone to bring basic consumables, repaired gear, and any resistance items
 During the raid, keep explanations short and give each role one clear responsibility. After a wipe, identify the first actionable problem instead of listing every mistake. Take a scheduled break, protect the end time, and finish by noting what improved. A team that wants to return next week has made meaningful progress.`,
     category: 'Raiding',
     publishedAt: '2026-07-05T00:00:00.000Z',
+    viewerCount: 938,
   },
 ]

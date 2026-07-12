@@ -4,6 +4,7 @@ import AppFooter from '../../../components/layout/AppFooter'
 import AppHeader from '../../../components/layout/AppHeader'
 import Actions from '../../../components/ui/Actions'
 import Comments from '../../../components/ui/Comments'
+import ViewerCount from '../../../components/ui/ViewerCount'
 import { createCommunityComment, fetchCommunityComments, fetchCommunityEntries, fetchCommunityEntryById, likeCommunityComment } from '../api/communityService'
 import type { CommunityCommentData, CommunityEntryData } from '../types/community'
 
@@ -111,12 +112,13 @@ export default function CommunityEntryDetailPage(): JSX.Element {
             </div>
 
             <aside className="space-y-6 lg:sticky lg:top-6" aria-label="Entry details">
-              <section className="border-y border-border py-5">
-                <h2 className="text-xs font-semibold uppercase tracking-wider text-primary">About this post</h2>
+              <section className="pb-5">
+                <h2 className="border-b border-border/70 pb-2 text-xs font-semibold uppercase tracking-wider text-primary">About this post</h2>
                 <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-4 text-sm">
                   <div><dt className="text-muted">Category</dt><dd className="mt-1 font-semibold text-text">{entry.category}</dd></div>
                   <div><dt className="text-muted">Discussion</dt><dd className="mt-1 font-semibold text-text">{comments.length} comments</dd></div>
-                  <div className="col-span-2"><dt className="text-muted">Published</dt><dd className="mt-1 font-semibold text-text">{formatPublishedAt(entry.publishedAt)}</dd></div>
+                  <div><dt className="text-muted">Views</dt><dd className="mt-1 font-semibold text-text"><ViewerCount count={entry.viewerCount} compact className="text-text" /></dd></div>
+                  <div><dt className="text-muted">Published</dt><dd className="mt-1 font-semibold text-text">{formatPublishedAt(entry.publishedAt)}</dd></div>
                 </dl>
               </section>
 

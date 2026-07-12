@@ -54,7 +54,7 @@ export async function likeCommunityComment(commentId: string): Promise<Community
   return (await response.json()) as CommunityCommentData
 }
 
-export type CreateCommunityEntryInput = Omit<CommunityEntryData, 'id' | 'commentCount'>
+export type CreateCommunityEntryInput = Omit<CommunityEntryData, 'id' | 'commentCount' | 'viewerCount'>
 
 export async function createCommunityEntry(input: CreateCommunityEntryInput): Promise<CommunityEntryData> {
   const response = await fetch('/api/community', {

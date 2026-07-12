@@ -2,6 +2,9 @@ import { Navigate, createBrowserRouter } from 'react-router-dom'
 import App from './App'
 import CommunityEntryDetailPage from './features/community/pages/CommunityEntryDetailPage'
 import NewsDetailPage from './features/news/pages/NewsDetailPage'
+import ContactPage from './pages/ContactPage'
+import PrivacyPage from './pages/PrivacyPage'
+import TermsPage from './pages/TermsPage'
 
 export const router = createBrowserRouter([
   {
@@ -15,6 +18,18 @@ export const router = createBrowserRouter([
   {
     path: '/community/:entryId',
     element: <CommunityEntryDetailPage />,
+  },
+  {
+    path: '/privacy',
+    element: <PrivacyPage />,
+  },
+  {
+    path: '/terms',
+    element: <TermsPage />,
+  },
+  {
+    path: '/contact',
+    element: <ContactPage />,
   },
   {
     path: '*',

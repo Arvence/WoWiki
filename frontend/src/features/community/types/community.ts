@@ -7,6 +7,7 @@ export interface CommunityEntryData {
   category: string
   publishedAt: string
   commentCount: number
+  viewerCount: number
   newsId?: string
 }
 

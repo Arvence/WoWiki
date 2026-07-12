@@ -3,6 +3,7 @@ import CreateNewsCommunityEntry from '../../community/components/CreateNewsCommu
 import type { News } from '../types/news'
 import { setNewsLiked } from '../api/newsService'
 import Actions from '../../../components/ui/Actions'
+import ViewerCount from '../../../components/ui/ViewerCount'
 
 type NewsListProps = {
   news: News[]
@@ -67,10 +68,7 @@ export default function NewsList({ news, loading, error }: NewsListProps): JSX.E
             <div className="flex items-center gap-1 sm:gap-2">
               <Actions target={{ id: article.id, title: article.title, path: `/news/${article.id}` }} storageKey="news" onLike={async (liked) => { await setNewsLiked(article.id, liked) }} />
               <span className="mx-1 h-5 w-px bg-border" />
-              <span className="inline-flex items-center gap-2 px-2 text-sm tabular-nums text-muted" aria-label={`${article.viewerCount?.toLocaleString() ?? 0} views`}>
-                <svg className="h-[18px] w-[18px] text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" /><circle cx="12" cy="12" r="2.5" /></svg>
-                {article.viewerCount?.toLocaleString() ?? 0}
-              </span>
+              <ViewerCount count={article.viewerCount} />
             </div>
             <div className="ml-auto">
               <CreateNewsCommunityEntry newsId={article.id} newsTitle={article.title} compact />

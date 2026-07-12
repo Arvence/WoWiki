@@ -18,10 +18,11 @@ export default function PopularPagesSection({ popular }: PopularPagesSectionProp
               <span className="inline-block h-2 w-2 rounded-full bg-primary" />
               <a className="text-sm text-text hover:underline">{item.title}</a>
             </div>
-            <span className="text-xs text-muted">{item.views.toLocaleString()}</span>
+            <ViewerCount count={item.views} compact />
           </li>
         ))}
       </ul>
     </section>
   )
 }
+import ViewerCount from '../../ui/ViewerCount'

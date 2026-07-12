@@ -16,11 +16,12 @@ export class CommunityService {
     return this.entries.map((entry) => this.withCommentCount(entry))
   }
 
-  findOne(id: string): CommunityEntry & { commentCount: number } {
+  findOne(id: string, countView = false): CommunityEntry & { commentCount: number } {
     const entry = this.entries.find((item) => item.id === id)
     if (!entry) {
       throw new NotFoundException(`Community entry with id ${id} not found`)
     }
+    if (countView) entry.viewerCount += 1
     return this.withCommentCount(entry)
   }
 
@@ -28,6 +29,7 @@ export class CommunityService {
     const entry: CommunityEntry = {
       id: String(this.nextId++),
       ...createCommunityEntryDto,
+      viewerCount: 0,
     }
     this.entries.push(entry)
     return this.withCommentCount(entry)

@@ -6,5 +6,6 @@ export class CommunityEntry {
   content!: string
   category!: string
   publishedAt!: string
+  viewerCount!: number
   newsId?: string
 }

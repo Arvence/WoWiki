@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import type { CommunityEntryData } from '../types/community'
+import ViewerCount from '../../../components/ui/ViewerCount'
 
 type CommunityEntryProps = {
   entry: CommunityEntryData
@@ -38,12 +39,15 @@ export default function CommunityEntry({ entry }: CommunityEntryProps): JSX.Elem
           <span className="truncate text-sm font-medium text-text">{entry.author}</span>
         </div>
 
-        <span className="flex shrink-0 items-center gap-1 text-xs text-muted">
+        <div className="flex shrink-0 items-center gap-2.5 text-xs text-muted">
+          <ViewerCount count={entry.viewerCount} compact />
+          <span className="inline-flex items-center gap-1" aria-label={`${entry.commentCount} comments`}>
           <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z" />
           </svg>
           {entry.commentCount}
-        </span>
+          </span>
+        </div>
       </div>
     </article>
   )
