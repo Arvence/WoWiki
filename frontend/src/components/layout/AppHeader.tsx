@@ -2,9 +2,8 @@ import { useState } from "react"
 import DropdownMenu from "../ui/DropdownMenu"
 
 const navButtons = [
-  { label: "News", items: ["Latest", "World Update", "Patch Notes"] },
   { label: "Database", items: ["Characters", "Items", "Zones"] },
-  { label: "Tools", items: ["Map", "Auction House", "Calculator"] },
+  { label: "Tools", items: ["Talent Calculator", "Item Comparator", "Item Finder"] },
   { label: "Guides", items: ["Class Builds", "Raids", "PvP"] },
   { label: "Community", items: ["Forums", "Discord", "Events"] },
 ]
