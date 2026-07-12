@@ -3,6 +3,7 @@ export class CommunityEntry {
   author!: string
   title!: string
   excerpt!: string
+  content!: string
   category!: string
   publishedAt!: string
   newsId?: string

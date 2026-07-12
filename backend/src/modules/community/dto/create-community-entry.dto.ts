@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator'
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator'
 
 export class CreateCommunityEntryDto {
   @IsString()
@@ -15,6 +15,10 @@ export class CreateCommunityEntryDto {
 
   @IsString()
   @IsNotEmpty()
+  content!: string
+
+  @IsString()
+  @IsNotEmpty()
   category!: string
 
   @IsString()
@@ -22,7 +26,7 @@ export class CreateCommunityEntryDto {
   publishedAt!: string
 
   @IsString()
-  @IsNotEmpty()
-  newsId!: string
+  @IsOptional()
+  newsId?: string
 
 }

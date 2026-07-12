@@ -70,12 +70,6 @@ export default function Community(): JSX.Element {
             <p className="px-4 py-8 text-center text-sm text-muted">No community entries available.</p>
           )}
 
-          <a href="#" className="flex items-center justify-between border-t border-border px-4 py-2.5 text-sm font-semibold text-primary transition hover:bg-surface-alt/50">
-            View all community entries
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <path d="m9 18 6-6-6-6" />
-            </svg>
-          </a>
         </section>
       </div>
     </aside>

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import type { CommunityEntryData } from '../types/community'
 
 type CommunityEntryProps = {
@@ -21,13 +22,13 @@ export default function CommunityEntry({ entry }: CommunityEntryProps): JSX.Elem
       </div>
 
       <h3 className="text-base font-semibold leading-6 text-text">
-        <a href="#" className="transition group-hover:text-primary">
+        <Link to={`/community/${entry.id}`} className="transition group-hover:text-primary">
           <span className="absolute inset-0" aria-hidden="true" />
           {entry.title}
-        </a>
+        </Link>
       </h3>
       <p className="mt-1 line-clamp-2 text-sm leading-5 text-muted">{entry.excerpt}</p>
-      {entry.newsId && <a href={`/news/${entry.newsId}`} className="relative mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary-hover">View related news <span aria-hidden="true">&rarr;</span></a>}
+      {entry.newsId && <Link to={`/news/${entry.newsId}`} className="relative mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary-hover">View related news <span aria-hidden="true">&rarr;</span></Link>}
 
       <div className="mt-2.5 flex items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-2">
