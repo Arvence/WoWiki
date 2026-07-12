@@ -5,6 +5,8 @@ import NewsDetailPage from './features/news/pages/NewsDetailPage'
 import ContactPage from './pages/ContactPage'
 import PrivacyPage from './pages/PrivacyPage'
 import TermsPage from './pages/TermsPage'
+import AboutPage from './pages/AboutPage'
+import CareersPage from './pages/CareersPage'
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ export const router = createBrowserRouter([
   {
     path: '/contact',
     element: <ContactPage />,
+  },
+  {
+    path: '/about',
+    element: <AboutPage />,
+  },
+  {
+    path: '/careers',
+    element: <CareersPage />,
   },
   {
     path: '*',

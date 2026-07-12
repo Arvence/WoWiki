@@ -12,7 +12,8 @@ export default function AppFooter(): JSX.Element {
         <div className="grid gap-2 sm:grid-cols-2 sm:gap-6">
           <div className="space-y-1">
             <p className="text-xs uppercase tracking-[0.2em] text-muted">Explore</p>
-            <a className="block text-text transition hover:text-primary" href="#">About</a>
+            <Link className="block text-text transition hover:text-primary" to="/about">About</Link>
+            <Link className="block text-text transition hover:text-primary" to="/careers">Careers</Link>
             <a className="block text-text transition hover:text-primary" href="#">Categories</a>
             <a className="block text-text transition hover:text-primary" href="#">Popular Pages</a>
           </div>
