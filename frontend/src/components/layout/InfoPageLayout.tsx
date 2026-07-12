@@ -34,7 +34,7 @@ export default function InfoPageLayout({ eyebrow, title, summary, updated, secti
 
         {children ?? (
           <div className="grid items-start gap-8 py-8 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-12">
-            <nav className="border-y border-border py-4 lg:sticky lg:top-24" aria-label={`${title} contents`}>
+            <nav className="border-b border-border pb-4 lg:sticky lg:top-24" aria-label={`${title} contents`}>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">On this page</p>
               <ol className="mt-3 space-y-1">
                 {sections.map((section, index) => <li key={section.id}><a href={`#${section.id}`} className="block py-1.5 text-sm text-muted hover:text-text"><span className="mr-2 tabular-nums text-primary">{String(index + 1).padStart(2, '0')}</span>{section.title}</a></li>)}

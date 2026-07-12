@@ -53,11 +53,11 @@ const categoryIcons: Record<string, JSX.Element> = {
 
 export default function CategoriesSection({ categories }: CategoriesSectionProps): JSX.Element {
   return (
-    <section className="rounded-lg border border-border bg-surface/80 p-4 shadow-sm">
-      <h4 className="mb-3 font-semibold text-text">Categories</h4>
-      <div className="grid grid-cols-2 gap-2">
+    <section className="rounded-lg border border-border bg-surface/80 p-3 shadow-sm">
+      <h4 className="mb-2 text-sm font-semibold text-text">Categories</h4>
+      <div className="grid grid-cols-2 gap-1">
         {categories.map((category) => (
-          <button key={category} className="flex items-center gap-2 rounded px-3 py-2 text-left text-sm text-text hover:bg-surface-alt/70">
+          <button key={category} className="flex items-center gap-1.5 rounded px-2 py-1.5 text-left text-xs text-text hover:bg-surface-alt/70">
             {categoryIcons[category] ?? <span className="h-4 w-4" />}
             {category}
           </button>
