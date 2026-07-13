@@ -1,35 +1,17 @@
 import type { News } from '../types/news'
+import { http } from '../../../shared/api/http'
 
 export async function fetchNews(): Promise<News[]> {
-  const response = await fetch('/api/news')
-
-  if (!response.ok) {
-    throw new Error('Failed to load news')
-  }
-
-  return (await response.json()) as News[]
+  return http.get<News[]>('/api/news', { errorMessage: 'Failed to load news' })
 }
 
 export async function fetchNewsById(newsId: string): Promise<News> {
-  const response = await fetch(`/api/news/${newsId}`)
-
-  if (!response.ok) {
-    throw new Error(response.status === 404 ? 'News article not found' : 'Failed to load news article')
-  }
-
-  return (await response.json()) as News
+  return http.get<News>(`/api/news/${newsId}`, {
+    errorMessage: 'Failed to load news article',
+    notFoundMessage: 'News article not found',
+  })
 }
 
 export async function setNewsLiked(newsId: string, liked: boolean): Promise<News> {
-  const response = await fetch(`/api/news/${newsId}/like`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ liked }),
-  })
-
-  if (!response.ok) {
-    throw new Error('Failed to update like')
-  }
-
-  return (await response.json()) as News
+  return http.post<News>(`/api/news/${newsId}/like`, { liked }, { errorMessage: 'Failed to update like' })
 }
