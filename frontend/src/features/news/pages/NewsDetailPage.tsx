@@ -6,14 +6,8 @@ import AppHeader from '../../../components/layout/AppHeader'
 import CreateNewsCommunityEntry from '../../community/components/CreateNewsCommunityEntry'
 import Actions from '../../../components/ui/Actions'
 import ViewerCount from '../../../components/ui/ViewerCount'
+import { formatDate } from '../../../shared/utils/date'
 import type { News } from '../types/news'
-
-function formatDate(value: string): string {
-  const date = new Date(value)
-  return Number.isNaN(date.getTime())
-    ? value
-    : new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeStyle: 'short' }).format(date)
-}
 
 export default function NewsDetailPage(): JSX.Element {
   const { newsId } = useParams<{ newsId: string }>()
@@ -66,7 +60,7 @@ export default function NewsDetailPage(): JSX.Element {
               </span>
               <div className="min-w-0">
                 <p className="truncate font-semibold text-text">{article.author}</p>
-                <p className="text-sm text-muted">Updated {formatDate(article.updatedAt)}</p>
+                <p className="text-sm text-muted">Updated {formatDate(article.updatedAt, { dateStyle: 'medium', timeStyle: 'short' })}</p>
               </div>
               <div className="ml-auto flex w-full items-center justify-end gap-2 sm:w-auto">
                 <Actions target={{ id: article.id, title: article.title, path: `/news/${article.id}` }} storageKey="news" onLike={async (liked) => setArticle(await setNewsLiked(article.id, liked))} />

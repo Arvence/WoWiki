@@ -4,6 +4,7 @@ import type { News } from '../types/news'
 import { setNewsLiked } from '../api/newsService'
 import Actions from '../../../components/ui/Actions'
 import ViewerCount from '../../../components/ui/ViewerCount'
+import { formatDate } from '../../../shared/utils/date'
 
 type NewsListProps = {
   news: News[]
@@ -12,11 +13,11 @@ type NewsListProps = {
 }
 
 function formatUpdatedAt(updatedAt: string): string {
-  return new Intl.DateTimeFormat('en', {
+  return formatDate(updatedAt, {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
-  }).format(new Date(updatedAt))
+  })
 }
 
 export default function NewsList({ news, loading, error }: NewsListProps): JSX.Element {

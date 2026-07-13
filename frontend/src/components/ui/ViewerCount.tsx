@@ -1,3 +1,5 @@
+import { formatNumber } from '../../shared/utils/number'
+
 type ViewerCountProps = {
   count?: number
   compact?: boolean
@@ -5,7 +7,7 @@ type ViewerCountProps = {
 }
 
 export default function ViewerCount({ count = 0, compact = false, className = '' }: ViewerCountProps): JSX.Element {
-  const formattedCount = count.toLocaleString()
+  const formattedCount = formatNumber(count)
 
   return (
     <span className={`inline-flex items-center tabular-nums text-muted ${compact ? 'gap-1 text-xs' : 'gap-2 px-2 text-sm'} ${className}`} aria-label={`${formattedCount} views`}>

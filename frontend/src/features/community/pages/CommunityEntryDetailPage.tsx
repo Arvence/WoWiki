@@ -5,21 +5,12 @@ import AppHeader from '../../../components/layout/AppHeader'
 import Actions from '../../../components/ui/Actions'
 import Comments from '../../../components/ui/Comments'
 import ViewerCount from '../../../components/ui/ViewerCount'
+import { formatDate, formatRelativeDate } from '../../../shared/utils/date'
 import { createCommunityComment, fetchCommunityComments, fetchCommunityEntries, fetchCommunityEntryById, likeCommunityComment } from '../api/communityService'
 import type { CommunityCommentData, CommunityEntryData } from '../types/community'
 
 function formatPublishedAt(value: string): string {
-  const date = new Date(value)
-  return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format(date)
-}
-
-function formatRelativeDate(value: string): string {
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return value
-  const elapsedDays = Math.round((date.getTime() - Date.now()) / 86_400_000)
-  return Math.abs(elapsedDays) < 7
-    ? new Intl.RelativeTimeFormat('en', { numeric: 'auto' }).format(elapsedDays, 'day')
-    : formatPublishedAt(value)
+  return formatDate(value, { dateStyle: 'long' })
 }
 
 export default function CommunityEntryDetailPage(): JSX.Element {

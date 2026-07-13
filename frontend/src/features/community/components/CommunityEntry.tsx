@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { CommunityEntryData } from '../types/community'
 import ViewerCount from '../../../components/ui/ViewerCount'
+import { formatDate } from '../../../shared/utils/date'
 
 type CommunityEntryProps = {
   entry: CommunityEntryData
@@ -8,10 +9,7 @@ type CommunityEntryProps = {
 
 export default function CommunityEntry({ entry }: CommunityEntryProps): JSX.Element {
   const authorInitial = entry.author.charAt(0).toUpperCase()
-  const publishedDate = new Date(entry.publishedAt)
-  const formattedPublishedAt = Number.isNaN(publishedDate.getTime())
-    ? entry.publishedAt
-    : new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' }).format(publishedDate)
+  const formattedPublishedAt = formatDate(entry.publishedAt, { month: 'short', day: 'numeric', year: 'numeric' })
 
   return (
     <article className="group relative px-4 py-3.5 transition hover:bg-surface-alt/40">
