@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
+import { normalizeId } from '../../../common/utils/normalize-id'
 import { ValidateTalentBuildDto } from './dto/validate-talent-build.dto'
 import { TalentBuildValidation, TalentClass, TalentClassSummary, TalentTree } from './models/talent.model'
 import { CLASSIC_TALENT_CLASSES } from './seeds/classic-talents.seed'
@@ -18,7 +19,7 @@ export class TalentsService {
   }
 
   findOne(classId: string): TalentClass {
-    const talentClass = CLASSIC_TALENT_CLASSES.find((item) => item.id === classId.toLowerCase())
+    const talentClass = CLASSIC_TALENT_CLASSES.find((item) => item.id === normalizeId(classId))
     if (!talentClass) throw new NotFoundException(`Talent class ${classId} not found`)
     return talentClass
   }

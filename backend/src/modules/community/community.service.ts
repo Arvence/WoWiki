@@ -1,4 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
+import { InMemoryRepository } from '../../common/repositories/in-memory.repository'
 import { CommentsService } from '../comments/comments.service'
 import { CreateCommunityEntryDto } from './dto/create-community-entry.dto'
 import { UpdateCommunityEntryDto } from './dto/update-community-entry.dto'
@@ -7,51 +8,32 @@ import { COMMUNITY_ENTRIES } from './seeds/community-entries.seed'
 
 @Injectable()
 export class CommunityService {
-  private entries: CommunityEntry[] = [...COMMUNITY_ENTRIES]
-  private nextId = this.entries.length + 1
+  private readonly repository = new InMemoryRepository(COMMUNITY_ENTRIES, 'Community entry')
 
   constructor(private readonly commentsService: CommentsService) {}
 
   findAll(): Array<CommunityEntry & { commentCount: number }> {
-    return this.entries.map((entry) => this.withCommentCount(entry))
+    return this.repository.findAll().map((entry) => this.withCommentCount(entry))
   }
 
   findOne(id: string, countView = false): CommunityEntry & { commentCount: number } {
-    const entry = this.entries.find((item) => item.id === id)
-    if (!entry) {
-      throw new NotFoundException(`Community entry with id ${id} not found`)
-    }
-    if (countView) entry.viewerCount += 1
+    let entry = this.repository.findOne(id)
+    if (countView) entry = this.repository.update(id, { viewerCount: entry.viewerCount + 1 })
     return this.withCommentCount(entry)
   }
 
   create(createCommunityEntryDto: CreateCommunityEntryDto): CommunityEntry {
-    const entry: CommunityEntry = {
-      id: String(this.nextId++),
-      ...createCommunityEntryDto,
-      viewerCount: 0,
-    }
-    this.entries.push(entry)
+    const entry = this.repository.create({ ...createCommunityEntryDto, viewerCount: 0 })
     return this.withCommentCount(entry)
   }
 
   update(id: string, updateCommunityEntryDto: UpdateCommunityEntryDto): CommunityEntry {
-    const index = this.entries.findIndex((item) => item.id === id)
-    if (index === -1) {
-      throw new NotFoundException(`Community entry with id ${id} not found`)
-    }
-
-    const updatedEntry = { ...this.entries[index], ...updateCommunityEntryDto }
-    this.entries[index] = updatedEntry
+    const updatedEntry = this.repository.update(id, updateCommunityEntryDto)
     return this.withCommentCount(updatedEntry)
   }
 
   remove(id: string): void {
-    const index = this.entries.findIndex((item) => item.id === id)
-    if (index === -1) {
-      throw new NotFoundException(`Community entry with id ${id} not found`)
-    }
-    this.entries.splice(index, 1)
+    this.repository.remove(id)
     this.commentsService.removeForTarget('community', id)
   }
 

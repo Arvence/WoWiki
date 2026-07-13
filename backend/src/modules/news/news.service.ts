@@ -1,4 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
+import { InMemoryRepository } from '../../common/repositories/in-memory.repository'
 import { CreateNewsDto } from './dto/create-news.dto'
 import { UpdateNewsDto } from './dto/update-news.dto'
 import { News } from './models/news.model'
@@ -6,52 +7,31 @@ import { NEWS } from './seeds/news.seed'
 
 @Injectable()
 export class NewsService {
-  private news: News[] = [...NEWS]
-  private nextId = this.news.length + 1
+  private readonly repository = new InMemoryRepository(NEWS, 'News item')
 
   findAll(): News[] {
-    return this.news
+    return this.repository.findAll()
   }
 
   findOne(id: string): News {
-    const newsItem = this.news.find((item) => item.id === id)
-    if (!newsItem) {
-      throw new NotFoundException(`News item with id ${id} not found`)
-    }
-    return newsItem
+    return this.repository.findOne(id)
   }
 
   create(createNewsDto: CreateNewsDto): News {
-    const newsItem: News = { id: String(this.nextId++), ...createNewsDto, likeCount: 0 }
-    this.news.push(newsItem)
-    return newsItem
+    return this.repository.create({ ...createNewsDto, likeCount: 0 })
   }
 
   setLiked(id: string, liked: boolean): News {
-    const newsItem = this.news.find((item) => item.id === id)
-    if (!newsItem) {
-      throw new NotFoundException(`News item with id ${id} not found`)
-    }
-
-    newsItem.likeCount = Math.max(0, (newsItem.likeCount ?? 0) + (liked ? 1 : -1))
-    return newsItem
+    const newsItem = this.repository.findOne(id)
+    const likeCount = Math.max(0, (newsItem.likeCount ?? 0) + (liked ? 1 : -1))
+    return this.repository.update(id, { likeCount })
   }
 
   update(id: string, updateNewsDto: UpdateNewsDto): News {
-    const index = this.news.findIndex((item) => item.id === id)
-    if (index === -1) {
-      throw new NotFoundException(`News item with id ${id} not found`)
-    }
-    const updatedNews = { ...this.news[index], ...updateNewsDto }
-    this.news[index] = updatedNews
-    return updatedNews
+    return this.repository.update(id, updateNewsDto)
   }
 
   remove(id: string): void {
-    const index = this.news.findIndex((item) => item.id === id)
-    if (index === -1) {
-      throw new NotFoundException(`News item with id ${id} not found`)
-    }
-    this.news.splice(index, 1)
+    this.repository.remove(id)
   }
 }

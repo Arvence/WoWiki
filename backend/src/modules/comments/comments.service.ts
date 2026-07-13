@@ -1,4 +1,6 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
+import { findByIdOrThrow } from '../../common/errors/find-by-id-or-throw'
+import { cloneValue } from '../../common/utils/clone-value'
 import { CreateCommentDto } from './dto/create-comment.dto'
 import { UpdateCommentDto } from './dto/update-comment.dto'
 import { Comment, CommentTargetType } from './models/comment.model'
@@ -6,25 +8,19 @@ import { COMMENTS } from './seeds/comments.seed'
 
 @Injectable()
 export class CommentsService {
-  private comments: Comment[] = [...COMMENTS]
+  private comments: Comment[] = cloneValue(COMMENTS)
   private nextId = Math.max(0, ...this.comments.map((comment) => Number(comment.id))) + 1
 
   findForTarget(targetType: CommentTargetType, targetId: string): Comment[] {
-    return this.comments.filter(
-      (comment) => comment.targetType === targetType && comment.targetId === targetId,
-    )
+    return cloneValue(this.comments.filter((comment) => comment.targetType === targetType && comment.targetId === targetId))
   }
 
   countForTarget(targetType: CommentTargetType, targetId: string): number {
-    return this.findForTarget(targetType, targetId).length
+    return this.comments.filter((comment) => comment.targetType === targetType && comment.targetId === targetId).length
   }
 
   findOne(id: string): Comment {
-    const comment = this.comments.find((item) => item.id === id)
-    if (!comment) {
-      throw new NotFoundException(`Comment with id ${id} not found`)
-    }
-    return comment
+    return cloneValue(this.findEntity(id))
   }
 
   create(
@@ -33,38 +29,38 @@ export class CommentsService {
     createCommentDto: CreateCommentDto,
   ): Comment {
     if (createCommentDto.parentId) {
-      const parent = this.findOne(createCommentDto.parentId)
+      const parent = this.findEntity(createCommentDto.parentId)
       if (parent.targetType !== targetType || parent.targetId !== targetId) {
         throw new BadRequestException('Reply parent must belong to the same target')
       }
     }
 
-    const comment: Comment = {
+    const comment: Comment = cloneValue({
       id: String(this.nextId++),
       targetType,
       targetId,
       ...createCommentDto,
       createdAt: new Date().toISOString(),
       likeCount: 0,
-    }
+    })
     this.comments.push(comment)
-    return comment
+    return cloneValue(comment)
   }
 
   update(id: string, updateCommentDto: UpdateCommentDto): Comment {
-    const comment = this.findOne(id)
-    Object.assign(comment, updateCommentDto)
-    return comment
+    const comment = this.findEntity(id)
+    Object.assign(comment, cloneValue(updateCommentDto))
+    return cloneValue(comment)
   }
 
   like(id: string): Comment {
-    const comment = this.findOne(id)
+    const comment = this.findEntity(id)
     comment.likeCount += 1
-    return comment
+    return cloneValue(comment)
   }
 
   remove(id: string): void {
-    this.findOne(id)
+    this.findEntity(id)
     const idsToRemove = new Set([id])
     let foundDescendant = true
 
@@ -85,5 +81,9 @@ export class CommentsService {
     this.comments = this.comments.filter(
       (comment) => comment.targetType !== targetType || comment.targetId !== targetId,
     )
+  }
+
+  private findEntity(id: string): Comment {
+    return findByIdOrThrow(this.comments, id, 'Comment')
   }
 }
