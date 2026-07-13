@@ -51,16 +51,6 @@ WoWiki will continue documenting the quests, characters, dungeons, and histories
     viewerCount: 20461,
   },
   {
-    id: '5',
-    title: 'A Guide to the Emerald Dream',
-    summary: 'Explore the wild heart of Azeroth and the ancient forces that watch over it.',
-    content: 'The Emerald Dream reflects Azeroth as it might have been: untamed, vibrant, and guarded by the Green Dragonflight. Our guide traces its origins, notable regions, and most enduring mysteries.',
-    category: 'Guide',
-    author: 'Letharion Grovekeeper',
-    updatedAt: '2026-07-09T00:00:00.000Z',
-    viewerCount: 15873,
-  },
-  {
     id: '6',
     title: 'The Frostwolf Clan Returns to Alterac',
     summary: 'Scouts report renewed activity around the ancestral homeland of the Frostwolf orcs.',

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import TextTooltip from '../../ui/TextTooltip'
 
 type ClassicEvent = {
   title: string
@@ -54,31 +55,40 @@ export default function EventsCalendar(): JSX.Element {
   }
 
   return (
-    <section className="rounded-lg border border-border bg-surface/80 p-4 shadow-sm" aria-labelledby="classic-events-title">
-      <div className="flex items-start justify-between gap-3">
+    <section className="overflow-hidden rounded-lg border border-border bg-surface/90 shadow-sm" aria-labelledby="classic-events-title">
+      <div className="relative isolate overflow-hidden p-4 pb-5">
+        <img
+          src="/images/calendar-undead-casting-bg.png"
+          alt=""
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-[42%_center] opacity-60"
+          style={{
+            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.82) 55%, transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.82) 55%, transparent 100%)',
+          }}
+          aria-hidden="true"
+        />
+        <div className="pointer-events-none absolute inset-0 z-0 bg-surface/15" aria-hidden="true" />
+
+      <div className="relative z-10 flex items-start justify-between gap-3">
         <div>
           <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-primary">Community schedule</p>
           <h4 id="classic-events-title" className="mt-1 font-semibold text-text">WoW Classic Events</h4>
         </div>
-        <span className="group relative inline-flex">
-          <button type="button" className="flex h-6 w-6 items-center justify-center rounded-full border border-border text-xs font-bold text-muted transition hover:border-primary hover:text-primary focus:outline-none focus-visible:border-primary focus-visible:text-primary focus-visible:ring-2 focus-visible:ring-primary/40" aria-label="How to share an event" aria-describedby="event-help-tooltip">?</button>
-          <span id="event-help-tooltip" role="tooltip" className="pointer-events-none absolute bottom-full right-0 z-20 mb-2 w-48 rounded border border-border bg-background px-3 py-2 text-center text-xs font-normal leading-5 text-text opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
-            If you want to share your event, please contact us.
-            <span className="absolute right-2 top-full h-2 w-2 -translate-y-1/2 rotate-45 border-b border-r border-border bg-background" aria-hidden="true" />
-          </span>
-        </span>
+        <TextTooltip text="If you want to share your event, please contact us." onlyWhenTruncated={false}>
+          <button type="button" className="flex h-6 w-6 items-center justify-center rounded-full border border-border text-xs font-bold text-muted transition hover:border-primary hover:text-primary focus:outline-none focus-visible:border-primary focus-visible:text-primary focus-visible:ring-2 focus-visible:ring-primary/40" aria-label="How to share an event">?</button>
+        </TextTooltip>
       </div>
 
-      <div className="mt-4 flex items-center justify-between">
+      <div className="relative z-10 mt-4 flex items-center justify-between">
         <button type="button" onClick={() => moveMonth(-1)} className="flex h-8 w-8 items-center justify-center rounded text-muted hover:bg-background hover:text-primary" aria-label="Previous month">&larr;</button>
         <p className="text-sm font-semibold text-text" aria-live="polite">{monthFormatter.format(visibleMonth)}</p>
         <button type="button" onClick={() => moveMonth(1)} className="flex h-8 w-8 items-center justify-center rounded text-muted hover:bg-background hover:text-primary" aria-label="Next month">&rarr;</button>
       </div>
 
-      <div className="mt-3 grid grid-cols-7 text-center" aria-hidden="true">
+      <div className="relative z-10 mt-3 grid grid-cols-7 text-center" aria-hidden="true">
         {weekDays.map((day) => <span key={day} className="py-1 text-[0.6rem] font-semibold uppercase text-muted">{day}</span>)}
       </div>
-      <div className="grid grid-cols-7 gap-1" role="grid" aria-label={monthFormatter.format(visibleMonth)}>
+      <div className="relative z-10 grid grid-cols-7 gap-1" role="grid" aria-label={monthFormatter.format(visibleMonth)}>
         {calendarDays.map((date) => {
           const inMonth = date.getMonth() === visibleMonth.getMonth()
           const selected = sameDay(date, selectedDate)
@@ -100,8 +110,9 @@ export default function EventsCalendar(): JSX.Element {
           )
         })}
       </div>
+      </div>
 
-      <article className="mt-4 border-t border-border pt-4" aria-live="polite">
+      <article className="mx-4 mb-4 border-t border-border pt-4" aria-live="polite">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="text-xs font-semibold text-primary">{dateFormatter.format(selectedDate)}</p>
           {selectedEvent && <span className="rounded bg-background px-2 py-1 text-[0.65rem] font-semibold text-muted">{selectedEvent.category}</span>}

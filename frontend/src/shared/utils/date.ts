@@ -18,3 +18,14 @@ export function formatRelativeDate(
     ? new Intl.RelativeTimeFormat(locale, { numeric: 'auto' }).format(elapsedDays, 'day')
     : formatDate(value, fallbackOptions, locale)
 }
+
+export function formatCompactAge(value: string): string {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return value
+
+  const elapsedDays = Math.max(0, Math.floor((Date.now() - date.getTime()) / DAY_IN_MILLISECONDS))
+  if (elapsedDays < 7) return `${elapsedDays}d`
+  if (elapsedDays < 30) return `${Math.floor(elapsedDays / 7)}w`
+  if (elapsedDays < 365) return `${Math.floor(elapsedDays / 30)}mo`
+  return `${Math.floor(elapsedDays / 365)}y`
+}

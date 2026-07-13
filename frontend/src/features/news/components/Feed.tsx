@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { fetchNews } from '../api/newsService'
 import type { News } from '../types/news'
+import FeaturedContent from '../../community/components/FeaturedContent'
 import NewsList from './NewsList'
+import RecentNews from './RecentNews'
 
 const newsCategories = ['All', 'News', 'Patch Notes', 'Guide', 'Lore']
 
@@ -34,6 +36,9 @@ export default function Feed(): JSX.Element {
 
   return (
     <div>
+      <FeaturedContent />
+      <RecentNews news={news} loading={loading} error={error} />
+
       {!loading && !error && news.length > 0 && (
         <div className="mb-4 flex flex-wrap gap-2" aria-label="Filter news by category">
           {newsCategories.map((category) => {

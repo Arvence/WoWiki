@@ -1,6 +1,7 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom'
 import App from './App'
 import CommunityEntryDetailPage from './features/community/pages/CommunityEntryDetailPage'
+import CommunityPage from './features/community/pages/CommunityPage'
 import NewsDetailPage from './features/news/pages/NewsDetailPage'
 import ContactPage from './pages/ContactPage'
 import PrivacyPage from './pages/PrivacyPage'
@@ -16,6 +17,10 @@ export const router = createBrowserRouter([
   {
     path: '/news/:newsId',
     element: <NewsDetailPage />,
+  },
+  {
+    path: '/community',
+    element: <CommunityPage />,
   },
   {
     path: '/community/:entryId',

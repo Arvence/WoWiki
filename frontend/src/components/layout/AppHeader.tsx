@@ -5,7 +5,6 @@ const navButtons = [
   { label: "Database", items: ["Characters", "Items", "Zones"] },
   { label: "Tools", items: ["Talent Calculator", "Item Comparator", "Item Finder"] },
   { label: "Guides", items: ["Class Builds", "Raids", "PvP"] },
-  { label: "Community", items: ["Forums", "Discord", "Events"] },
 ]
 
 const profileButton = {
