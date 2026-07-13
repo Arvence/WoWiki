@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import TextTooltip from '../../../components/ui/TextTooltip'
 import ViewerCount from '../../../components/ui/ViewerCount'
 import { formatCompactNumber } from '../../../shared/utils/number'
-import { fetchCommunityEntries } from '../api/communityService'
-import type { CommunityEntryData } from '../types/community'
+import { useCommunityEntries } from '../hooks/useCommunityEntries'
 import CreateNewsCommunityEntry from './CreateNewsCommunityEntry'
 
 const getEntryVisibilityClass = (index: number): string => {
@@ -14,43 +13,8 @@ const getEntryVisibilityClass = (index: number): string => {
   return 'hidden min-[2200px]:block'
 }
 
-const getEntryPaddingClass = (index: number): string => {
-  const tabletPadding = index % 2 === 0 ? 'sm:pl-0 sm:pr-3' : 'sm:pl-3 sm:pr-0'
-  const desktopPadding = index % 3 === 0
-    ? 'lg:pl-0 lg:pr-3'
-    : index % 3 === 2
-      ? 'lg:pl-3 lg:pr-0'
-      : 'lg:px-3'
-  const widePadding = index % 4 === 0
-    ? 'min-[2200px]:pl-0 min-[2200px]:pr-3'
-    : index % 4 === 3
-      ? 'min-[2200px]:pl-3 min-[2200px]:pr-0'
-      : 'min-[2200px]:px-3'
-
-  return `px-0 ${tabletPadding} ${desktopPadding} ${widePadding}`
-}
-
 export default function Community(): JSX.Element {
-  const [entries, setEntries] = useState<CommunityEntryData[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    const loadEntries = async () => {
-      try {
-        setEntries(await fetchCommunityEntries())
-        setError(null)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An unexpected error occurred')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    void loadEntries()
-    window.addEventListener('wowiki:community-entry-created', loadEntries)
-    return () => window.removeEventListener('wowiki:community-entry-created', loadEntries)
-  }, [])
+  const { entries, loading, error } = useCommunityEntries()
 
   const recentEntries = useMemo(
     () => [...entries]
@@ -60,26 +24,37 @@ export default function Community(): JSX.Element {
   )
 
   return (
-    <section className="border-b border-b-border border-t border-t-primary/30" aria-labelledby="community-heading">
+    <section
+      className="relative mt-5 pb-0.5 sm:mt-6"
+      aria-labelledby="community-heading"
+    >
+      <div className="pointer-events-none absolute inset-x-0 -top-3 flex items-center justify-center opacity-80" aria-hidden="true">
+        <span className="h-px w-16 bg-gradient-to-r from-transparent via-primary/15 to-primary/50 sm:w-28" />
+        <span className="mx-2 h-2 w-2 rotate-45 bg-primary/70 shadow-[0_0_14px_rgba(199,156,58,0.3)]" />
+        <span className="h-px w-16 bg-gradient-to-l from-transparent via-primary/15 to-primary/50 sm:w-28" />
+      </div>
       <div className="w-full">
-        <div className="flex min-h-8 items-center justify-between gap-4 py-1">
-          <div className="flex items-baseline gap-2">
-            <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-primary">Community</p>
-            <h2 id="community-heading" className="text-sm font-semibold text-text">Featured Entries</h2>
-          </div>
-          <div className="flex shrink-0 items-center gap-3">
-            <CreateNewsCommunityEntry plus />
-            <Link to="/community#entries" className="inline-flex h-7 items-center gap-1 text-[0.65rem] font-semibold text-muted transition hover:text-primary focus:outline-none focus-visible:text-primary">
-              See all entries <span aria-hidden="true">&rarr;</span>
+        <div className="mb-1.5 flex min-h-8 items-center justify-between gap-4">
+          <h2 id="community-heading">
+            <Link
+              to="/community#entries"
+              className="group/heading relative inline-flex items-baseline gap-2 py-1 focus:outline-none focus-visible:text-primary"
+              aria-label="See all community entries"
+            >
+              <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-primary">Community</span>
+              <span className="text-sm font-semibold text-text transition group-hover/heading:text-primary">Featured Entries</span>
+              <span className="text-sm text-primary transition-transform duration-200 group-hover/heading:translate-x-1" aria-hidden="true">&rarr;</span>
+              <span className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-gradient-to-r from-primary/80 to-transparent transition-transform duration-300 group-hover/heading:scale-x-100" aria-hidden="true" />
             </Link>
-          </div>
+          </h2>
+          <CreateNewsCommunityEntry plus />
         </div>
 
         {loading && (
-          <div className="grid gap-px border-t border-border bg-border sm:grid-cols-2 lg:grid-cols-3 min-[2200px]:grid-cols-4" aria-label="Loading community entries">
+          <div className="grid gap-1 sm:grid-cols-2 lg:grid-cols-3 min-[2200px]:grid-cols-4" aria-label="Loading community entries">
             {Array.from({ length: 12 }, (_, index) => index).map((item) => (
-              <div key={item} className={`${getEntryVisibilityClass(item)} ${getEntryPaddingClass(item)} flex min-h-7 animate-pulse items-center bg-background`}>
-                <div className="h-3 w-full rounded bg-surface-alt" />
+              <div key={item} className={`${getEntryVisibilityClass(item)} flex min-h-8 animate-pulse items-center rounded-lg bg-surface/45 px-2.5`}>
+                <div className="h-3 w-4/5 rounded bg-surface-alt" />
               </div>
             ))}
           </div>
@@ -88,26 +63,27 @@ export default function Community(): JSX.Element {
         {!loading && error && <p className="mt-3 rounded-md border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger">Community entries could not be loaded.</p>}
 
         {!loading && !error && recentEntries.length > 0 && (
-          <ol className="grid gap-px border-t border-border bg-border sm:grid-cols-2 lg:grid-cols-3 min-[2200px]:grid-cols-4">
+          <ol className="grid min-w-0 gap-1 sm:grid-cols-2 lg:grid-cols-3 min-[2200px]:grid-cols-4">
             {recentEntries.map((entry, index) => (
-              <li key={entry.id} className={getEntryVisibilityClass(index)}>
-                <article className={`group flex min-h-7 min-w-0 items-center gap-2 bg-background text-[0.65rem] text-muted transition hover:bg-surface-alt/50 ${getEntryPaddingClass(index)}`}>
-                  <span className="max-w-20 shrink-0 truncate rounded bg-primary/10 px-1.5 py-0.5 text-[0.5rem] font-bold uppercase tracking-wide text-primary">{entry.category}</span>
-                  <TextTooltip text={entry.title} className="flex-1">
-                    <Link to={`/community/${entry.id}`} className="block min-w-0 flex-1 truncate text-xs font-semibold text-text transition group-hover:text-primary focus:outline-none focus-visible:text-primary focus-visible:underline">{entry.title}</Link>
+              <li key={entry.id} className={`min-w-0 ${getEntryVisibilityClass(index)}`}>
+                <article className="group relative flex min-h-8 min-w-0 items-center gap-2 overflow-hidden rounded-lg bg-surface/40 px-2.5 text-[0.62rem] text-muted shadow-[0_3px_12px_rgba(0,0,0,0.05)] transition duration-200 hover:bg-surface/70 hover:shadow-[0_5px_16px_rgba(0,0,0,0.09)]">
+                  <span className="pointer-events-none absolute inset-y-1.5 left-0 w-0.5 rounded-full bg-primary/0 transition group-hover:bg-primary/70" aria-hidden="true" />
+                  <span className="max-w-16 shrink-0 truncate text-[0.5rem] font-bold uppercase tracking-[0.1em] text-primary">{entry.category}</span>
+                  <TextTooltip text={entry.title} className="min-w-0 flex-1">
+                    <Link to={`/community/${entry.id}`} className="block min-w-0 truncate text-xs font-semibold text-text transition group-hover:text-primary focus:outline-none focus-visible:text-primary focus-visible:underline">{entry.title}</Link>
                   </TextTooltip>
 
-                  <span className="flex max-w-24 shrink-0 items-center gap-1.5" title={entry.author}>
-                    <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-primary/25 bg-primary/10 text-[0.5rem] font-bold uppercase text-primary" aria-hidden="true">{entry.author.charAt(0)}</span>
+                  <span className="hidden max-w-20 shrink-0 items-center gap-1.5 xl:flex" title={entry.author}>
+                    <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[0.48rem] font-bold uppercase text-primary" aria-hidden="true">{entry.author.charAt(0)}</span>
                     <span className="truncate" aria-label={`Author: ${entry.author}`}>{entry.author}</span>
                   </span>
 
                   <span className="flex shrink-0 items-center gap-2 tabular-nums">
                     <span className="inline-flex items-center gap-1" aria-label={`${entry.commentCount} replies`} title="Replies">
-                      <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z" /></svg>
+                      <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z" /></svg>
                       {formatCompactNumber(entry.commentCount)}
                     </span>
-                    <ViewerCount count={entry.viewerCount} compact className="px-0 text-[0.65rem] [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted" />
+                    <ViewerCount count={entry.viewerCount} compact className="px-0 text-[0.62rem] [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted" />
                   </span>
                 </article>
               </li>

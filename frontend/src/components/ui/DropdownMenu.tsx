@@ -22,7 +22,7 @@ export default function DropdownMenu({ label, items, isOpen, onToggle, onOpen, o
         onClick={onToggle}
         aria-expanded={isOpen}
         aria-label={isProfile ? 'Open profile menu' : undefined}
-        className={`inline-flex items-center rounded-md border text-sm font-medium text-text transition hover:border-primary hover:bg-background/90 ${isProfile ? 'h-10 w-10 justify-center rounded-full border-primary/40 bg-primary/10' : isSelect ? 'h-11 w-full justify-between border-border bg-background px-3' : 'justify-center gap-1 border-border bg-background/80 px-3 py-2'}`}
+        className={`inline-flex items-center text-sm font-medium text-text transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${isProfile ? 'h-9 w-9 justify-center rounded-full bg-primary/10 hover:bg-primary/20' : isSelect ? 'h-11 w-full justify-between rounded-md border border-border bg-background px-3' : 'justify-center gap-1 rounded-lg px-2.5 py-2 hover:bg-primary/10 hover:text-primary'}`}
       >
         {isProfile && <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary font-bold text-background" aria-hidden="true">P</span>}
         {!isProfile && <span>{label}</span>}
@@ -31,7 +31,7 @@ export default function DropdownMenu({ label, items, isOpen, onToggle, onOpen, o
 
       <div className={`absolute top-full z-50 min-w-[14rem] overflow-visible transition duration-150 ${isSelect ? 'w-full' : ''} ${align === 'right' ? 'right-0' : 'left-0'} ${isOpen ? 'block' : 'hidden'}`}>
         <div className="pointer-events-none h-2" />
-        <div className="overflow-hidden rounded-md border border-border bg-surface shadow-[0_12px_24px_rgba(0,0,0,0.35)]">
+        <div className="overflow-hidden rounded-xl bg-surface/95 shadow-[0_16px_38px_rgba(0,0,0,0.38)] ring-1 ring-border/40 backdrop-blur-xl">
           <div className="space-y-1 p-2">
             {items.map((item, index) => (
               <div key={item} className={index === dividerBefore ? 'border-t border-border pt-2' : ''}>

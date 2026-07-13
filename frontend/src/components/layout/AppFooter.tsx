@@ -28,13 +28,39 @@ const socialLinks = [
   },
 ]
 
+const footerGroups = [
+  {
+    label: 'Explore',
+    links: [
+      { label: 'Home', to: '/' },
+      { label: 'Latest News', to: '/#news' },
+      { label: 'Community Entries', to: '/community#entries' },
+    ],
+  },
+  {
+    label: 'WoWiki',
+    links: [
+      { label: 'About', to: '/about' },
+      { label: 'Careers', to: '/careers' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    label: 'Legal',
+    links: [
+      { label: 'Privacy Policy', to: '/privacy' },
+      { label: 'Terms of Use', to: '/terms' },
+    ],
+  },
+]
+
 export default function AppFooter(): JSX.Element {
   return (
     <footer className="mt-6 border-t border-border py-6 sm:mt-10">
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6">
-        <div className="space-y-2">
-          <p className="font-semibold text-text">WoWiki</p>
-          <p>&copy; {new Date().getFullYear()} WoWiki. A community-driven World of Warcraft encyclopedia with reliable lore, guides, and character insights.</p>
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 text-sm text-muted sm:px-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-16">
+        <div className="max-w-xl space-y-2">
+          <Link to="/" className="inline-flex text-lg font-bold text-primary transition hover:text-primary-hover">WoWiki</Link>
+          <p className="leading-6">A community-driven World of Warcraft encyclopedia with reliable lore, guides, and character insights.</p>
           <div className="flex items-center gap-2 pt-2" aria-label="WoWiki social links">
             {socialLinks.map((social) => (
               <a
@@ -52,23 +78,27 @@ export default function AppFooter(): JSX.Element {
               </a>
             ))}
           </div>
+          <p className="pt-2 text-xs text-muted/75">&copy; {new Date().getFullYear()} WoWiki. Built by and for the community.</p>
         </div>
 
-        <div className="grid gap-2 sm:grid-cols-2 sm:gap-6">
-          <div className="space-y-1">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted">Explore</p>
-            <Link className="block text-text transition hover:text-primary" to="/about">About</Link>
-            <Link className="block text-text transition hover:text-primary" to="/careers">Careers</Link>
-            <a className="block text-text transition hover:text-primary" href="#">Categories</a>
-            <a className="block text-text transition hover:text-primary" href="#">Popular Pages</a>
-          </div>
-          <div className="space-y-1">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted">Support</p>
-            <Link className="block text-text transition hover:text-primary" to="/privacy">Privacy</Link>
-            <Link className="block text-text transition hover:text-primary" to="/terms">Terms</Link>
-            <Link className="block text-text transition hover:text-primary" to="/contact">Contact</Link>
-          </div>
-        </div>
+        <nav className="grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3" aria-label="Footer navigation">
+          {footerGroups.map((group) => (
+            <div key={group.label}>
+              <p className="mb-2.5 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-primary">{group.label}</p>
+              <ul className="space-y-2">
+                {group.links.map((link) => (
+                  <li key={link.to}>
+                    {link.to.includes('#') ? (
+                      <a className="text-text/85 transition hover:text-primary focus:outline-none focus-visible:text-primary focus-visible:underline" href={link.to}>{link.label}</a>
+                    ) : (
+                      <Link className="text-text/85 transition hover:text-primary focus:outline-none focus-visible:text-primary focus-visible:underline" to={link.to}>{link.label}</Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
       </div>
     </footer>
   )

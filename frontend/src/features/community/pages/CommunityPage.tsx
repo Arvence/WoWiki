@@ -1,32 +1,11 @@
-import { useEffect, useState } from 'react'
 import AppFooter from '../../../components/layout/AppFooter'
 import AppHeader from '../../../components/layout/AppHeader'
-import { fetchCommunityEntries } from '../api/communityService'
 import CommunityEntry from '../components/CommunityEntry'
 import CreateNewsCommunityEntry from '../components/CreateNewsCommunityEntry'
-import type { CommunityEntryData } from '../types/community'
+import { useCommunityEntries } from '../hooks/useCommunityEntries'
 
 export default function CommunityPage(): JSX.Element {
-  const [entries, setEntries] = useState<CommunityEntryData[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    const loadEntries = async () => {
-      try {
-        setEntries(await fetchCommunityEntries())
-        setError(null)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An unexpected error occurred')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    void loadEntries()
-    window.addEventListener('wowiki:community-entry-created', loadEntries)
-    return () => window.removeEventListener('wowiki:community-entry-created', loadEntries)
-  }, [])
+  const { entries, loading, error } = useCommunityEntries()
 
   return (
     <div className="min-h-screen bg-background">
@@ -56,7 +35,7 @@ export default function CommunityPage(): JSX.Element {
           {loading && <p className="py-12 text-center text-muted">Loading community entries...</p>}
           {error && <p className="mt-6 rounded-lg border border-danger/30 bg-danger/10 p-5 text-danger">{error}</p>}
           {!loading && !error && entries.length > 0 && (
-            <div className="mt-6 divide-y divide-border overflow-hidden rounded-xl border border-border bg-surface/80 shadow-lg">
+            <div className="mt-5 grid gap-2 md:grid-cols-2">
               {entries.map((entry) => <CommunityEntry key={entry.id} entry={entry} />)}
             </div>
           )}

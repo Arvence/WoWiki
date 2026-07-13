@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import TextTooltip from '../../../components/ui/TextTooltip'
 import { formatCompactAge, formatDate } from '../../../shared/utils/date'
@@ -10,16 +10,15 @@ type RecentNewsProps = {
   error: string | null
 }
 
-const RECENT_NEWS_LIMIT = 10
+const SINGLE_COLUMN_NEWS_LIMIT = 5
+const TWO_COLUMN_NEWS_LIMIT = 10
 
 export default function RecentNews({ news, loading, error }: RecentNewsProps): JSX.Element {
-  const [showAll, setShowAll] = useState(false)
   const sortedNews = useMemo(
     () => [...news].sort((first, second) => new Date(second.updatedAt).getTime() - new Date(first.updatedAt).getTime()),
     [news],
   )
-  const visibleNews = showAll ? sortedNews : sortedNews.slice(0, RECENT_NEWS_LIMIT)
-  const canExpand = sortedNews.length > RECENT_NEWS_LIMIT
+  const visibleNews = sortedNews.slice(0, TWO_COLUMN_NEWS_LIMIT)
 
   return (
     <section className="relative isolate mb-6 overflow-hidden rounded-xl border border-border bg-surface/90 shadow-sm" aria-labelledby="recent-news-heading">
@@ -41,26 +40,15 @@ export default function RecentNews({ news, loading, error }: RecentNewsProps): J
           <h2 id="recent-news-heading" className="text-lg font-bold text-text">Recent News</h2>
         </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            disabled
-            title="News filtering is coming soon"
-            className="inline-flex h-9 cursor-not-allowed items-center gap-2 rounded-lg border border-border bg-background/50 px-3 text-xs font-semibold text-muted opacity-60"
-          >
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4" /></svg>
-            Filter
-          </button>
-          <button
-            type="button"
-            onClick={() => setShowAll((current) => !current)}
-            disabled={!canExpand}
-            className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-3 text-xs font-bold text-primary transition hover:border-primary hover:bg-primary/15 disabled:cursor-default disabled:border-border disabled:bg-background/40 disabled:text-muted"
-          >
-            {showAll ? 'Show recent' : 'View all'}
-            <span aria-hidden="true">{showAll ? '\u2191' : '\u2192'}</span>
-          </button>
-        </div>
+        <button
+          type="button"
+          disabled
+          title="News filtering is coming soon"
+          className="inline-flex h-9 cursor-not-allowed items-center gap-2 rounded-lg border border-border bg-background/50 px-3 text-xs font-semibold text-muted opacity-60"
+        >
+          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4" /></svg>
+          Filter
+        </button>
       </div>
 
       {loading && (
@@ -79,8 +67,11 @@ export default function RecentNews({ news, loading, error }: RecentNewsProps): J
 
       {!loading && !error && visibleNews.length > 0 && (
         <ol className="relative z-10 grid md:grid-cols-2">
-          {visibleNews.map((article) => (
-            <li key={article.id} className="border-b border-border/70 md:odd:border-r">
+          {visibleNews.map((article, index) => (
+            <li
+              key={article.id}
+              className={`border-b border-border/70 md:odd:border-r ${index >= SINGLE_COLUMN_NEWS_LIMIT ? 'hidden md:block' : ''}`}
+            >
               <Link to={`/news/${article.id}`} className="group grid grid-cols-[2.5rem_minmax(0,1fr)_auto] items-center gap-2 bg-background/70 px-4 py-2.5 transition hover:bg-surface-alt/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary sm:px-5">
                 <time dateTime={article.updatedAt} title={formatDate(article.updatedAt, { dateStyle: 'long', timeStyle: 'short' })} className="text-xs font-medium text-muted">
                   {formatCompactAge(article.updatedAt)}

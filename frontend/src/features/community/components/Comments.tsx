@@ -1,6 +1,6 @@
 import { useRef, useState, type FormEvent } from 'react'
-import Actions from './Actions'
-import Emoji from './Emoji'
+import Actions from '../../../components/ui/Actions'
+import Emoji from '../../../components/ui/Emoji'
 
 export type CommentItem = {
   id: string
@@ -92,7 +92,7 @@ export default function Comments({ comments, onCreate, onLike, formatDate, forma
     return directReplies.length + directReplies.reduce((total, reply) => total + countDescendants(reply.id), 0)
   }
 
-  const renderComment = (comment: CommentItem): JSX.Element => {
+  const renderComment = (comment: CommentItem, depth = 0): JSX.Element => {
     const collapsed = collapsedComments.has(comment.id)
     const replies = comments.filter((item) => item.parentId === comment.id)
     const replyCount = countDescendants(comment.id)
@@ -124,7 +124,11 @@ export default function Comments({ comments, onCreate, onLike, formatDate, forma
             </>}
           </div>
         </div>
-        {!collapsed && replies.length > 0 && <ol className="mb-2 ml-5 border-l border-border pl-3 sm:ml-8">{replies.map(renderComment)}</ol>}
+        {!collapsed && replies.length > 0 && (
+          <ol className={`mb-2 border-l border-border pl-2 sm:pl-3 ${depth < 2 ? 'ml-3 sm:ml-7' : 'ml-0'}`}>
+            {replies.map((reply) => renderComment(reply, depth + 1))}
+          </ol>
+        )}
       </li>
     )
   }

@@ -12,29 +12,31 @@ export default function CommunityEntry({ entry }: CommunityEntryProps): JSX.Elem
   const formattedPublishedAt = formatDate(entry.publishedAt, { month: 'short', day: 'numeric', year: 'numeric' })
 
   return (
-    <article className="group relative px-4 py-3.5 transition hover:bg-surface-alt/40">
+    <article className="group relative isolate overflow-hidden rounded-xl bg-surface/55 px-4 py-3 shadow-[0_5px_20px_rgba(0,0,0,0.07)] transition duration-200 hover:-translate-y-0.5 hover:bg-surface/80 hover:shadow-[0_8px_26px_rgba(0,0,0,0.11)]">
+      <div className="pointer-events-none absolute -right-10 -top-12 -z-10 h-28 w-28 rounded-full bg-primary/[0.07] blur-2xl transition group-hover:bg-primary/10" aria-hidden="true" />
       <div className="mb-1.5 flex items-center justify-between gap-3">
-        <span className="rounded bg-primary/10 px-2 py-1 text-[0.7rem] font-semibold uppercase tracking-wider text-primary">
+        <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-[0.13em] text-primary">
+          <span className="h-1.5 w-1.5 rotate-45 bg-primary" aria-hidden="true" />
           {entry.category}
         </span>
         <time className="text-xs text-muted" dateTime={entry.publishedAt}>{formattedPublishedAt}</time>
       </div>
 
-      <h3 className="text-base font-semibold leading-6 text-text">
+      <h3 className="text-sm font-semibold leading-5 text-text">
         <Link to={`/community/${entry.id}`} className="transition group-hover:text-primary">
           <span className="absolute inset-0" aria-hidden="true" />
           {entry.title}
         </Link>
       </h3>
-      <p className="mt-1 line-clamp-2 text-sm leading-5 text-muted">{entry.excerpt}</p>
+      <p className="mt-1 line-clamp-1 text-xs leading-5 text-muted">{entry.excerpt}</p>
       {entry.newsId && <Link to={`/news/${entry.newsId}`} className="relative mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary-hover">View related news <span aria-hidden="true">&rarr;</span></Link>}
 
-      <div className="mt-2.5 flex items-center justify-between gap-3">
+      <div className="mt-2 flex items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-2">
-          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-primary/20 bg-background/60 text-[0.65rem] font-semibold text-primary" aria-hidden="true">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[0.65rem] font-semibold text-primary" aria-hidden="true">
             {authorInitial}
           </span>
-          <span className="truncate text-sm font-medium text-text">{entry.author}</span>
+          <span className="truncate text-xs font-medium text-text">{entry.author}</span>
         </div>
 
         <div className="flex shrink-0 items-center gap-2.5 text-xs text-muted">
