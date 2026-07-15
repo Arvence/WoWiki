@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Actions from '../../../components/ui/Actions'
 import ViewerCount from '../../../components/ui/ViewerCount'
@@ -12,6 +13,8 @@ type NewsListProps = {
   columns?: 1 | 2 | 3
 }
 
+const NEWS_IMAGE_MIN_WIDTH = 640
+
 function formatUpdatedAt(updatedAt: string): string {
   return formatDate(updatedAt, {
     day: 'numeric',
@@ -21,6 +24,23 @@ function formatUpdatedAt(updatedAt: string): string {
 }
 
 export default function NewsList({ news, loading, error, columns = 1 }: NewsListProps): JSX.Element {
+  const listRef = useRef<HTMLDivElement>(null)
+  const [hasImageSpace, setHasImageSpace] = useState(false)
+
+  useEffect(() => {
+    const list = listRef.current
+    if (!list) return
+
+    const updateImageSpace = (width: number) => setHasImageSpace(width >= NEWS_IMAGE_MIN_WIDTH)
+    updateImageSpace(list.getBoundingClientRect().width)
+
+    const observer = new ResizeObserver(([entry]) => updateImageSpace(entry.contentRect.width))
+    observer.observe(list)
+    return () => observer.disconnect()
+  }, [error, loading, news.length])
+
+  const showImages = columns === 1 && hasImageSpace
+
   if (loading) {
     return (
       <div className="grid gap-2" aria-label="Loading news">
@@ -50,7 +70,7 @@ export default function NewsList({ news, loading, error, columns = 1 }: NewsList
       : 'grid gap-3 sm:grid-cols-2 xl:grid-cols-3'
 
   return (
-    <div className={layoutClass}>
+    <div ref={listRef} className={layoutClass}>
       {news.map((article) => (
         <article
           key={article.id}
@@ -59,7 +79,7 @@ export default function NewsList({ news, loading, error, columns = 1 }: NewsList
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/[0.055] via-transparent to-transparent opacity-0 transition duration-300 group-hover:opacity-100" aria-hidden="true" />
 
           <div className="flex h-full min-w-0">
-            <div className={`relative z-10 min-w-0 flex-1 px-4 py-3.5 sm:px-5 ${columns === 1 ? 'sm:max-w-[72%]' : ''}`}>
+            <div className={`relative z-10 min-w-0 flex-1 px-4 py-3.5 sm:px-5 ${showImages ? 'max-w-[72%]' : ''}`}>
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.68rem] text-muted">
                 <span className="inline-flex items-center gap-1.5 font-bold uppercase tracking-[0.12em] text-primary">
                   <span className="h-1.5 w-1.5 rotate-45 bg-primary" aria-hidden="true" />
@@ -84,7 +104,7 @@ export default function NewsList({ news, loading, error, columns = 1 }: NewsList
               </footer>
             </div>
 
-            {columns === 1 && article.imageUrl && (
+            {showImages && article.imageUrl && (
               <Link
                 to={`/news/${article.id}`}
                 className="absolute inset-0 z-0 overflow-hidden bg-background/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
