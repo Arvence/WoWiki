@@ -21,25 +21,14 @@ export default function AppHeader(): JSX.Element {
   return (
     <header className="sticky top-2 z-40 rounded-2xl bg-surface/80 shadow-[0_12px_38px_rgba(0,0,0,0.22)] backdrop-blur-xl">
       <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" aria-hidden="true" />
-      <div className="flex w-full flex-col gap-2 px-3 py-2.5 sm:grid sm:grid-cols-[auto_minmax(12rem,1fr)] sm:items-center sm:gap-3 sm:px-4 lg:grid-cols-[auto_minmax(12rem,1fr)_auto]">
-        <div className="flex w-full items-center justify-between sm:w-auto">
+      <div className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-3 py-2.5 sm:grid-cols-[5rem_minmax(12rem,1fr)_5rem] sm:gap-3 sm:px-4 lg:grid-cols-[auto_minmax(12rem,1fr)_auto]">
+        <div className="col-start-1 row-start-1 flex items-center">
           <Link to="/" className="group flex items-center gap-2 focus:outline-none focus-visible:text-primary-hover">
             <span className="text-xl font-extrabold tracking-tight text-text transition group-hover:text-primary"><span className="text-primary">Wo</span>Wiki</span>
           </Link>
-          <button
-            type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-background/45 text-text transition hover:bg-primary/10 hover:text-primary lg:hidden"
-            aria-label="Toggle navigation"
-            aria-expanded={mobileMenuOpen}
-            onClick={() => setMobileMenuOpen((open) => !open)}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
         </div>
 
-        <div className="flex w-full min-w-0 justify-center sm:col-start-2 sm:col-end-3">
+        <div className="col-span-2 row-start-2 flex w-full min-w-0 justify-center sm:col-span-1 sm:col-start-2 sm:row-start-1">
           <div className="relative w-full min-w-0 max-w-none sm:max-w-[48rem] lg:max-w-[72rem]">
             <svg className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35" />
@@ -53,7 +42,19 @@ export default function AppHeader(): JSX.Element {
           </div>
         </div>
 
-        <div className="hidden items-center justify-end gap-2 lg:flex">
+        <button
+          type="button"
+          className="col-start-2 row-start-1 inline-flex h-10 w-10 items-center justify-center justify-self-end rounded-xl bg-background/45 p-2.5 text-text transition hover:bg-primary/10 hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 sm:col-start-3 lg:hidden"
+          aria-label="Toggle navigation"
+          aria-expanded={mobileMenuOpen}
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        <div className="hidden items-center justify-end gap-2 lg:col-start-3 lg:row-start-1 lg:flex">
           {navButtons.map((button) => (
             <DropdownMenu
               key={button.label}
