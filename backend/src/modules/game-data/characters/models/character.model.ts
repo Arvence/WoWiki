@@ -2,7 +2,7 @@ export class Character {
   id!: string
   name!: string
   race!: string
-  className!: string
-  faction!: string
+  classId!: string
+  factionId!: string
   description!: string
 }

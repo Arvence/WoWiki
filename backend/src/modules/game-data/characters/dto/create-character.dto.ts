@@ -11,11 +11,11 @@ export class CreateCharacterDto {
 
   @IsString()
   @IsNotEmpty()
-  className!: string
+  classId!: string
 
   @IsString()
   @IsNotEmpty()
-  faction!: string
+  factionId!: string
 
   @IsString()
   @IsNotEmpty()
