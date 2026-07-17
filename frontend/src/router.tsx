@@ -8,6 +8,8 @@ import PrivacyPage from './pages/PrivacyPage'
 import TermsPage from './pages/TermsPage'
 import AboutPage from './pages/AboutPage'
 import CareersPage from './pages/CareersPage'
+import DatabaseCollectionPage from './pages/DatabaseCollectionPage'
+import DatabaseIndexPage from './pages/DatabaseIndexPage'
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +27,14 @@ export const router = createBrowserRouter([
   {
     path: '/community/:entryId',
     element: <CommunityEntryDetailPage />,
+  },
+  {
+    path: '/database',
+    element: <DatabaseIndexPage />,
+  },
+  {
+    path: '/database/:collection',
+    element: <DatabaseCollectionPage />,
   },
   {
     path: '/privacy',

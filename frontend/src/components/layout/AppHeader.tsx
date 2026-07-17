@@ -3,7 +3,6 @@ import { Link } from "react-router-dom"
 import DropdownMenu from "../ui/DropdownMenu"
 
 const navButtons = [
-  { label: "Database", items: ["Characters", "Items", "Zones"] },
   { label: "Tools", items: ["Talent Calculator", "Item Comparator", "Item Finder"] },
   { label: "Guides", items: ["Class Builds", "Raids", "PvP"] },
 ]
@@ -55,6 +54,16 @@ export default function AppHeader(): JSX.Element {
         </button>
 
         <div className="hidden items-center justify-end gap-2 lg:col-start-3 lg:row-start-1 lg:flex">
+          <Link
+            to="/database"
+            className="group inline-flex items-center gap-2 rounded-xl border border-primary/45 bg-gradient-to-br from-primary/20 to-primary/[0.06] px-3.5 py-2 text-sm font-bold text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition hover:border-primary/70 hover:bg-primary/25 hover:text-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          >
+            <svg className="h-4 w-4 transition group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <ellipse cx="12" cy="5" rx="8" ry="3" strokeWidth="1.8" />
+              <path d="M4 5v7c0 1.66 3.58 3 8 3s8-1.34 8-3V5M4 12v7c0 1.66 3.58 3 8 3s8-1.34 8-3v-7" strokeWidth="1.8" />
+            </svg>
+            Database
+          </Link>
           {navButtons.map((button) => (
             <DropdownMenu
               key={button.label}
@@ -87,6 +96,17 @@ export default function AppHeader(): JSX.Element {
         <div className="px-3 pb-3 lg:hidden">
           <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
           <nav className="space-y-2 pt-2">
+            <Link
+              to="/database"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/10 px-3 py-2.5 text-sm font-bold text-primary transition hover:bg-primary/20 hover:text-primary-hover"
+            >
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <ellipse cx="12" cy="5" rx="8" ry="3" strokeWidth="1.8" />
+                <path d="M4 5v7c0 1.66 3.58 3 8 3s8-1.34 8-3V5M4 12v7c0 1.66 3.58 3 8 3s8-1.34 8-3v-7" strokeWidth="1.8" />
+              </svg>
+              Database
+            </Link>
             {navButtons.map((button) => (
               <details key={button.label} className="rounded-xl bg-background/35">
                 <summary className="flex cursor-pointer items-center justify-between gap-2 rounded-xl px-3 py-2 text-sm font-medium text-text transition hover:bg-primary/10 hover:text-primary">
