@@ -5,8 +5,23 @@ import { CommentsModule } from './modules/comments/comments.module'
 import { CommunityModule } from './modules/community/community.module'
 import { NewsModule } from './modules/news/news.module'
 import { TalentsModule } from './modules/game-data/talents/talents.module'
+import { ClassesModule } from './modules/game-data/classes/classes.module'
+import { DungeonsModule } from './modules/game-data/dungeons/dungeons.module'
+import { RaidsModule } from './modules/game-data/raids/raids.module'
+import { ItemsModule } from './modules/game-data/items/items.module'
 
 @Module({
-  imports: [CharactersModule, FactionsModule, CommentsModule, NewsModule, CommunityModule, TalentsModule],
+  imports: [
+    CharactersModule,
+    FactionsModule,
+    ClassesModule,
+    DungeonsModule,
+    RaidsModule,
+    ItemsModule,
+    CommentsModule,
+    NewsModule,
+    CommunityModule,
+    TalentsModule,
+  ],
 })
 export class AppModule {}
