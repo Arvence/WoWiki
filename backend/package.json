@@ -6,7 +6,8 @@
     "build": "tsc -p tsconfig.build.json",
     "start": "node src/main.ts",
     "dev": "ts-node-dev --respawn --transpile-only src/main.ts",
-    "lint": "eslint \"src/**/*.ts\" --fix"
+    "lint": "eslint \"src/**/*.ts\"",
+    "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.27",

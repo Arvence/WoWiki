@@ -5,6 +5,7 @@ import DropdownMenu from "../ui/DropdownMenu"
 const navButtons = [
   { label: "Tools", items: ["Talent Calculator", "Item Comparator", "Item Finder"] },
   { label: "Guides", items: ["Class Builds", "Raids", "PvP"] },
+  { label: "Community", items: ["Community Hub", "Featured Entries", "New Entry"] },
 ]
 
 const profileButton = {

@@ -32,7 +32,8 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
   let response: Response
   try {
     response = await fetch(url, { ...requestOptions, headers })
-  } catch {
+  } catch (error: unknown) {
+    if (error instanceof DOMException && error.name === 'AbortError') throw error
     throw new HttpError(errorMessage, 0)
   }
 

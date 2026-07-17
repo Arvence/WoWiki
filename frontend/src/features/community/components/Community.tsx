@@ -4,7 +4,6 @@ import TextTooltip from '../../../components/ui/TextTooltip'
 import ViewerCount from '../../../components/ui/ViewerCount'
 import { formatCompactNumber } from '../../../shared/utils/number'
 import { useCommunityEntries } from '../hooks/useCommunityEntries'
-import CreateNewsCommunityEntry from './CreateNewsCommunityEntry'
 
 const getEntryVisibilityClass = (index: number): string => {
   if (index < 3) return ''
@@ -26,30 +25,14 @@ export default function Community(): JSX.Element {
   return (
     <section
       className="relative mt-5 pb-0.5 sm:mt-6"
-      aria-labelledby="community-heading"
+      aria-label="Community entries"
     >
       <div className="pointer-events-none absolute inset-x-0 -top-3 flex items-center justify-center opacity-80" aria-hidden="true">
         <span className="h-px w-16 bg-gradient-to-r from-transparent via-primary/15 to-primary/50 sm:w-28" />
         <span className="mx-2 h-2 w-2 rotate-45 bg-primary/70 shadow-[0_0_14px_rgba(199,156,58,0.3)]" />
         <span className="h-px w-16 bg-gradient-to-l from-transparent via-primary/15 to-primary/50 sm:w-28" />
       </div>
-      <div className="w-full">
-        <div className="mb-1.5 flex min-h-8 items-center justify-between gap-4">
-          <h2 id="community-heading">
-            <Link
-              to="/community#entries"
-              className="group/heading relative inline-flex items-baseline gap-2 py-1 focus:outline-none focus-visible:text-primary"
-              aria-label="See all community entries"
-            >
-              <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-primary">Community</span>
-              <span className="text-sm font-semibold text-text transition group-hover/heading:text-primary">Featured Entries</span>
-              <span className="text-sm text-primary transition-transform duration-200 group-hover/heading:translate-x-1" aria-hidden="true">&rarr;</span>
-              <span className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-gradient-to-r from-primary/80 to-transparent transition-transform duration-300 group-hover/heading:scale-x-100" aria-hidden="true" />
-            </Link>
-          </h2>
-          <CreateNewsCommunityEntry plus />
-        </div>
-
+      <div className="w-full pt-1">
         {loading && (
           <div className="grid gap-1 sm:grid-cols-2 lg:grid-cols-3 min-[2200px]:grid-cols-4" aria-label="Loading community entries">
             {Array.from({ length: 12 }, (_, index) => index).map((item) => (
@@ -66,7 +49,7 @@ export default function Community(): JSX.Element {
           <ol className="grid min-w-0 gap-1 sm:grid-cols-2 lg:grid-cols-3 min-[2200px]:grid-cols-4">
             {recentEntries.map((entry, index) => (
               <li key={entry.id} className={`min-w-0 ${getEntryVisibilityClass(index)}`}>
-                <article className="group relative flex min-h-8 min-w-0 items-center gap-2 overflow-hidden rounded-lg bg-surface/40 px-2.5 text-[0.62rem] text-muted shadow-[0_3px_12px_rgba(0,0,0,0.05)] transition duration-200 hover:bg-surface/70 hover:shadow-[0_5px_16px_rgba(0,0,0,0.09)]">
+                <article className="group relative flex min-h-8 min-w-0 items-center gap-2 overflow-hidden rounded-lg bg-primary/[0.055] px-2.5 text-[0.62rem] text-muted shadow-[inset_0_0_0_1px_rgba(212,169,73,0.05),0_3px_12px_rgba(0,0,0,0.05)] transition duration-200 hover:bg-primary/[0.09] hover:shadow-[inset_0_0_0_1px_rgba(212,169,73,0.1),0_5px_16px_rgba(0,0,0,0.09)]">
                   <span className="pointer-events-none absolute inset-y-1.5 left-0 w-0.5 rounded-full bg-primary/0 transition group-hover:bg-primary/70" aria-hidden="true" />
                   <span className="max-w-16 shrink-0 truncate text-[0.5rem] font-bold uppercase tracking-[0.1em] text-primary">{entry.category}</span>
                   <TextTooltip text={entry.title} className="min-w-0 flex-1">

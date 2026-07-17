@@ -1,17 +1,16 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { fetchNews } from '../api/newsService'
 import type { News } from '../types/news'
-import FeaturedContent from '../../community/components/FeaturedContent'
 import NewsList from './NewsList'
 import RecentNews from './RecentNews'
 
 const newsCategories = ['All', 'News', 'Patch Notes', 'Guide', 'Lore']
 
 type FeedProps = {
-  afterFeatured?: ReactNode
+  beforeNews?: ReactNode
 }
 
-export default function Feed({ afterFeatured }: FeedProps): JSX.Element {
+export default function Feed({ beforeNews }: FeedProps): JSX.Element {
   const [news, setNews] = useState<News[]>([])
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [newsColumns, setNewsColumns] = useState<1 | 2 | 3>(1)
@@ -41,8 +40,7 @@ export default function Feed({ afterFeatured }: FeedProps): JSX.Element {
 
   return (
     <div id="news" className="scroll-mt-24">
-      <FeaturedContent />
-      {afterFeatured}
+      {beforeNews}
       <RecentNews news={news} loading={loading} error={error} />
 
       {!loading && !error && news.length > 0 && (
