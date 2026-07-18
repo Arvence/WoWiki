@@ -1,4 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common'
+import { AuthGuard } from '../auth/auth.guard'
+import type { AuthenticatedRequest } from '../auth/auth.types'
 import { CommentsService } from '../comments/comments.service'
 import { CreateCommentDto } from '../comments/dto/create-comment.dto'
 import { CommunityService } from './community.service'
@@ -29,14 +31,16 @@ export class CommunityController {
   }
 
   @Post(':id/comments')
-  createComment(@Param('id') id: string, @Body() createCommentDto: CreateCommentDto) {
+  @UseGuards(AuthGuard)
+  createComment(@Param('id') id: string, @Body() createCommentDto: CreateCommentDto, @Req() request: AuthenticatedRequest) {
     this.communityService.findOne(id)
-    return this.commentsService.create('community', id, createCommentDto)
+    return this.commentsService.create('community', id, { ...createCommentDto, author: request.user.displayName })
   }
 
   @Post()
-  create(@Body() createCommunityEntryDto: CreateCommunityEntryDto) {
-    return this.communityService.create(createCommunityEntryDto)
+  @UseGuards(AuthGuard)
+  create(@Body() createCommunityEntryDto: CreateCommunityEntryDto, @Req() request: AuthenticatedRequest) {
+    return this.communityService.create({ ...createCommunityEntryDto, author: request.user.displayName })
   }
 
   @Patch(':id')

@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
+import { AuthGuard } from '../auth/auth.guard'
 import { CommentsService } from './comments.service'
 import { UpdateCommentDto } from './dto/update-comment.dto'
 
@@ -17,6 +18,7 @@ export class CommentsController {
   }
 
   @Post(':id/like')
+  @UseGuards(AuthGuard)
   like(@Param('id') id: string) {
     return this.commentsService.like(id)
   }
