@@ -10,8 +10,12 @@ import AboutPage from './pages/AboutPage'
 import CareersPage from './pages/CareersPage'
 import DatabaseCollectionPage from './pages/DatabaseCollectionPage'
 import DatabaseIndexPage from './pages/DatabaseIndexPage'
+import AuthPage from './features/auth/AuthPage'
+import ProfilePage from './features/auth/ProfilePage'
 
 export const router = createBrowserRouter([
+  { path: '/auth', element: <AuthPage /> },
+  { path: '/profile', element: <ProfilePage /> },
   {
     path: '/',
     element: <App />,

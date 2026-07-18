@@ -2,6 +2,8 @@ import { useRef, useState, type FormEvent } from 'react'
 import { createCommunityEntry } from '../api/communityService'
 import DropdownMenu from '../../../components/ui/DropdownMenu'
 import Emoji from '../../../components/ui/Emoji'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../auth/AuthContext'
 
 type CreateNewsCommunityEntryProps = {
   newsId?: string
@@ -10,6 +12,8 @@ type CreateNewsCommunityEntryProps = {
 }
 
 export default function CreateNewsCommunityEntry({ newsId, newsTitle, plus = false }: CreateNewsCommunityEntryProps): JSX.Element {
+  const { user } = useAuth()
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -34,12 +38,14 @@ export default function CreateNewsCommunityEntry({ newsId, newsTitle, plus = fal
     try {
       await createCommunityEntry({
         newsId,
-        author: 'Guest',
+        author: user?.displayName ?? 'Guest',
         title: String(form.get('title')),
         excerpt: String(form.get('content')).slice(0, 180),
         content: String(form.get('content')),
         category: String(form.get('category')),
         publishedAt: new Date().toISOString(),
+        image: String(form.get('image') || '').trim() || undefined,
+        hashtags: String(form.get('hashtags') || '').split(/[\s,]+/).map((tag) => tag.replace(/^#/, '').trim().toLowerCase()).filter(Boolean).slice(0, 6),
       })
       window.dispatchEvent(new Event('wowiki:community-entry-created'))
       setOpen(false)
@@ -54,7 +60,12 @@ export default function CreateNewsCommunityEntry({ newsId, newsTitle, plus = fal
 
   return (
     <>
-      <div className="relative">
+      <div className="relative" onClickCapture={(event) => {
+        if (user || !(event.target as HTMLElement).closest('button')) return
+        event.preventDefault()
+        event.stopPropagation()
+        navigate('/auth', { state: { from: window.location.pathname } })
+      }}>
         <button type="button" onClick={() => setOpen(true)} className={plus ? 'inline-flex h-7 shrink-0 items-center justify-center gap-1.5 rounded-md border border-primary/40 bg-primary px-2.5 text-[0.65rem] font-bold text-background transition hover:border-primary-hover hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-background' : 'inline-flex h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-full border border-primary-hover bg-primary text-sm font-bold text-background shadow-lg shadow-primary/20 transition-[background-color,box-shadow] duration-200 hover:bg-primary-hover hover:shadow-[0_0_0_3px_rgba(199,156,58,0.16),0_0_20px_rgba(199,156,58,0.38)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:w-auto sm:px-4'} aria-label={newsTitle ? `Create a community entry about ${newsTitle}` : 'Create community entry'} title="Create community entry">
           {plus ? <><svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true"><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z" /><path d="m14 6 3 3" /></svg><span className="hidden whitespace-nowrap sm:inline">New entry</span></> : <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true"><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z" /><path d="m14 6 3 3" /></svg>}
           {!plus && <span className="hidden whitespace-nowrap sm:inline">Create community entry</span>}
@@ -76,6 +87,8 @@ export default function CreateNewsCommunityEntry({ newsId, newsTitle, plus = fal
 
             <div className="mt-5 grid gap-4">
               <label className="grid gap-1.5 text-sm font-medium text-text">Title<input name="title" required defaultValue={newsTitle ? `Discussion: ${newsTitle}` : ''} placeholder="Give your entry a clear title" className="rounded-lg border border-border bg-background px-3 py-2.5 text-text outline-none focus:border-primary" /></label>
+              <label className="grid gap-1.5 text-sm font-medium text-text">Image URL <span className="font-normal text-muted">(optional)</span><input name="image" type="url" placeholder="https://example.com/image.jpg" className="rounded-lg border border-border bg-background px-3 py-2.5 text-text outline-none focus:border-primary" /></label>
+              <label className="grid gap-1.5 text-sm font-medium text-text">Hashtags <span className="font-normal text-muted">(optional)</span><input name="hashtags" placeholder="#classic #raiding #guide" className="rounded-lg border border-border bg-background px-3 py-2.5 text-text outline-none focus:border-primary" /></label>
               <div className="grid gap-1.5 text-sm font-medium text-text">
                 <span>Category</span>
                 <input type="hidden" name="category" value={category} />

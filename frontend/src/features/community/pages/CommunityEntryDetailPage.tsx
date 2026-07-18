@@ -8,12 +8,14 @@ import ViewerCount from '../../../components/ui/ViewerCount'
 import { formatDate, formatRelativeDate } from '../../../shared/utils/date'
 import { createCommunityComment, fetchCommunityComments, fetchCommunityEntries, fetchCommunityEntryById, likeCommunityComment } from '../api/communityService'
 import type { CommunityCommentData, CommunityEntryData } from '../types/community'
+import { useAuth } from '../../auth/AuthContext'
 
 function formatPublishedAt(value: string): string {
   return formatDate(value, { dateStyle: 'long' })
 }
 
 export default function CommunityEntryDetailPage(): JSX.Element {
+  const { user } = useAuth()
   const { entryId } = useParams<{ entryId: string }>()
   const [entry, setEntry] = useState<CommunityEntryData | null>(null)
   const [comments, setComments] = useState<CommunityCommentData[]>([])
@@ -50,7 +52,7 @@ export default function CommunityEntryDetailPage(): JSX.Element {
 
   const createComment = async (input: { content: string; parentId?: string }) => {
     if (!entryId) throw new Error('Community entry not found')
-    const created = await createCommunityComment(entryId, { ...input, author: 'Guest' })
+    const created = await createCommunityComment(entryId, { ...input, author: user?.displayName ?? 'Guest' })
     setComments((current) => [...current, created])
   }
 
@@ -84,6 +86,7 @@ export default function CommunityEntryDetailPage(): JSX.Element {
                   </div>
                   <span className="mt-5 inline-flex rounded bg-primary/10 px-2 py-1 text-xs font-semibold uppercase tracking-wider text-primary">{entry.category}</span>
                   <h1 className="mt-3 text-3xl font-bold leading-tight text-text sm:text-4xl">{entry.title}</h1>
+                  {entry.hashtags && entry.hashtags.length > 0 && <div className="mt-3 flex flex-wrap gap-2">{entry.hashtags.map((tag) => <span key={tag} className="text-sm font-medium text-primary">#{tag}</span>)}</div>}
                   <p className="mt-3 text-lg leading-8 text-muted">{entry.excerpt}</p>
                 </header>
 

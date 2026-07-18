@@ -31,7 +31,7 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
 
   let response: Response
   try {
-    response = await fetch(url, { ...requestOptions, headers })
+    response = await fetch(url, { credentials: 'include', ...requestOptions, headers })
   } catch (error: unknown) {
     if (error instanceof DOMException && error.name === 'AbortError') throw error
     throw new HttpError(errorMessage, 0)
@@ -39,10 +39,11 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
 
   const body = await parseResponseBody(response)
   if (!response.ok) {
+    if (response.status === 401 && url.endsWith('/auth/me')) {
+      window.dispatchEvent(new Event('wowiki:auth-expired'))
+    }
     const apiError = isApiErrorResponse(body) ? body : undefined
-    const backendMessage = apiError
-      ? Array.isArray(apiError.message) ? apiError.message.join(', ') : apiError.message
-      : undefined
+    const backendMessage = apiError ? getApiErrorMessage(apiError) : undefined
     const message = response.status === 404 && notFoundMessage ? notFoundMessage : backendMessage || errorMessage
     throw new HttpError(message, response.status, apiError)
   }
@@ -65,7 +66,16 @@ async function parseResponseBody(response: Response): Promise<unknown> {
 function isApiErrorResponse(value: unknown): value is ApiErrorResponse {
   if (typeof value !== 'object' || value === null) return false
   const candidate = value as Partial<ApiErrorResponse>
-  return typeof candidate.statusCode === 'number' && (typeof candidate.message === 'string' || Array.isArray(candidate.message))
+  return typeof candidate.statusCode === 'number' || typeof candidate.status === 'number'
+}
+
+function getApiErrorMessage(error: ApiErrorResponse): string | undefined {
+  if (error.errors) {
+    const messages = Object.values(error.errors).flat()
+    if (messages.length > 0) return messages.join(' ')
+  }
+  if (Array.isArray(error.message)) return error.message.join(', ')
+  return error.message || error.detail || error.title
 }
 
 export const http = {

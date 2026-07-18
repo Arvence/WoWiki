@@ -1,6 +1,8 @@
 import { useRef, useState, type FormEvent } from 'react'
 import Actions from '../../../components/ui/Actions'
 import Emoji from '../../../components/ui/Emoji'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../auth/AuthContext'
 
 export type CommentItem = {
   id: string
@@ -83,6 +85,8 @@ function CommentComposer({ parentId, compact = false, onCancel, onCreate }: Comp
 }
 
 export default function Comments({ comments, onCreate, onLike, formatDate, formatDateTitle = formatDate }: CommentsProps): JSX.Element {
+  const { user } = useAuth()
+  const navigate = useNavigate()
   const [composerOpen, setComposerOpen] = useState(false)
   const [replyingTo, setReplyingTo] = useState<string | null>(null)
   const [collapsedComments, setCollapsedComments] = useState<Set<string>>(() => new Set())
@@ -137,7 +141,16 @@ export default function Comments({ comments, onCreate, onLike, formatDate, forma
   const rootComments = comments.filter((comment) => !comment.parentId || !commentIds.has(comment.parentId))
 
   return (
-    <section className="border-t border-border px-5 py-6 sm:px-7 sm:py-7" aria-labelledby="comments-heading">
+    <section onClickCapture={(event) => {
+      if (user) return
+      const button = (event.target as HTMLElement).closest('button')
+      const label = button?.getAttribute('aria-label') ?? ''
+      if (label === 'Create comment' || label.startsWith('Reply to') || label.startsWith('Like ')) {
+        event.preventDefault()
+        event.stopPropagation()
+        navigate('/auth', { state: { from: window.location.pathname } })
+      }
+    }} className="border-t border-border px-5 py-6 sm:px-7 sm:py-7" aria-labelledby="comments-heading">
       <div className="flex min-h-11 items-center justify-between gap-4 border-b border-border pb-3">
         <div className="flex min-w-0 items-center gap-2.5">
           <h2 id="comments-heading" className="text-xl font-bold text-text">Comments</h2>

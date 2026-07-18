@@ -1,7 +1,11 @@
 export type ApiErrorResponse = {
-  statusCode: number
-  error: string
-  message: string | string[]
-  timestamp: string
-  path: string
+  statusCode?: number
+  status?: number
+  error?: string
+  message?: string | string[]
+  title?: string
+  detail?: string
+  errors?: Record<string, string[]>
+  timestamp?: string
+  path?: string
 }

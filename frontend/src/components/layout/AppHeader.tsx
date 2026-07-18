@@ -1,22 +1,29 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import DropdownMenu from "../ui/DropdownMenu"
+import { useAuth } from "../../features/auth/AuthContext"
 
 const navButtons = [
   { label: "Tools", items: ["Talent Calculator", "Item Comparator", "Item Finder"] },
   { label: "Guides", items: ["Class Builds", "Raids", "PvP"] },
-  { label: "Community", items: ["Community Hub", "Featured Entries", "New Entry"] },
 ]
 
 const profileButton = {
   label: "Profile",
-  items: ["View Profile", "Saved Articles", "Settings", "Sign Out", "About", "Support", "Privacy"],
-  dividerBefore: 4,
+  items: ["Saved Articles", "Settings", "Sign Out", "About", "Support", "Privacy"],
+  dividerBefore: 3,
 }
 
 export default function AppHeader(): JSX.Element {
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const selectProfileItem = (item: string) => {
+    const routes: Record<string, string> = { Profile: "/profile", "Saved Articles": "/profile", Settings: "/profile", About: "/about", Support: "/contact", Privacy: "/privacy" }
+    if (item === "Sign Out") { logout(); navigate("/") } else if (routes[item]) navigate(routes[item])
+    setOpenDropdown(null)
+  }
 
   return (
     <header className="sticky top-2 z-40 rounded-2xl bg-surface/80 shadow-[0_12px_38px_rgba(0,0,0,0.22)] backdrop-blur-xl">
@@ -56,13 +63,17 @@ export default function AppHeader(): JSX.Element {
 
         <div className="hidden items-center justify-end gap-2 lg:col-start-3 lg:row-start-1 lg:flex">
           <Link
+            to="/community"
+            className="group inline-flex items-center gap-2 rounded-xl border border-primary/45 bg-gradient-to-br from-primary/20 to-primary/[0.06] px-3.5 py-2 text-sm font-bold text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition hover:border-primary/70 hover:bg-primary/25 hover:text-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          >
+            <svg className="h-4 w-4 transition group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+            Community
+          </Link>
+          <Link
             to="/database"
             className="group inline-flex items-center gap-2 rounded-xl border border-primary/45 bg-gradient-to-br from-primary/20 to-primary/[0.06] px-3.5 py-2 text-sm font-bold text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition hover:border-primary/70 hover:bg-primary/25 hover:text-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
           >
-            <svg className="h-4 w-4 transition group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-              <ellipse cx="12" cy="5" rx="8" ry="3" strokeWidth="1.8" />
-              <path d="M4 5v7c0 1.66 3.58 3 8 3s8-1.34 8-3V5M4 12v7c0 1.66 3.58 3 8 3s8-1.34 8-3v-7" strokeWidth="1.8" />
-            </svg>
+            <svg className="h-4 w-4 transition group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3" strokeWidth="1.8" /><path d="M4 5v7c0 1.66 3.58 3 8 3s8-1.34 8-3V5M4 12v7c0 1.66 3.58 3 8 3s8-1.34 8-3v-7" strokeWidth="1.8" /></svg>
             Database
           </Link>
           {navButtons.map((button) => (
@@ -78,17 +89,7 @@ export default function AppHeader(): JSX.Element {
             />
           ))}
           <div className="ml-1 flex items-center gap-2 pl-1">
-            <DropdownMenu
-              label={profileButton.label}
-              items={profileButton.items}
-              isOpen={openDropdown === profileButton.label}
-              onToggle={() => setOpenDropdown((current) => (current === profileButton.label ? null : profileButton.label))}
-              onOpen={() => setOpenDropdown(profileButton.label)}
-              onClose={() => setOpenDropdown(null)}
-              variant="profile"
-              align="right"
-              dividerBefore={profileButton.dividerBefore}
-            />
+            {user ? <DropdownMenu label={user.displayName} items={profileButton.items} isOpen={openDropdown === profileButton.label} onToggle={() => setOpenDropdown((current) => current === profileButton.label ? null : profileButton.label)} onOpen={() => setOpenDropdown(profileButton.label)} onClose={() => setOpenDropdown(null)} variant="profile" align="right" dividerBefore={profileButton.dividerBefore} onSelect={selectProfileItem} avatarText={user.displayName} profileSubtitle={user.email} /> : <Link to="/auth" className="rounded-xl bg-primary px-3.5 py-2 text-sm font-bold text-background hover:bg-primary-hover">Sign in</Link>}
           </div>
         </div>
       </div>
@@ -98,14 +99,19 @@ export default function AppHeader(): JSX.Element {
           <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
           <nav className="space-y-2 pt-2">
             <Link
+              to="/community"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/10 px-3 py-2.5 text-sm font-bold text-primary transition hover:bg-primary/20 hover:text-primary-hover"
+            >
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+              Community
+            </Link>
+            <Link
               to="/database"
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/10 px-3 py-2.5 text-sm font-bold text-primary transition hover:bg-primary/20 hover:text-primary-hover"
             >
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-                <ellipse cx="12" cy="5" rx="8" ry="3" strokeWidth="1.8" />
-                <path d="M4 5v7c0 1.66 3.58 3 8 3s8-1.34 8-3V5M4 12v7c0 1.66 3.58 3 8 3s8-1.34 8-3v-7" strokeWidth="1.8" />
-              </svg>
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3" strokeWidth="1.8" /><path d="M4 5v7c0 1.66 3.58 3 8 3s8-1.34 8-3V5M4 12v7c0 1.66 3.58 3 8 3s8-1.34 8-3v-7" strokeWidth="1.8" /></svg>
               Database
             </Link>
             {navButtons.map((button) => (
@@ -127,22 +133,22 @@ export default function AppHeader(): JSX.Element {
                 </div>
               </details>
             ))}
-            <details className="rounded-xl bg-primary/[0.07]">
+            {user ? <details className="rounded-xl bg-primary/[0.07]">
               <summary className="flex cursor-pointer items-center justify-between gap-2 rounded-xl px-3 py-2 text-sm font-medium text-text transition hover:bg-primary/10">
                 <span className="flex items-center gap-2">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary font-bold text-background" aria-hidden="true">P</span>
-                  {profileButton.label}
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary font-bold uppercase text-background" aria-hidden="true">{user.displayName.charAt(0)}</span>
+                  <span><span className="block">{user.displayName}</span><span className="block max-w-48 truncate text-xs font-normal text-muted">{user.email}</span></span>
                 </span>
                 <span className="text-muted">&#9662;</span>
               </summary>
               <div className="space-y-1 px-3 pb-2">
                 {profileButton.items.map((item, index) => (
                   <div key={item} className={index === profileButton.dividerBefore ? 'border-t border-border pt-2' : ''}>
-                    <a href="#" className="block rounded-md px-2 py-2 text-sm text-text transition hover:bg-background/90">{item}</a>
+                    <button type="button" onClick={() => { selectProfileItem(item); setMobileMenuOpen(false) }} className={`block w-full rounded-md px-2 py-2 text-left text-sm transition hover:bg-background/90 ${item === 'Sign Out' ? 'text-danger' : 'text-text'}`}>{item}</button>
                   </div>
                 ))}
               </div>
-            </details>
+            </details> : <Link to="/auth" onClick={() => setMobileMenuOpen(false)} className="block rounded-xl bg-primary px-3 py-2.5 text-center text-sm font-bold text-background">Sign in</Link>}
           </nav>
         </div>
       ) : null}
