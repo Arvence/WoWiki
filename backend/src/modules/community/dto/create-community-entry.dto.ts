@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator'
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator'
 
 export class CreateCommunityEntryDto {
   @IsString()
@@ -28,5 +28,14 @@ export class CreateCommunityEntryDto {
   @IsString()
   @IsOptional()
   newsId?: string
+
+  @IsString()
+  @IsOptional()
+  image?: string
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  hashtags?: string[]
 
 }

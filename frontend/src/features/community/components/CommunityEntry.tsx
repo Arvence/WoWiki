@@ -1,54 +1,49 @@
 import { Link } from 'react-router-dom'
 import type { CommunityEntryData } from '../types/community'
 import ViewerCount from '../../../components/ui/ViewerCount'
+import Actions from '../../../components/ui/Actions'
 import { formatDate } from '../../../shared/utils/date'
 
-type CommunityEntryProps = {
-  entry: CommunityEntryData
-}
+export default function CommunityEntry({ entry, variant = 'detail' }: { entry: CommunityEntryData; variant?: 'detail' | 'card' }): JSX.Element {
+  const publishedAt = formatDate(entry.publishedAt, { month: 'short', day: 'numeric' })
 
-export default function CommunityEntry({ entry }: CommunityEntryProps): JSX.Element {
-  const authorInitial = entry.author.charAt(0).toUpperCase()
-  const formattedPublishedAt = formatDate(entry.publishedAt, { month: 'short', day: 'numeric', year: 'numeric' })
-
-  return (
-    <article className="group relative isolate overflow-hidden rounded-xl bg-primary/[0.055] px-4 py-3 shadow-[inset_0_0_0_1px_rgba(212,169,73,0.06),0_5px_20px_rgba(0,0,0,0.07)] transition duration-200 hover:-translate-y-0.5 hover:bg-primary/[0.085] hover:shadow-[inset_0_0_0_1px_rgba(212,169,73,0.1),0_8px_26px_rgba(0,0,0,0.11)]">
-      <div className="pointer-events-none absolute -right-10 -top-12 -z-10 h-28 w-28 rounded-full bg-primary/[0.07] blur-2xl transition group-hover:bg-primary/10" aria-hidden="true" />
-      <div className="mb-1.5 flex items-center justify-between gap-3">
-        <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-[0.13em] text-primary">
-          <span className="h-1.5 w-1.5 rotate-45 bg-primary" aria-hidden="true" />
-          {entry.category}
-        </span>
-        <time className="text-xs text-muted" dateTime={entry.publishedAt}>{formattedPublishedAt}</time>
+  if (variant === 'card') return <article className="group relative min-w-0 overflow-hidden rounded-xl border border-border bg-surface transition hover:border-muted/60">
+    <Link to={`/community/${entry.id}`} className="absolute inset-0 z-0" aria-label={entry.title}><span className="sr-only">{entry.title}</span></Link>
+    {entry.image ? <div className="pointer-events-none relative z-[1] aspect-square w-full bg-background"><img src={entry.image} alt="" loading="lazy" className="h-full w-full object-cover" /></div> : <div className="pointer-events-none relative z-[1] flex aspect-square w-full items-center justify-center bg-background text-sm font-semibold uppercase tracking-wider text-muted">{entry.category}</div>}
+    <div className="pointer-events-none relative z-[1] px-4 pb-3 pt-4">
+      <div className="flex min-w-0 items-center gap-2">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold uppercase text-primary">{entry.author.charAt(0)}</span>
+        <div className="min-w-0 text-xs"><p className="truncate font-semibold text-text">{entry.category}</p><p className="truncate text-muted">{entry.author} <span aria-hidden="true">·</span> <time dateTime={entry.publishedAt}>{publishedAt}</time></p></div>
       </div>
+      <h2 className="mt-3 text-lg font-semibold leading-6 text-text">{entry.title}</h2>
+      {entry.hashtags && entry.hashtags.length > 0 && <div className="mt-2 flex flex-wrap gap-x-2 text-xs text-primary">{entry.hashtags.map((tag) => <span key={tag}>#{tag}</span>)}</div>}
+    </div>
+    <div className="relative z-10 flex items-center gap-1 border-t border-border px-3 py-2 text-xs text-muted">
+      <Link to={`/community/${entry.id}#comments-heading`} className="inline-flex h-8 items-center gap-1.5 rounded-full bg-background px-3 hover:text-text" aria-label={`${entry.commentCount} comments`}><svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z" /></svg>{entry.commentCount}</Link>
+      <ViewerCount count={entry.viewerCount} compact className="h-8 rounded-full bg-background px-3" />
+      <Actions target={{ id: entry.id, title: entry.title, path: `/community/${entry.id}` }} storageKey="community" showLike={false} showReport={false} />
+    </div>
+  </article>
 
-      <h3 className="text-sm font-semibold leading-5 text-text">
-        <Link to={`/community/${entry.id}`} className="transition group-hover:text-primary">
-          <span className="absolute inset-0" aria-hidden="true" />
-          {entry.title}
+  return <article className="flex min-w-0 overflow-hidden rounded-lg bg-surface transition hover:bg-surface-alt/60">
+    <Link to={`/community/${entry.id}`} className="flex h-28 w-36 shrink-0 items-center justify-center overflow-hidden bg-background sm:h-32 sm:w-44" aria-label={`Open ${entry.title}`}>
+      {entry.image ? <img src={entry.image} alt="" loading="lazy" className="h-full w-full object-cover" /> : <span className="px-3 text-center text-xs font-semibold uppercase tracking-wider text-muted">{entry.category}</span>}
+    </Link>
+
+    <div className="flex min-w-0 flex-1 flex-col px-4 py-3">
+      <div className="flex min-w-0 items-center gap-1.5 text-xs text-muted">
+        <span className="font-medium text-text">{entry.author}</span><span aria-hidden="true">·</span><time dateTime={entry.publishedAt}>{publishedAt}</time><span aria-hidden="true">·</span><span>{entry.category}</span>
+      </div>
+      <h2 className="mt-1 line-clamp-2 text-base font-semibold leading-6 text-text sm:text-lg"><Link to={`/community/${entry.id}`} className="hover:text-primary">{entry.title}</Link></h2>
+      {entry.hashtags && entry.hashtags.length > 0 && <div className="mt-1 flex flex-wrap gap-x-2 text-xs text-primary">{entry.hashtags.map((tag) => <span key={tag}>#{tag}</span>)}</div>}
+
+      <div className="mt-auto flex min-w-0 items-center gap-1 pt-2 text-xs text-muted">
+        <Link to={`/community/${entry.id}#comments-heading`} className="inline-flex h-8 items-center gap-1.5 rounded px-2 hover:bg-background hover:text-text" aria-label={`${entry.commentCount} comments`}>
+          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z" /></svg>{entry.commentCount}
         </Link>
-      </h3>
-      <p className="mt-1 line-clamp-1 text-xs leading-5 text-muted">{entry.excerpt}</p>
-      {entry.newsId && <Link to={`/news/${entry.newsId}`} className="relative mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary-hover">View related news <span aria-hidden="true">&rarr;</span></Link>}
-
-      <div className="mt-2 flex items-center justify-between gap-3">
-        <div className="flex min-w-0 items-center gap-2">
-          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[0.65rem] font-semibold text-primary" aria-hidden="true">
-            {authorInitial}
-          </span>
-          <span className="truncate text-xs font-medium text-text">{entry.author}</span>
-        </div>
-
-        <div className="flex shrink-0 items-center gap-2.5 text-xs text-muted">
-          <ViewerCount count={entry.viewerCount} compact />
-          <span className="inline-flex items-center gap-1" aria-label={`${entry.commentCount} comments`}>
-          <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-            <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z" />
-          </svg>
-          {entry.commentCount}
-          </span>
-        </div>
+        <ViewerCount count={entry.viewerCount} compact className="h-8 rounded px-2 hover:bg-background" />
+        <Actions target={{ id: entry.id, title: entry.title, path: `/community/${entry.id}` }} storageKey="community" showLike={false} showReport={false} />
       </div>
-    </article>
-  )
+    </div>
+  </article>
 }

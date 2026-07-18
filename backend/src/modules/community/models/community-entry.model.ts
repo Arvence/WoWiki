@@ -8,4 +8,6 @@ export class CommunityEntry {
   publishedAt!: string
   viewerCount!: number
   newsId?: string
+  image?: string
+  hashtags?: string[]
 }

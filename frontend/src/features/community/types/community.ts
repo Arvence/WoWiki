@@ -9,6 +9,8 @@ export interface CommunityEntryData {
   commentCount: number
   viewerCount: number
   newsId?: string
+  image?: string
+  hashtags?: string[]
 }
 
 export interface CommunityCommentData {

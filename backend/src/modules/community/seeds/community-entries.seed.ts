@@ -14,6 +14,8 @@ The ship is where new groups most often lose control. Clear every deck before mo
     category: 'Dungeon Guide',
     publishedAt: '2026-07-10T00:00:00.000Z',
     viewerCount: 1847,
+    image: '/images/featured-content-horde-board-optimized.jpg',
+    hashtags: ['deadmines', 'dungeons', 'beginners'],
   },
   {
     id: '2',
@@ -28,6 +30,8 @@ My theory is that the trees act as anchors between possible versions of Azeroth.
     category: 'Lore',
     publishedAt: '2026-07-08T00:00:00.000Z',
     viewerCount: 1264,
+    image: '/images/featured-news-notice-board.png',
+    hashtags: ['lore', 'emerald-dream', 'druids'],
   },
   {
     id: '3',
@@ -42,6 +46,8 @@ During the raid, keep explanations short and give each role one clear responsibi
     category: 'Raiding',
     publishedAt: '2026-07-05T00:00:00.000Z',
     viewerCount: 938,
+    image: '/images/calendar-undead-casting-bg.png',
+    hashtags: ['raiding', 'guilds', 'preparation'],
   },
   {
     id: '4',
