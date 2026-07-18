@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/WoWiki.Auth.Api/WoWiki.Auth.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/WoWiki.Auth.Api.Tests/WoWiki.Auth.Api.Tests.csproj" />
+  </Folder>
+</Solution>

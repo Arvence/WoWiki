@@ -1,0 +1,30 @@
+@host = http://localhost:5100
+
+### Health
+GET {{host}}/health
+
+### Register
+POST {{host}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "player@example.com",
+  "password": "ClassicWow1",
+  "displayName": "Azeroth Explorer"
+}
+
+### Login
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "player@example.com",
+  "password": "ClassicWow1",
+  "rememberMe": false
+}
+
+### Current user (send the wowiki.auth cookie returned by register/login)
+GET {{host}}/api/auth/me
+
+### Logout
+POST {{host}}/api/auth/logout

@@ -134,3 +134,15 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# .NET build and local auth data
+**/bin/
+**/obj/
+**/.vs/
+**/TestResults/
+*.user
+*.suo
+services/auth/**/*.db
+services/auth/**/*.db-shm
+services/auth/**/*.db-wal
+services/auth/**/DataProtection-Keys/
