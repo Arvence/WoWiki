@@ -1,5 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
 import { AuthGuard } from '../auth/auth.guard'
+import { Roles } from '../auth/roles.decorator'
+import { RolesGuard } from '../auth/roles.guard'
 import { CommentsService } from './comments.service'
 import { UpdateCommentDto } from './dto/update-comment.dto'
 
@@ -13,6 +15,8 @@ export class CommentsController {
   }
 
   @Patch(':id')
+  @Roles('moderator', 'admin')
+  @UseGuards(AuthGuard, RolesGuard)
   update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
     return this.commentsService.update(id, updateCommentDto)
   }
@@ -24,6 +28,8 @@ export class CommentsController {
   }
 
   @Delete(':id')
+  @Roles('moderator', 'admin')
+  @UseGuards(AuthGuard, RolesGuard)
   remove(@Param('id') id: string) {
     return this.commentsService.remove(id)
   }
