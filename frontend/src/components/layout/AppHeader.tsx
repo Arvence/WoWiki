@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { useEffect, useState, type FormEvent } from "react"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import DropdownMenu from "../ui/DropdownMenu"
 import { useAuth } from "../../features/auth/AuthContext"
 
@@ -17,8 +17,19 @@ const profileButton = {
 export default function AppHeader(): JSX.Element {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const [searchQuery, setSearchQuery] = useState("")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  useEffect(() => {
+    setSearchQuery(location.pathname === "/search" ? new URLSearchParams(location.search).get("q") ?? "" : "")
+  }, [location.pathname, location.search])
+
+  const submitSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const query = searchQuery.trim()
+    if (query) navigate(`/search?q=${encodeURIComponent(query)}`)
+  }
   const selectProfileItem = (item: string) => {
     const routes: Record<string, string> = { Profile: "/profile", "Saved Articles": "/profile", Settings: "/profile", About: "/about", Support: "/contact", Privacy: "/privacy" }
     if (item === "Sign Out") { logout(); navigate("/") } else if (routes[item]) navigate(routes[item])
@@ -36,17 +47,19 @@ export default function AppHeader(): JSX.Element {
         </div>
 
         <div className="col-span-2 row-start-2 flex w-full min-w-0 justify-center sm:col-span-1 sm:col-start-2 sm:row-start-1">
-          <div className="relative w-full min-w-0 max-w-none sm:max-w-[48rem] lg:max-w-[72rem]">
+          <form className="relative w-full min-w-0 max-w-none sm:max-w-[48rem] lg:max-w-[72rem]" role="search" onSubmit={submitSearch}>
             <svg className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35" />
               <circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth={2} />
             </svg>
             <input
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
               aria-label="Search WoWiki"
               placeholder="Search articles, guides, and lore..."
               className="w-full min-w-0 rounded-xl bg-background/45 py-2.5 pl-10 pr-4 text-sm text-text shadow-inner shadow-black/10 placeholder:text-muted/75 transition hover:bg-background/60 focus:bg-background/70 focus:outline-none focus:ring-2 focus:ring-primary/30"
             />
-          </div>
+          </form>
         </div>
 
         <button

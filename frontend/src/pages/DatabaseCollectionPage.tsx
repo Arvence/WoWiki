@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom'
 import AppFooter from '../components/layout/AppFooter'
 import AppHeader from '../components/layout/AppHeader'
 import { fetchDatabaseCollection } from '../features/database/api/databaseService'
@@ -10,6 +10,7 @@ const qualityColor: Record<Item['quality'], string> = { poor: 'text-muted', comm
 
 export default function DatabaseCollectionPage(): JSX.Element {
   const { collection } = useParams<{ collection: string }>()
+  const [searchParams] = useSearchParams()
   const active = isDatabaseCategory(collection) ? collection : null
   const [query, setQuery] = useState('')
   const [records, setRecords] = useState<DatabaseRecord[]>([])
@@ -30,7 +31,7 @@ export default function DatabaseCollectionPage(): JSX.Element {
     return () => controller.abort()
   }, [active])
 
-  useEffect(() => { setQuery('') }, [active])
+  useEffect(() => { setQuery(searchParams.get('q') ?? '') }, [active, searchParams])
 
   const resolvedActive: Category = active ?? 'characters'
   const activeCollection = getDatabaseCollection(resolvedActive)
