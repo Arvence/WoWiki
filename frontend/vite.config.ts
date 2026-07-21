@@ -10,6 +10,10 @@ export default defineConfig({
         target: 'http://localhost:5100',
         changeOrigin: true,
       },
+      '/api/pdf': {
+        target: 'http://localhost:5200',
+        changeOrigin: true,
+      },
       '/api': {
         target: 'http://localhost:5000',
         changeOrigin: true,

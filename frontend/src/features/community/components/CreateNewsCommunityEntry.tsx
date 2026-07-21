@@ -4,14 +4,16 @@ import DropdownMenu from '../../../components/ui/DropdownMenu'
 import Emoji from '../../../components/ui/Emoji'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/AuthContext'
+import TextTooltip from '../../../components/ui/TextTooltip'
 
 type CreateNewsCommunityEntryProps = {
   newsId?: string
   newsTitle?: string
   plus?: boolean
+  action?: boolean
 }
 
-export default function CreateNewsCommunityEntry({ newsId, newsTitle, plus = false }: CreateNewsCommunityEntryProps): JSX.Element {
+export default function CreateNewsCommunityEntry({ newsId, newsTitle, plus = false, action = false }: CreateNewsCommunityEntryProps): JSX.Element {
   const { user } = useAuth()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
@@ -66,10 +68,12 @@ export default function CreateNewsCommunityEntry({ newsId, newsTitle, plus = fal
         event.stopPropagation()
         navigate('/auth', { state: { from: window.location.pathname } })
       }}>
-        <button type="button" onClick={() => setOpen(true)} className={plus ? 'inline-flex h-7 shrink-0 items-center justify-center gap-1.5 rounded-md border border-primary/40 bg-primary px-2.5 text-[0.65rem] font-bold text-background transition hover:border-primary-hover hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-background' : 'inline-flex h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-full border border-primary-hover bg-primary text-sm font-bold text-background shadow-lg shadow-primary/20 transition-[background-color,box-shadow] duration-200 hover:bg-primary-hover hover:shadow-[0_0_0_3px_rgba(199,156,58,0.16),0_0_20px_rgba(199,156,58,0.38)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:w-auto sm:px-4'} aria-label={newsTitle ? `Create a community entry about ${newsTitle}` : 'Create community entry'} title="Create community entry">
-          {plus ? <><svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true"><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z" /><path d="m14 6 3 3" /></svg><span className="hidden whitespace-nowrap sm:inline">New entry</span></> : <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true"><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z" /><path d="m14 6 3 3" /></svg>}
-          {!plus && <span className="hidden whitespace-nowrap sm:inline">Create community entry</span>}
-        </button>
+        <TextTooltip text="Create community entry" onlyWhenTruncated={false} delayMs={400}>
+          <button type="button" onClick={() => setOpen(true)} className={action ? 'inline-flex h-9 w-9 shrink-0 items-center justify-center border border-primary/70 bg-primary/15 text-primary shadow-sm transition hover:border-primary hover:bg-primary hover:text-background focus:outline-none focus-visible:ring-2 focus-visible:ring-primary' : plus ? 'inline-flex h-7 shrink-0 items-center justify-center gap-1.5 rounded-md border border-primary/40 bg-primary px-2.5 text-[0.65rem] font-bold text-background transition hover:border-primary-hover hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-background' : 'inline-flex h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-full border border-primary-hover bg-primary text-sm font-bold text-background shadow-lg shadow-primary/20 transition-[background-color,box-shadow] duration-200 hover:bg-primary-hover hover:shadow-[0_0_0_3px_rgba(199,156,58,0.16),0_0_20px_rgba(199,156,58,0.38)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:w-auto sm:px-4'} aria-label={newsTitle ? `Create a community entry about ${newsTitle}` : 'Create community entry'}>
+            {plus ? <><svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true"><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z" /><path d="m14 6 3 3" /></svg><span className="hidden whitespace-nowrap sm:inline">New entry</span></> : <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true"><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z" /><path d="m14 6 3 3" /></svg>}
+            {!plus && !action && <span className="hidden whitespace-nowrap sm:inline">Create community entry</span>}
+          </button>
+        </TextTooltip>
         {created && <span role="status" className="absolute bottom-full right-0 mb-2 whitespace-nowrap rounded-md border border-success/40 bg-surface px-3 py-1.5 text-xs font-semibold text-success shadow-lg">Entry created</span>}
       </div>
 
