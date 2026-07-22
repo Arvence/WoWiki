@@ -9,7 +9,7 @@ export default function CommunityEntry({ entry, variant = 'detail' }: { entry: C
 
   if (variant === 'card') return <article className="group relative min-w-0 overflow-hidden rounded-xl border border-border bg-surface transition hover:border-muted/60">
     <Link to={`/community/${entry.id}`} className="absolute inset-0 z-0" aria-label={entry.title}><span className="sr-only">{entry.title}</span></Link>
-    {entry.image ? <div className="pointer-events-none relative z-[1] aspect-square w-full bg-background"><img src={entry.image} alt="" loading="lazy" className="h-full w-full object-cover" /></div> : <div className="pointer-events-none relative z-[1] flex aspect-square w-full items-center justify-center bg-background text-sm font-semibold uppercase tracking-wider text-muted">{entry.category}</div>}
+    {entry.image ? <div className="pointer-events-none relative z-[1] aspect-square w-full bg-background"><img src={entry.image} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" /></div> : <div className="pointer-events-none relative z-[1] flex aspect-square w-full items-center justify-center bg-background text-sm font-semibold uppercase tracking-wider text-muted">{entry.category}</div>}
     <div className="pointer-events-none relative z-[1] px-4 pb-3 pt-4">
       <div className="flex min-w-0 items-center gap-2">
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold uppercase text-primary">{entry.author.charAt(0)}</span>
@@ -27,7 +27,7 @@ export default function CommunityEntry({ entry, variant = 'detail' }: { entry: C
 
   return <article className="flex min-w-0 overflow-hidden rounded-lg bg-surface transition hover:bg-surface-alt/60">
     <Link to={`/community/${entry.id}`} className="flex h-28 w-36 shrink-0 items-center justify-center overflow-hidden bg-background sm:h-32 sm:w-44" aria-label={`Open ${entry.title}`}>
-      {entry.image ? <img src={entry.image} alt="" loading="lazy" className="h-full w-full object-cover" /> : <span className="px-3 text-center text-xs font-semibold uppercase tracking-wider text-muted">{entry.category}</span>}
+      {entry.image ? <img src={entry.image} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" /> : <span className="px-3 text-center text-xs font-semibold uppercase tracking-wider text-muted">{entry.category}</span>}
     </Link>
 
     <div className="flex min-w-0 flex-1 flex-col px-4 py-3">

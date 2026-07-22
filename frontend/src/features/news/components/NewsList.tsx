@@ -113,6 +113,8 @@ export default function NewsList({ news, loading, error, columns = 1 }: NewsList
                 <img
                   src={article.imageUrl}
                   alt=""
+                  loading="lazy"
+                  decoding="async"
                   className="absolute inset-y-0 right-0 h-full w-auto max-w-none object-contain object-right opacity-40 transition duration-500 group-hover:scale-[1.025] group-hover:opacity-50"
                 />
               </Link>

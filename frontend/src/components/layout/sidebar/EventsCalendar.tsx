@@ -29,6 +29,7 @@ export default function EventsCalendar(): JSX.Element {
         <img
           src="/images/calendar-undead-casting-bg.png"
           alt=""
+          decoding="async"
           className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-[42%_center] opacity-50"
           style={{
             WebkitMaskImage: 'linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.7) 45%, transparent 88%)',

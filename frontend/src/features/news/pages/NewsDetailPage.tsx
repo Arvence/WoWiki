@@ -86,7 +86,7 @@ export default function NewsDetailPage(): JSX.Element {
             <article className="min-w-0 overflow-hidden bg-surface/60">
               {article.imageUrl && (
                 <div className="h-64 bg-background/50 py-4 sm:h-96">
-                  <img src={article.imageUrl} alt={article.title} className="h-full w-full object-contain" />
+                  <img src={article.imageUrl} alt={article.title} decoding="async" fetchPriority="high" className="h-full w-full object-contain" />
                 </div>
               )}
               <header className="border-b border-border px-4 py-6 sm:px-8 sm:py-8">

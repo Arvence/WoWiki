@@ -25,6 +25,7 @@ export default function RecentNews({ news, loading, error }: RecentNewsProps): J
       <img
         src="/images/featured-news-notice-board.png"
         alt=""
+        decoding="async"
         className="pointer-events-none absolute inset-x-0 top-0 z-0 h-64 w-full object-cover object-center opacity-60"
         style={{
           WebkitMaskImage: 'linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.78) 55%, transparent 100%)',
