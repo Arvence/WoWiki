@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import App from './App'
 import CommunityEntryDetailPage from './features/community/pages/CommunityEntryDetailPage'
 import CommunityPage from './features/community/pages/CommunityPage'
@@ -13,6 +13,7 @@ import DatabaseIndexPage from './pages/DatabaseIndexPage'
 import AuthPage from './features/auth/AuthPage'
 import ProfilePage from './features/auth/ProfilePage'
 import SearchPage from './features/search/SearchPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 export const router = createBrowserRouter([
   { path: '/auth', element: <AuthPage /> },
@@ -64,6 +65,6 @@ export const router = createBrowserRouter([
   },
   {
     path: '*',
-    element: <Navigate to="/" replace />,
+    element: <NotFoundPage />,
   },
 ])
