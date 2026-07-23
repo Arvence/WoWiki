@@ -1,14 +1,15 @@
-// Talent structure derived from Lethay/TalentedClassic (CC BY): https://github.com/Lethay/TalentedClassic
+// Talent structure derived from the TBC tag of Lethay/TalentedClassic (CC BY):
+// https://github.com/Lethay/TalentedClassic/tree/tbc
 import { TalentClass } from '../models/talent.model'
 
-export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
+export const TBC_TALENT_CLASSES: TalentClass[] = [
   {
     "id": "warrior",
     "name": "Warrior",
     "color": "#c79c6e",
-    "version": "classic-era",
-    "maxLevel": 60,
-    "maxTalentPoints": 51,
+    "version": "tbc",
+    "maxLevel": 70,
+    "maxTalentPoints": 61,
     "trees": [
       {
         "id": "warrior-arms",
@@ -17,7 +18,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warrior-arms-0",
             "name": "Improved Heroic Strike",
-            "description": "Reduces the cost of your Heroic Strike ability by %d rage points.",
+            "description": "Reduces the cost of your Heroic Strike ability by %d rage point%s.",
             "row": 0,
             "column": 0,
             "maxRank": 3,
@@ -52,19 +53,19 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "warrior-arms-4",
-            "name": "Tactical Mastery",
-            "description": "You retain up to %d of your rage points when you change stances.",
+            "name": "Iron Will",
+            "description": "Increases your chance to resist Stun and Charm effects by an additional %d%%.",
             "row": 1,
             "column": 1,
             "maxRank": 5,
-            "iconId": 136031
+            "iconId": 135995
           },
           {
             "id": "warrior-arms-5",
             "name": "Improved Thunder Clap",
-            "description": "Reduces the cost of your Thunder Clap ability by %d rage points.",
+            "description": "Reduces the cost of your Thunder Clap ability by %d rage point%s and increases the damage by %d%% and the slowing effect by an additional %d%%.",
             "row": 1,
-            "column": 3,
+            "column": 2,
             "maxRank": 3,
             "iconId": 132326
           },
@@ -80,22 +81,20 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warrior-arms-7",
             "name": "Anger Management",
-            "description": "Increases the time required for your rage to decay while out of combat by 30%%.",
-            "row": 1,
+            "description": "Generates 1 rage per 3 seconds while in combat.",
+            "row": 2,
             "column": 1,
             "maxRank": 1,
-            "iconId": 135881,
-            "prerequisiteId": "warrior-arms-4"
+            "iconId": 135881
           },
           {
             "id": "warrior-arms-8",
             "name": "Deep Wounds",
             "description": "Your critical strikes cause the opponent to bleed, dealing %d%% of your melee weapon's average damage over 12 sec.",
-            "row": 0,
+            "row": 2,
             "column": 2,
             "maxRank": 3,
-            "iconId": 132090,
-            "prerequisiteId": "warrior-arms-2"
+            "iconId": 132090
           },
           {
             "id": "warrior-arms-9",
@@ -110,7 +109,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "id": "warrior-arms-10",
             "name": "Impale",
             "description": "Increases the critical strike damage bonus of your abilities in Battle, Defensive, and Berserker stance by %d%%.",
-            "row": 2,
+            "row": 3,
             "column": 2,
             "maxRank": 2,
             "iconId": 132312,
@@ -118,8 +117,8 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "warrior-arms-11",
-            "name": "Axe Specialization",
-            "description": "Increases your chance to get a critical strike with Axes by %d%%.",
+            "name": "Poleaxe Specialization",
+            "description": "Increases your chance to get a critical strike with Axes and Polearms by %d%%.",
             "row": 4,
             "column": 0,
             "maxRank": 5,
@@ -127,17 +126,17 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "warrior-arms-12",
-            "name": "Sweeping Strikes",
-            "description": "Your next 5 melee attacks strike an additional nearby opponent.",
+            "name": "Death Wish",
+            "description": "When activated, increases your physical damage by 20% and makes you immune to Fear effects, but increases all damage taken by 5%.  Lasts 30 sec.",
             "row": 4,
             "column": 1,
             "maxRank": 1,
-            "iconId": 132306
+            "iconId": 136146
           },
           {
             "id": "warrior-arms-13",
             "name": "Mace Specialization",
-            "description": "Gives you a %d%% chance to stun your target for 3 sec with a Mace.",
+            "description": "Gives your melee attacks a chance to stun your target for 3 sec and generate 7 rage when using a Mace.",
             "row": 4,
             "column": 2,
             "maxRank": 5,
@@ -146,7 +145,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warrior-arms-14",
             "name": "Sword Specialization",
-            "description": "Gives you a %d%% chance to get an extra attack on the same target after dealing damage with your Sword.",
+            "description": "Gives you a %d%% chance to get an extra attack on the same target after hitting your target with your Sword.",
             "row": 4,
             "column": 3,
             "maxRank": 5,
@@ -154,12 +153,12 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "warrior-arms-15",
-            "name": "Polearm Specialization",
-            "description": "Increases your chance to get a critical strike with Polearms by %d%%.",
+            "name": "Improved Intercept",
+            "description": "Reduces the cooldown of your Intercept ability by %d sec.",
             "row": 5,
             "column": 0,
-            "maxRank": 5,
-            "iconId": 135562
+            "maxRank": 2,
+            "iconId": 132307
           },
           {
             "id": "warrior-arms-16",
@@ -172,13 +171,59 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "warrior-arms-17",
+            "name": "Improved Disciplines",
+            "description": "Reduces the cooldown of your Retaliation, Recklessness and Shield Wall abilities by %d min and increases their duration by %d sec.",
+            "row": 5,
+            "column": 3,
+            "maxRank": 3,
+            "iconId": 132346
+          },
+          {
+            "id": "warrior-arms-18",
+            "name": "Blood Frenzy",
+            "description": "Your Rend and Deep Wounds abilities also increase all physical damage caused to that target by %d%%.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 132334
+          },
+          {
+            "id": "warrior-arms-19",
             "name": "Mortal Strike",
-            "description": "A vicious strike that deals weapon damage plus 85 and wounds the target, reducing the effectiveness of any healing by 50%% for 10 sec.",
-            "row": 4,
+            "description": "A vicious strike that deals weapon damage plus 85 and wounds the target, reducing the effectiveness of any healing by 50% for 10 sec.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 132355,
             "prerequisiteId": "warrior-arms-12"
+          },
+          {
+            "id": "warrior-arms-20",
+            "name": "Second Wind",
+            "description": "Whenever you are struck by a Stun or Immobilize effect you will generate %d rage and %d%% of your total health over 10 sec.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 2,
+            "iconId": 132175
+          },
+          {
+            "id": "warrior-arms-21",
+            "name": "Improved Mortal Strike",
+            "description": "Reduces the cooldown of your Mortal Strike ability by %.1f sec and increases the damage it causes by %d%%.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 132355,
+            "prerequisiteId": "warrior-arms-19"
+          },
+          {
+            "id": "warrior-arms-22",
+            "name": "Endless Rage",
+            "description": "You generate 25% more rage from damage dealt.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 132344
           }
         ]
       },
@@ -189,7 +234,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warrior-fury-0",
             "name": "Booming Voice",
-            "description": "Increases the area of effect and duration of your Battle Shout and Demoralizing Shout by %d%%.",
+            "description": "Increases the area of effect and duration of your Battle Shout, Demoralizing Shout and Commanding Shout by %d%%.",
             "row": 0,
             "column": 1,
             "maxRank": 5,
@@ -216,7 +261,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warrior-fury-3",
             "name": "Unbridled Wrath",
-            "description": "Gives you a %d%% chance to generate an additional Rage point when you deal melee damage with a weapon.",
+            "description": "Gives you a chance to generate an additional rage point when you deal melee damage with a weapon.",
             "row": 1,
             "column": 2,
             "maxRank": 5,
@@ -234,7 +279,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warrior-fury-5",
             "name": "Piercing Howl",
-            "description": "Causes all enemies near the warrior to be dazed, reducing movement speed by 50%% for 6 sec.",
+            "description": "Causes all enemies within 10 yards to be Dazed, reducing movement speed by 50% for 6 sec.",
             "row": 2,
             "column": 1,
             "maxRank": 1,
@@ -251,12 +296,12 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "warrior-fury-7",
-            "name": "Improved Battle Shout",
-            "description": "Increases the melee attack power bonus of your Battle Shout by %d%%.",
+            "name": "Commanding Presence",
+            "description": "Increases the melee attack power bonus of your Battle Shout and the health bonus of your Commanding Shout by %d%%.",
             "row": 2,
             "column": 3,
             "maxRank": 5,
-            "iconId": 132333
+            "iconId": 136035
           },
           {
             "id": "warrior-fury-8",
@@ -270,7 +315,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warrior-fury-9",
             "name": "Improved Execute",
-            "description": "Reduces the Rage cost of your Execute ability by %d.",
+            "description": "Reduces the rage cost of your Execute ability by %d.",
             "row": 3,
             "column": 1,
             "maxRank": 2,
@@ -291,26 +336,26 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "description": "Decreases the casting time of your Slam ability by %.1f sec.",
             "row": 4,
             "column": 0,
-            "maxRank": 5,
+            "maxRank": 2,
             "iconId": 132340
           },
           {
             "id": "warrior-fury-12",
-            "name": "Death Wish",
-            "description": "When activated, increases your physical damage by 20%% and makes you immune to Fear effects, but lowers your armor and all resistances by 20%%.  Lasts 30 sec.",
+            "name": "Sweeping Strikes",
+            "description": "Your next 10 melee attacks strike an additional nearby opponent.",
             "row": 4,
             "column": 1,
             "maxRank": 1,
-            "iconId": 136146
+            "iconId": 132306
           },
           {
             "id": "warrior-fury-13",
-            "name": "Improved Intercept",
-            "description": "Reduces the cooldown of your Intercept ability by %d sec.",
+            "name": "Weapon Mastery",
+            "description": "Reduces the chance for your attacks to be dodged by %d%% and reduces the duration of all Disarm effects used against you by %d%%.  This does not stack with other Disarm duration reducing effects.",
             "row": 4,
             "column": 3,
             "maxRank": 2,
-            "iconId": 132307
+            "iconId": 132367
           },
           {
             "id": "warrior-fury-14",
@@ -325,7 +370,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "id": "warrior-fury-15",
             "name": "Flurry",
             "description": "Increases your attack speed by %d%% for your next 3 swings after dealing a melee critical strike.",
-            "row": 3,
+            "row": 5,
             "column": 2,
             "maxRank": 5,
             "iconId": 132152,
@@ -333,13 +378,50 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "warrior-fury-16",
+            "name": "Precision",
+            "description": "Increases your chance to hit with melee weapons by %d%%.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 132222
+          },
+          {
+            "id": "warrior-fury-17",
             "name": "Bloodthirst",
-            "description": "Instantly attack the target causing damage equal to 45%% of your attack power.  In addition, the next 5 successful melee attacks will restore 10 health.  This effect lasts 8 sec.",
-            "row": 4,
+            "description": "Instantly attack the target causing 275 damage.  In addition, the next 5 successful melee attacks will restore 10 health.  This effect lasts 8 sec.  Damage is based on your attack power.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 136012,
             "prerequisiteId": "warrior-fury-12"
+          },
+          {
+            "id": "warrior-fury-18",
+            "name": "Improved Whirlwind",
+            "description": "Reduces the cooldown of your Whirlwind ability by %d sec.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 2,
+            "iconId": 132369
+          },
+          {
+            "id": "warrior-fury-19",
+            "name": "Improved Berserker Stance",
+            "description": "Increases attack power by %d%% and reduces threat caused by %d%% while in Berserker Stance.",
+            "row": 7,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 132275
+          },
+          {
+            "id": "warrior-fury-20",
+            "name": "Rampage",
+            "description": "Warrior goes on a rampage, increasing attack power by 30 and causing most successful melee attacks to increase attack power by an additional 30.  This effect will stack up to 5 times.  Lasts 30 sec.  This ability can only be used after scoring a critical hit.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 132352,
+            "prerequisiteId": "warrior-fury-17"
           }
         ]
       },
@@ -349,15 +431,24 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
         "talents": [
           {
             "id": "warrior-protection-0",
-            "name": "Shield Specialization",
-            "description": "Increases your chance to block attacks with a shield by %d%% and has a %d%% chance to generate 1 rage when a block occurs.",
+            "name": "Improved Bloodrage",
+            "description": "Increases the instant rage generated by your Bloodrage ability by %d.",
             "row": 0,
-            "column": 1,
-            "maxRank": 5,
-            "iconId": 134952
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 132277
           },
           {
             "id": "warrior-protection-1",
+            "name": "Tactical Mastery",
+            "description": "You retain up to an additional %d of your rage points when you change stances.  Also greatly increases the threat generated by your Bloodthirst and Mortal Strike abilities when you are in Defensive Stance.",
+            "row": 0,
+            "column": 1,
+            "maxRank": 3,
+            "iconId": 136031
+          },
+          {
+            "id": "warrior-protection-2",
             "name": "Anticipation",
             "description": "Increases your Defense skill by %d.",
             "row": 0,
@@ -366,16 +457,16 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 136056
           },
           {
-            "id": "warrior-protection-2",
-            "name": "Improved Bloodrage",
-            "description": "Increases the instant Rage generated by your Bloodrage ability by %d.",
+            "id": "warrior-protection-3",
+            "name": "Shield Specialization",
+            "description": "Increases your chance to block attacks with a shield by %d%% and has a %d%% chance to generate 1 rage when a block occurs.",
             "row": 1,
-            "column": 0,
-            "maxRank": 2,
-            "iconId": 132277
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 134952
           },
           {
-            "id": "warrior-protection-3",
+            "id": "warrior-protection-4",
             "name": "Toughness",
             "description": "Increases your armor value from items by %d%%.",
             "row": 1,
@@ -384,33 +475,23 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 135892
           },
           {
-            "id": "warrior-protection-4",
-            "name": "Iron Will",
-            "description": "Increases your chance to resist Stun and Charm effects by an additional %d%%.",
-            "row": 1,
-            "column": 3,
-            "maxRank": 5,
-            "iconId": 135995
-          },
-          {
             "id": "warrior-protection-5",
             "name": "Last Stand",
-            "description": "When activated, this ability temporarily grants you 30%% of your maximum hit points for 20 seconds.  After the effect expires, the hit points are lost.",
-            "row": 1,
+            "description": "When activated, this ability temporarily grants you 30% of your maximum health for 20 sec.  After the effect expires, the health is lost.",
+            "row": 2,
             "column": 0,
             "maxRank": 1,
-            "iconId": 135871,
-            "prerequisiteId": "warrior-protection-2"
+            "iconId": 135871
           },
           {
             "id": "warrior-protection-6",
             "name": "Improved Shield Block",
-            "description": "Allows your Shield Block ability to block an additional attack and increases the duration by %.1f second.",
-            "row": 0,
+            "description": "Allows your Shield Block ability to block an additional attack and increases the duration by 1 second.",
+            "row": 2,
             "column": 1,
-            "maxRank": 3,
+            "maxRank": 1,
             "iconId": 132110,
-            "prerequisiteId": "warrior-protection-0"
+            "prerequisiteId": "warrior-protection-3"
           },
           {
             "id": "warrior-protection-7",
@@ -424,16 +505,16 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warrior-protection-8",
             "name": "Defiance",
-            "description": "Increases the threat generated by your attacks by %d%% while in Defensive Stance.",
+            "description": "Increases the threat generated by your attacks by %d%% while in Defensive Stance and increases your expertise by %d.",
             "row": 2,
             "column": 3,
-            "maxRank": 5,
+            "maxRank": 3,
             "iconId": 132347
           },
           {
             "id": "warrior-protection-9",
             "name": "Improved Sunder Armor",
-            "description": "Reduces the cost of your Sunder Armor ability by %d rage points.",
+            "description": "Reduces the cost of your Sunder Armor and Devastate abilities by %d rage point.",
             "row": 3,
             "column": 0,
             "maxRank": 3,
@@ -486,22 +567,67 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "warrior-protection-15",
+            "name": "Shield Mastery",
+            "description": "Increases the amount of damage absorbed by your shield by %d%%.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 132360
+          },
+          {
+            "id": "warrior-protection-16",
             "name": "One-Handed Weapon Specialization",
-            "description": "Increases the damage you deal with One-Handed Melee weapons by %d%%.",
+            "description": "Increases physical damage you deal when a one-handed melee weapon is equipped by %d%%.",
             "row": 5,
             "column": 2,
             "maxRank": 5,
             "iconId": 135321
           },
           {
-            "id": "warrior-protection-16",
+            "id": "warrior-protection-17",
+            "name": "Improved Defensive Stance",
+            "description": "Reduces all spell damage taken while in Defensive Stance by %d%%.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 132341
+          },
+          {
+            "id": "warrior-protection-18",
             "name": "Shield Slam",
-            "description": "Slam the target with your shield, causing 225 to 235 damage, modified by your shield block value, and has a 50%% chance of dispelling 1 magic effect on the target.  Also causes a high amount of threat.",
-            "row": 4,
+            "description": "Slam the target with your shield, causing 225 to 235 damage, modified by your shield block value, and dispels 1 magic effect on the target.  Also causes a high amount of threat.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 134951,
             "prerequisiteId": "warrior-protection-13"
+          },
+          {
+            "id": "warrior-protection-19",
+            "name": "Focused Rage",
+            "description": "Reduces the rage cost of your offensive abilities by %d.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 132345
+          },
+          {
+            "id": "warrior-protection-20",
+            "name": "Vitality",
+            "description": "Increases your total Stamina by %d%% and your total Strength by %d%%.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 133123
+          },
+          {
+            "id": "warrior-protection-21",
+            "name": "Devastate",
+            "description": "Sunder the target's armor causing the Sunder Armor effect.  In addition, causes 50% of weapon damage plus 15 for each application of Sunder Armor on the target.  The Sunder Armor effect can stack up to 5 times.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 135291
           }
         ]
       }
@@ -511,9 +637,9 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
     "id": "paladin",
     "name": "Paladin",
     "color": "#f58cba",
-    "version": "classic-era",
-    "maxLevel": 60,
-    "maxTalentPoints": 51,
+    "version": "tbc",
+    "maxLevel": 70,
+    "maxTalentPoints": 61,
     "trees": [
       {
         "id": "paladin-holy",
@@ -522,7 +648,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "paladin-holy-0",
             "name": "Divine Strength",
-            "description": "Increases your Strength by %d%%.",
+            "description": "Increases your total Strength by %d%%.",
             "row": 0,
             "column": 1,
             "maxRank": 5,
@@ -566,12 +692,12 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "paladin-holy-5",
-            "name": "Consecration",
-            "description": "Consecrates the land beneath Paladin, doing 64 Holy damage over 8 sec to enemies who enter the area.",
+            "name": "Aura Mastery",
+            "description": "Increases the radius of your Auras to 40 yards.",
             "row": 2,
             "column": 1,
             "maxRank": 1,
-            "iconId": 135926
+            "iconId": 135872
           },
           {
             "id": "paladin-holy-6",
@@ -594,7 +720,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "paladin-holy-8",
             "name": "Illumination",
-            "description": "After getting a critical effect from your Flash of Light, Holy Light, or Holy Shock heal spell, gives you a %d%% chance to gain Mana equal to the base cost of the spell.",
+            "description": "After getting a critical effect from your Flash of Light, Holy Light, or Holy Shock heal spell, gives you a %d%% chance to gain mana equal to 60%% of the base cost of the spell.",
             "row": 3,
             "column": 1,
             "maxRank": 5,
@@ -611,25 +737,43 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "paladin-holy-10",
+            "name": "Pure of Heart",
+            "description": "Increases your resistance to Curse and Disease effects by %d%%.",
+            "row": 4,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 135948
+          },
+          {
+            "id": "paladin-holy-11",
             "name": "Divine Favor",
-            "description": "When activated, gives your next Flash of Light, Holy Light, or Holy Shock spell a 100%% critical effect chance.",
-            "row": 3,
+            "description": "When activated, gives your next Flash of Light, Holy Light, or Holy Shock spell a 100% critical effect chance.",
+            "row": 4,
             "column": 1,
             "maxRank": 1,
             "iconId": 135915,
             "prerequisiteId": "paladin-holy-8"
           },
           {
-            "id": "paladin-holy-11",
-            "name": "Lasting Judgement",
-            "description": "Increases the duration of your Judgement of Light and Judgement of Wisdom by %d sec.",
+            "id": "paladin-holy-12",
+            "name": "Sanctified Light",
+            "description": "Increases the critical effect chance of your Holy Light spell by %d%%.",
             "row": 4,
             "column": 2,
             "maxRank": 3,
             "iconId": 135917
           },
           {
-            "id": "paladin-holy-12",
+            "id": "paladin-holy-13",
+            "name": "Purifying Power",
+            "description": "Reduces the mana cost of your Cleanse, Purify and Consecration spells by %d%% and increases the critical strike chance of your Exorcism and Holy Wrath spells by %d%%.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 135950
+          },
+          {
+            "id": "paladin-holy-14",
             "name": "Holy Power",
             "description": "Increases the critical effect chance of your Holy spells by %d%%.",
             "row": 5,
@@ -638,14 +782,50 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 135938
           },
           {
-            "id": "paladin-holy-13",
+            "id": "paladin-holy-15",
+            "name": "Light's Grace",
+            "description": "Gives your Holy Light spell a %d%% chance to reduce the cast time of your next Holy Light spell by 0.5 sec.  This effect lasts 15 sec.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 135931
+          },
+          {
+            "id": "paladin-holy-16",
             "name": "Holy Shock",
-            "description": "Blasts the target with Holy energy, causing 204 to 220 Holy damage to an enemy, or 204 to 220 healing to an ally.",
-            "row": 4,
+            "description": "Blasts the target with Holy energy, causing 277 to 299 Holy damage to an enemy, or 351 to 379 healing to an ally.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 135972,
-            "prerequisiteId": "paladin-holy-10"
+            "prerequisiteId": "paladin-holy-11"
+          },
+          {
+            "id": "paladin-holy-17",
+            "name": "Blessed Life",
+            "description": "All attacks against you have a %d%% chance to cause half damage.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 135876
+          },
+          {
+            "id": "paladin-holy-18",
+            "name": "Holy Guidance",
+            "description": "Increases your spell damage and healing by %d%% of your total Intellect.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 135921
+          },
+          {
+            "id": "paladin-holy-19",
+            "name": "Divine Illumination",
+            "description": "Reduces the mana cost of all spells by 50% for 15 sec.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 135895
           }
         ]
       },
@@ -665,7 +845,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "paladin-protection-1",
             "name": "Redoubt",
-            "description": "Increases your chance to block attacks with your shield by %d%% after being the victim of a critical strike.  Lasts 10 sec or 5 blocks.",
+            "description": "Damaging melee and ranged attacks against you have a 10%% chance to increase your chance to block by %d%%.  Lasts 10 sec or 5 blocks.",
             "row": 0,
             "column": 2,
             "maxRank": 5,
@@ -674,7 +854,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "paladin-protection-2",
             "name": "Precision",
-            "description": "Increases your chance to hit with melee weapons by %d%%.",
+            "description": "Increases your chance to hit with melee weapons and spells by %d%%.",
             "row": 1,
             "column": 0,
             "maxRank": 3,
@@ -701,7 +881,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "paladin-protection-5",
             "name": "Blessing of Kings",
-            "description": "Places a Blessing on the friendly target, increasing total stats by 10%% for 5 min.  Players may only have one Blessing on them per Paladin at any one time.",
+            "description": "Places a Blessing on the friendly target, increasing total stats by 10% for 10 min.  Players may only have one Blessing on them per Paladin at any one time.",
             "row": 2,
             "column": 0,
             "maxRank": 1,
@@ -710,7 +890,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "paladin-protection-6",
             "name": "Improved Righteous Fury",
-            "description": "Increases the amount of threat generated by your Righteous Fury spell by %d%%.",
+            "description": "While Righteous Fury is active, all damage taken is reduced by %d%% and increases the amount of threat generated by your Righteous Fury spell by %d%%.",
             "row": 2,
             "column": 1,
             "maxRank": 3,
@@ -720,7 +900,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "id": "paladin-protection-7",
             "name": "Shield Specialization",
             "description": "Increases the amount of damage absorbed by your shield by %d%%.",
-            "row": 0,
+            "row": 2,
             "column": 2,
             "maxRank": 3,
             "iconId": 134952,
@@ -737,6 +917,15 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "paladin-protection-9",
+            "name": "Stoicism",
+            "description": "Increases your resistance to Stun effects by an additional %d%% and reduces the chance your spells will be dispelled by an additional %d%%.",
+            "row": 3,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 135978
+          },
+          {
+            "id": "paladin-protection-10",
             "name": "Improved Hammer of Justice",
             "description": "Decreases the cooldown of your Hammer of Justice spell by %d sec.",
             "row": 3,
@@ -745,50 +934,106 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 135963
           },
           {
-            "id": "paladin-protection-10",
+            "id": "paladin-protection-11",
             "name": "Improved Concentration Aura",
-            "description": "Increases the effect of your Concentration Aura by an additional %d%% and gives all group members affected by the aura an additional %d%% chance to resist Silence and Interrupt effects.",
+            "description": "Increases the effect of your Concentration Aura by an additional %d%% and reduces the duration of any Silence or Interrupt effect used against an affected group member by %d%%.  The duration reduction does not stack with any other effects.",
             "row": 3,
             "column": 2,
             "maxRank": 3,
             "iconId": 135933
           },
           {
-            "id": "paladin-protection-11",
+            "id": "paladin-protection-12",
+            "name": "Spell Warding",
+            "description": "All spell damage taken is reduced by %d%%.",
+            "row": 4,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 135925
+          },
+          {
+            "id": "paladin-protection-13",
             "name": "Blessing of Sanctuary",
-            "description": "Places a Blessing on the friendly target, reducing damage dealt from all sources by up to 10 for 5 min.  In addition, when the target blocks a melee attack the attacker will take 14 Holy damage.  Players may only have one Blessing on them per Paladin at any one time.",
+            "description": "Places a Blessing on the friendly target, reducing damage dealt from all sources by up to 10 for 10 min.  In addition, when the target blocks a melee attack the attacker will take 14 Holy damage.  Players may only have one Blessing on them per Paladin at any one time.",
             "row": 4,
             "column": 1,
             "maxRank": 1,
             "iconId": 136051
           },
           {
-            "id": "paladin-protection-12",
+            "id": "paladin-protection-14",
             "name": "Reckoning",
-            "description": "Gives you a %d%% chance to gain an extra attack after being the victim of a critical strike.",
+            "description": "Gives you a %d%% chance after being hit by any damaging attack that the next 4 weapon swings within 8 sec will generate an additional attack.",
             "row": 4,
             "column": 2,
             "maxRank": 5,
             "iconId": 135882
           },
           {
-            "id": "paladin-protection-13",
+            "id": "paladin-protection-15",
+            "name": "Sacred Duty",
+            "description": "Increases your total Stamina by %d%%, reduces the cooldown of your Divine Shield spell by %d sec and reduces the attack speed penalty by %d%%.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 135896
+          },
+          {
+            "id": "paladin-protection-16",
             "name": "One-Handed Weapon Specialization",
-            "description": "Increases the damage you deal with one-handed melee weapons by %d%%.",
+            "description": "Increases all damage you deal when a one-handed melee weapon is equipped by %d%%.",
             "row": 5,
             "column": 2,
             "maxRank": 5,
             "iconId": 135321
           },
           {
-            "id": "paladin-protection-14",
+            "id": "paladin-protection-17",
+            "name": "Improved Holy Shield",
+            "description": "Increases damage caused by your Holy Shield by %d%% and increases the number of charges of your Holy Shield by %d.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 135880,
+            "prerequisiteId": "paladin-protection-18"
+          },
+          {
+            "id": "paladin-protection-18",
             "name": "Holy Shield",
-            "description": "Increases chance to block by 30%% for 10 sec, and deals 65 Holy damage for each attack blocked while active.  Damage caused by Holy Shield causes 20%% additional threat.  Each block expends a charge.  4 charges.",
-            "row": 4,
+            "description": "Increases chance to block by 30% for 10 sec and deals 59 Holy damage for each attack blocked while active.  Damage caused by Holy Shield causes 35% additional threat.  Each block expends a charge.  4 charges.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 135880,
-            "prerequisiteId": "paladin-protection-11"
+            "prerequisiteId": "paladin-protection-13"
+          },
+          {
+            "id": "paladin-protection-19",
+            "name": "Ardent Defender",
+            "description": "When you have less than 35%% health, all damage taken is reduced by %d%%.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 135870
+          },
+          {
+            "id": "paladin-protection-20",
+            "name": "Combat Expertise",
+            "description": "Increases your expertise by %d and your total Stamina by %d%%.",
+            "row": 7,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 135986
+          },
+          {
+            "id": "paladin-protection-21",
+            "name": "Avenger's Shield",
+            "description": "Hurls a holy shield at the enemy, dealing 270 to 330 Holy damage, Dazing them and then jumping to additional nearby enemies.  Affects 3 total targets.  Lasts 6 sec.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 135874,
+            "prerequisiteId": "paladin-protection-18"
           }
         ]
       },
@@ -799,7 +1044,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "paladin-retribution-0",
             "name": "Improved Blessing of Might",
-            "description": "Increases the melee attack power bonus of your Blessing of Might by %d%%.",
+            "description": "Increases the attack power bonus of your Blessing of Might by %d%%.",
             "row": 0,
             "column": 1,
             "maxRank": 5,
@@ -808,7 +1053,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "paladin-retribution-1",
             "name": "Benediction",
-            "description": "Reduces the Mana cost of your Judgement and Seal spells by %d%%.",
+            "description": "Reduces the mana cost of your Judgement and Seal spells by %d%%.",
             "row": 0,
             "column": 2,
             "maxRank": 5,
@@ -826,7 +1071,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "paladin-retribution-3",
             "name": "Improved Seal of the Crusader",
-            "description": "Increases the melee attack power bonus of your Seal of the Crusader and the Holy damage increase of your Judgement of the Crusader by %d%%.",
+            "description": "In addition to the normal effect, your Judgement of the Crusader spell will also increase the critical strike chance of all attacks made against that target by an additional %d%%.",
             "row": 1,
             "column": 1,
             "maxRank": 3,
@@ -844,7 +1089,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "paladin-retribution-5",
             "name": "Vindication",
-            "description": "Gives the Paladin's damaging melee attacks a chance to reduce the target's Strength and Agility by %d%% for 10 sec.",
+            "description": "Gives the Paladin's damaging melee attacks a chance to reduce the target's attributes by %d%% for 15 sec.",
             "row": 2,
             "column": 0,
             "maxRank": 3,
@@ -862,7 +1107,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "paladin-retribution-7",
             "name": "Seal of Command",
-            "description": "Gives the Paladin a chance to deal additional Holy damage equal to 70%% of normal weapon damage.  Only one Seal can be active on the Paladin at any one time.  Lasts 30 sec.\\r\\n\\r\\nUnleashing this Seal's energy will judge an enemy, instantly causing 46 to 51 Holy damage, 93 to 101 if the target is stunned or incapacitated.",
+            "description": "Gives the Paladin a chance to deal additional Holy damage equal to 70% of normal weapon damage.  Only one Seal can be active on the Paladin at any one time.  Lasts 30 sec.\r\n\r\nUnleashing this Seal's energy will judge an enemy, instantly causing 68 to 73 Holy damage, 137 to 146 if the target is stunned or incapacitated.",
             "row": 2,
             "column": 2,
             "maxRank": 1,
@@ -871,10 +1116,10 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "paladin-retribution-8",
             "name": "Pursuit of Justice",
-            "description": "Increases movement and mounted movement speed by %d%%.  This does not stack with other movement speed increasing effects.",
+            "description": "Reduces the chance you'll be hit by spells by %d%% and increases movement and mounted movement speed by %d%%.  This does not stack with other movement speed increasing effects.",
             "row": 2,
             "column": 3,
-            "maxRank": 2,
+            "maxRank": 3,
             "iconId": 135937
           },
           {
@@ -897,6 +1142,15 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "paladin-retribution-11",
+            "name": "Crusade",
+            "description": "Increases all damage caused against Humanoids, Demons, Undead and Elementals by %d%%.",
+            "row": 3,
+            "column": 3,
+            "maxRank": 3,
+            "iconId": 135889
+          },
+          {
+            "id": "paladin-retribution-12",
             "name": "Two-Handed Weapon Specialization",
             "description": "Increases the damage you deal with two-handed melee weapons by %d%%.",
             "row": 4,
@@ -905,32 +1159,88 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 133041
           },
           {
-            "id": "paladin-retribution-12",
+            "id": "paladin-retribution-13",
             "name": "Sanctity Aura",
-            "description": "Increases Holy damage done by party members within 30 yards by 10%%.  Players may only have one Aura on them per Paladin at any one time.",
+            "description": "Increases Holy damage done by party members within 30 yards by 10%.  Players may only have one Aura on them per Paladin at any one time.",
             "row": 4,
             "column": 2,
             "maxRank": 1,
             "iconId": 135934
           },
           {
-            "id": "paladin-retribution-13",
+            "id": "paladin-retribution-14",
+            "name": "Improved Sanctity Aura",
+            "description": "The amount of damage caused by targets affected by Sanctity Aura is increased by %d%%.",
+            "row": 4,
+            "column": 3,
+            "maxRank": 2,
+            "iconId": 135934,
+            "prerequisiteId": "paladin-retribution-13"
+          },
+          {
+            "id": "paladin-retribution-15",
             "name": "Vengeance",
-            "description": "Gives you a %d%% bonus to Physical and Holy damage you deal for 8 sec after dealing a critical strike from a weapon swing, spell, or ability.",
-            "row": 2,
+            "description": "Gives you a %d%% bonus to Physical and Holy damage you deal for 30 sec after dealing a critical strike from a weapon swing, spell, or ability.  This effect stacks up to 3 times.",
+            "row": 5,
             "column": 1,
             "maxRank": 5,
             "iconId": 132275,
             "prerequisiteId": "paladin-retribution-6"
           },
           {
-            "id": "paladin-retribution-14",
+            "id": "paladin-retribution-16",
+            "name": "Sanctified Judgement",
+            "description": "Gives your Judgement spell a %d%% chance to return 80%% of the mana cost of the judged seal.",
+            "row": 5,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 135959
+          },
+          {
+            "id": "paladin-retribution-17",
+            "name": "Sanctified Seals",
+            "description": "Increases your chance to critically hit with all spells and melee attacks by %d%% and reduces the chance your Seals will be dispelled by %d%%.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 135924
+          },
+          {
+            "id": "paladin-retribution-18",
             "name": "Repentance",
             "description": "Puts the enemy target in a state of meditation, incapacitating them for up to 6 sec.  Any damage caused will awaken the target.  Only works against Humanoids.",
             "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 135942
+          },
+          {
+            "id": "paladin-retribution-19",
+            "name": "Divine Purpose",
+            "description": "Melee and ranged critical strikes against you cause %d%% less damage.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 135897
+          },
+          {
+            "id": "paladin-retribution-20",
+            "name": "Fanaticism",
+            "description": "Increases the critical strike chance of all Judgements capable of a critical hit by %d%% and reduces threat caused by all actions by %d%% except when under the effects of Righteous Fury.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 135905,
+            "prerequisiteId": "paladin-retribution-18"
+          },
+          {
+            "id": "paladin-retribution-21",
+            "name": "Crusader Strike",
+            "description": "An instant strike that causes 110% weapon damage and refreshes all Judgements on the target.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 135891
           }
         ]
       }
@@ -940,9 +1250,9 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
     "id": "hunter",
     "name": "Hunter",
     "color": "#abd473",
-    "version": "classic-era",
-    "maxLevel": 60,
-    "maxTalentPoints": 51,
+    "version": "tbc",
+    "maxLevel": 70,
+    "maxTalentPoints": 61,
     "trees": [
       {
         "id": "hunter-beast-mastery",
@@ -951,7 +1261,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "hunter-beast-mastery-0",
             "name": "Improved Aspect of the Hawk",
-            "description": "While Aspect of the Hawk is active, all normal ranged attacks have a %d%% chance of increasing ranged attack speed by 30%% for 12 sec.",
+            "description": "While Aspect of the Hawk is active, all normal ranged attacks have a 10%% chance of increasing ranged attack speed by %d%% for 12 sec.",
             "row": 0,
             "column": 1,
             "maxRank": 5,
@@ -960,7 +1270,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "hunter-beast-mastery-1",
             "name": "Endurance Training",
-            "description": "Increases the Health of your pets by %d%%.",
+            "description": "Increases the Health of your pet by %d%% and your total health by %d%%.",
             "row": 0,
             "column": 2,
             "maxRank": 5,
@@ -968,12 +1278,12 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "hunter-beast-mastery-2",
-            "name": "Improved Eyes of the Beast",
-            "description": "Increases the duration of your Eyes of the Beast by %d sec.",
+            "name": "Focused Fire",
+            "description": "All damage caused by you is increased by %d%% while your pet is active and the critical strike chance of your Kill Command ability is increased by %d%%.",
             "row": 1,
             "column": 0,
             "maxRank": 2,
-            "iconId": 132150
+            "iconId": 132210
           },
           {
             "id": "hunter-beast-mastery-3",
@@ -981,13 +1291,13 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "description": "Increases the Dodge bonus of your Aspect of the Monkey by %d%%.",
             "row": 1,
             "column": 1,
-            "maxRank": 5,
+            "maxRank": 3,
             "iconId": 132159
           },
           {
             "id": "hunter-beast-mastery-4",
             "name": "Thick Hide",
-            "description": "Increases the Armor rating of your pets by %d%%.",
+            "description": "Increases the armor rating of your pets by %d%% and your armor contribution from items by %d%%.",
             "row": 1,
             "column": 2,
             "maxRank": 3,
@@ -1014,7 +1324,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "hunter-beast-mastery-7",
             "name": "Bestial Swiftness",
-            "description": "Increases the outdoor movement speed of your pets by 30%%.",
+            "description": "Increases the outdoor movement speed of your pets by 30%.",
             "row": 2,
             "column": 1,
             "maxRank": 1,
@@ -1032,7 +1342,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "hunter-beast-mastery-9",
             "name": "Improved Mend Pet",
-            "description": "Gives the Mend Pet spell a %d%% chance of cleansing 1 Curse, Disease, Magic or Poison effect from the pet each tick.",
+            "description": "Reduces the mana cost of your Mend Pet spell by %d%% and gives the Mend Pet spell a %d%% chance of cleansing 1 Curse, Disease, Magic or Poison effect from the pet each tick.",
             "row": 3,
             "column": 1,
             "maxRank": 2,
@@ -1041,7 +1351,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "hunter-beast-mastery-10",
             "name": "Ferocity",
-            "description": "Increases the critical strike chance of your pets by %d%%.",
+            "description": "Increases the critical strike chance of your pet by %d%%.",
             "row": 3,
             "column": 2,
             "maxRank": 5,
@@ -1076,23 +1386,69 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "hunter-beast-mastery-14",
+            "name": "Animal Handler",
+            "description": "Increases your speed while mounted by %d%% and your pet's chance to hit by %d%%.  The mounted movement speed increase does not stack with other effects.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 132158
+          },
+          {
+            "id": "hunter-beast-mastery-15",
             "name": "Frenzy",
             "description": "Gives your pet a %d%% chance to gain a 30%% attack speed increase for 8 sec after dealing a critical strike.",
-            "row": 3,
+            "row": 5,
             "column": 2,
             "maxRank": 5,
             "iconId": 134296,
             "prerequisiteId": "hunter-beast-mastery-10"
           },
           {
-            "id": "hunter-beast-mastery-15",
+            "id": "hunter-beast-mastery-16",
+            "name": "Ferocious Inspiration",
+            "description": "When your pet scores a critical hit, all party members have all damage increased by %d%% for 10 sec.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 132173
+          },
+          {
+            "id": "hunter-beast-mastery-17",
             "name": "Bestial Wrath",
-            "description": "Send your pet into a rage causing 50%% additional damage for 18 sec.  While enraged, the beast does not feel pity or remorse or fear and it cannot be stopped unless killed.",
-            "row": 4,
+            "description": "Send your pet into a rage causing 50% additional damage for 18 sec.  While enraged, the beast does not feel pity or remorse or fear and it cannot be stopped unless killed.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 132127,
             "prerequisiteId": "hunter-beast-mastery-12"
+          },
+          {
+            "id": "hunter-beast-mastery-18",
+            "name": "Catlike Reflexes",
+            "description": "Increases your chance to dodge by %d%% and your pet's chance to dodge by an additional %d%%.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 132167
+          },
+          {
+            "id": "hunter-beast-mastery-19",
+            "name": "Serpent's Swiftness",
+            "description": "Increases ranged combat attack speed by %d%% and your pet's melee attack speed by %d%%.",
+            "row": 7,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 132209
+          },
+          {
+            "id": "hunter-beast-mastery-20",
+            "name": "The Beast Within",
+            "description": "When your pet is under the effects of Bestial Wrath, you also go into a rage causing 10% additional damage and reducing mana costs of all spells by 20% for 18 sec.  While enraged, you do not feel pity or remorse or fear and you cannot be stopped unless killed.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 132166,
+            "prerequisiteId": "hunter-beast-mastery-17"
           }
         ]
       },
@@ -1111,17 +1467,17 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "hunter-marksmanship-1",
-            "name": "Efficiency",
-            "description": "Reduces the Mana cost of your Shots and Stings by %d%%.",
+            "name": "Lethal Shots",
+            "description": "Increases your critical strike chance with ranged weapons by %d%%.",
             "row": 0,
             "column": 2,
             "maxRank": 5,
-            "iconId": 135865
+            "iconId": 132312
           },
           {
             "id": "hunter-marksmanship-2",
             "name": "Improved Hunter's Mark",
-            "description": "Increases the Ranged Attack Power bonus of your Hunter's Mark spell by %d%%.",
+            "description": "Causes %d%% of your Hunter's Mark ability's base attack power to apply to melee attack power as well.",
             "row": 1,
             "column": 1,
             "maxRank": 5,
@@ -1129,21 +1485,21 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "hunter-marksmanship-3",
-            "name": "Lethal Shots",
-            "description": "Increases your critical strike chance with ranged weapons by %d%%.",
+            "name": "Efficiency",
+            "description": "Reduces the Mana cost of your Shots and Stings by %d%%.",
             "row": 1,
             "column": 2,
             "maxRank": 5,
-            "iconId": 132312
+            "iconId": 135865
           },
           {
             "id": "hunter-marksmanship-4",
-            "name": "Aimed Shot",
-            "description": "An aimed shot that increases ranged damage by 70.",
+            "name": "Go for the Throat",
+            "description": "Your ranged critical hits cause your pet to generate %d Focus.",
             "row": 2,
             "column": 0,
-            "maxRank": 1,
-            "iconId": 135130
+            "maxRank": 2,
+            "iconId": 132174
           },
           {
             "id": "hunter-marksmanship-5",
@@ -1156,77 +1512,133 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "hunter-marksmanship-6",
-            "name": "Hawk Eye",
-            "description": "Increases the range of your ranged weapons by %d yards.",
+            "name": "Aimed Shot",
+            "description": "An aimed shot that increases ranged damage by 70 and reduces healing done to that target by 50%.  Lasts 10 sec.",
             "row": 2,
-            "column": 3,
-            "maxRank": 3,
-            "iconId": 132327
+            "column": 2,
+            "maxRank": 1,
+            "iconId": 135130
           },
           {
             "id": "hunter-marksmanship-7",
-            "name": "Improved Serpent Sting",
-            "description": "Increases the damage done by your Serpent Sting by %d%%.",
+            "name": "Rapid Killing",
+            "description": "Reduces the cooldown of your Rapid Fire ability by %d min.  In addition, after killing an opponent that yields experience or honor, your next Aimed Shot, Arcane Shot or Auto Shot causes %d%% additional damage.  Lasts 20 sec.",
+            "row": 2,
+            "column": 3,
+            "maxRank": 2,
+            "iconId": 132205
+          },
+          {
+            "id": "hunter-marksmanship-8",
+            "name": "Improved Stings",
+            "description": "Increases the damage done by your Serpent Sting and Wyvern Sting by %d%% and the mana drained by your Viper Sting by %d%%.  In addition, reduces the chance your Stings will be dispelled by %d%%.",
             "row": 3,
             "column": 1,
             "maxRank": 5,
             "iconId": 132204
           },
           {
-            "id": "hunter-marksmanship-8",
+            "id": "hunter-marksmanship-9",
             "name": "Mortal Shots",
             "description": "Increases your ranged weapon critical strike damage bonus by %d%%.",
-            "row": 1,
+            "row": 3,
             "column": 2,
             "maxRank": 5,
             "iconId": 132271,
-            "prerequisiteId": "hunter-marksmanship-3"
+            "prerequisiteId": "hunter-marksmanship-6"
           },
           {
-            "id": "hunter-marksmanship-9",
-            "name": "Scatter Shot",
-            "description": "A short-range shot that deals 50%% weapon damage and disorients the target for 4 sec.  Any damage caused will remove the effect.  Turns off your attack when used.",
+            "id": "hunter-marksmanship-10",
+            "name": "Concussive Barrage",
+            "description": "Your successful Auto Shot attacks have a %d%% chance to Daze the target for 4 sec.",
             "row": 4,
             "column": 0,
+            "maxRank": 3,
+            "iconId": 135753
+          },
+          {
+            "id": "hunter-marksmanship-11",
+            "name": "Scatter Shot",
+            "description": "A short-range shot that deals 50% weapon damage and disorients the target for 4 sec.  Any damage caused will remove the effect.  Turns off your attack when used.",
+            "row": 4,
+            "column": 1,
             "maxRank": 1,
             "iconId": 132153
           },
           {
-            "id": "hunter-marksmanship-10",
+            "id": "hunter-marksmanship-12",
             "name": "Barrage",
             "description": "Increases the damage done by your Multi-Shot and Volley spells by %d%%.",
             "row": 4,
-            "column": 1,
+            "column": 2,
             "maxRank": 3,
             "iconId": 132330
           },
           {
-            "id": "hunter-marksmanship-11",
-            "name": "Improved Scorpid Sting",
-            "description": "Reduces the Stamina of targets affected by your Scorpid Sting by %d%% of the amount of Strength reduced.",
-            "row": 4,
-            "column": 2,
-            "maxRank": 3,
-            "iconId": 132169
+            "id": "hunter-marksmanship-13",
+            "name": "Combat Experience",
+            "description": "Increases your total Agility by %d%% and your total Intellect by %d%%.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 132168
           },
           {
-            "id": "hunter-marksmanship-12",
+            "id": "hunter-marksmanship-14",
             "name": "Ranged Weapon Specialization",
             "description": "Increases the damage you deal with ranged weapons by %d%%.",
             "row": 5,
-            "column": 2,
+            "column": 3,
             "maxRank": 5,
             "iconId": 135615
           },
           {
-            "id": "hunter-marksmanship-13",
+            "id": "hunter-marksmanship-15",
+            "name": "Careful Aim",
+            "description": "Increases your ranged attack power by an amount equal to %d%% of your total Intellect.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 132217
+          },
+          {
+            "id": "hunter-marksmanship-16",
             "name": "Trueshot Aura",
-            "description": "Increases the attack power of party members within 45 yards by 50.  Lasts 30 min.",
-            "row": 4,
+            "description": "Increases the attack power of party members within 45 yards by 50.  Lasts until cancelled.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 132329,
-            "prerequisiteId": "hunter-marksmanship-10"
+            "prerequisiteId": "hunter-marksmanship-11"
+          },
+          {
+            "id": "hunter-marksmanship-17",
+            "name": "Improved Barrage",
+            "description": "Increases the critical strike chance of your Multi-Shot ability by %d%% and gives you a %d%% chance to avoid interruption caused by damage while channeling Volley.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 132330,
+            "prerequisiteId": "hunter-marksmanship-12"
+          },
+          {
+            "id": "hunter-marksmanship-18",
+            "name": "Master Marksman",
+            "description": "Increases your ranged attack power by %d%%.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 132177
+          },
+          {
+            "id": "hunter-marksmanship-19",
+            "name": "Silencing Shot",
+            "description": "A shot that deals 50% weapon damage and Silences the target for 3 sec.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 132323,
+            "prerequisiteId": "hunter-marksmanship-18"
           }
         ]
       },
@@ -1254,51 +1666,60 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "hunter-survival-2",
-            "name": "Deflection",
-            "description": "Increases your Parry chance by %d%%.",
+            "name": "Hawk Eye",
+            "description": "Increases the range of your ranged weapons by %d yards.",
             "row": 0,
             "column": 2,
-            "maxRank": 5,
-            "iconId": 132269
+            "maxRank": 3,
+            "iconId": 132327
           },
           {
             "id": "hunter-survival-3",
-            "name": "Entrapment",
-            "description": "Gives your Immolation Trap, Frost Trap, and Explosive Trap a %d%% chance to entrap the target, preventing them from moving for 5 sec.",
-            "row": 1,
-            "column": 0,
-            "maxRank": 5,
-            "iconId": 136100
-          },
-          {
-            "id": "hunter-survival-4",
             "name": "Savage Strikes",
             "description": "Increases the critical strike chance of Raptor Strike and Mongoose Bite by %d%%.",
-            "row": 1,
-            "column": 1,
+            "row": 0,
+            "column": 3,
             "maxRank": 2,
             "iconId": 132277
           },
           {
+            "id": "hunter-survival-4",
+            "name": "Entrapment",
+            "description": "Gives your Immolation Trap, Frost Trap, Explosive Trap, and Snake Trap a %d%% chance to entrap the target, preventing them from moving for 4 sec.",
+            "row": 1,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 136100
+          },
+          {
             "id": "hunter-survival-5",
+            "name": "Deflection",
+            "description": "Increases your Parry chance by %d%%.",
+            "row": 1,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 132269
+          },
+          {
+            "id": "hunter-survival-6",
             "name": "Improved Wing Clip",
             "description": "Gives your Wing Clip ability a %d%% chance to immobilize the target for 5 sec.",
             "row": 1,
             "column": 2,
-            "maxRank": 5,
+            "maxRank": 3,
             "iconId": 132309
           },
           {
-            "id": "hunter-survival-6",
+            "id": "hunter-survival-7",
             "name": "Clever Traps",
-            "description": "Increases the duration of Freezing and Frost trap effects by %d%% and the damage of Immolation and Explosive trap effects by %d%%.",
+            "description": "Increases the duration of Freezing and Frost Trap effects by %d%%, the damage of Immolation and Explosive Trap effects by %d%%, and the number of snakes summoned from Snake Traps by %d%%.",
             "row": 2,
             "column": 0,
             "maxRank": 2,
             "iconId": 136106
           },
           {
-            "id": "hunter-survival-7",
+            "id": "hunter-survival-8",
             "name": "Survivalist",
             "description": "Increases total health by %d%%.",
             "row": 2,
@@ -1307,16 +1728,16 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 136223
           },
           {
-            "id": "hunter-survival-8",
+            "id": "hunter-survival-9",
             "name": "Deterrence",
-            "description": "When activated, increases your Dodge and Parry chance by 25%% for 10 sec.",
+            "description": "When activated, increases your Dodge and Parry chance by 25% for 10 sec.",
             "row": 2,
             "column": 2,
             "maxRank": 1,
             "iconId": 132369
           },
           {
-            "id": "hunter-survival-9",
+            "id": "hunter-survival-10",
             "name": "Trap Mastery",
             "description": "Decreases the chance enemies will resist trap effects by %d%%.",
             "row": 3,
@@ -1325,7 +1746,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 132149
           },
           {
-            "id": "hunter-survival-10",
+            "id": "hunter-survival-11",
             "name": "Surefooted",
             "description": "Increases hit chance by %d%% and increases the chance movement impairing effects will be resisted by an additional %d%%.",
             "row": 3,
@@ -1334,7 +1755,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 132219
           },
           {
-            "id": "hunter-survival-11",
+            "id": "hunter-survival-12",
             "name": "Improved Feign Death",
             "description": "Reduces the chance your Feign Death ability will be resisted by %d%%.",
             "row": 3,
@@ -1343,7 +1764,16 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 132293
           },
           {
-            "id": "hunter-survival-12",
+            "id": "hunter-survival-13",
+            "name": "Survival Instincts",
+            "description": "Reduces all damage taken by %d%% and increases attack power by %d%%.",
+            "row": 4,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 132214
+          },
+          {
+            "id": "hunter-survival-14",
             "name": "Killer Instinct",
             "description": "Increases your critical strike chance with all attacks by %d%%.",
             "row": 4,
@@ -1352,17 +1782,26 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 135881
           },
           {
-            "id": "hunter-survival-13",
+            "id": "hunter-survival-15",
             "name": "Counterattack",
             "description": "A strike that becomes active after parrying an opponent's attack.  This attack deals 40 damage and immobilizes the target for 5 sec.  Counterattack cannot be blocked, dodged, or parried.",
-            "row": 2,
+            "row": 4,
             "column": 2,
             "maxRank": 1,
             "iconId": 132336,
-            "prerequisiteId": "hunter-survival-8"
+            "prerequisiteId": "hunter-survival-9"
           },
           {
-            "id": "hunter-survival-14",
+            "id": "hunter-survival-16",
+            "name": "Resourcefulness",
+            "description": "Reduces the mana cost of all traps and melee abilities by %d%% and reduces the cooldown of all traps by %d sec.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 132207
+          },
+          {
+            "id": "hunter-survival-17",
             "name": "Lightning Reflexes",
             "description": "Increases your Agility by %d%%.",
             "row": 5,
@@ -1371,14 +1810,52 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 136047
           },
           {
-            "id": "hunter-survival-15",
+            "id": "hunter-survival-18",
+            "name": "Thrill of the Hunt",
+            "description": "Gives you a %d%% chance to regain 40%% of the mana cost of any shot when it critically hits.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 132216
+          },
+          {
+            "id": "hunter-survival-19",
             "name": "Wyvern Sting",
-            "description": "A stinging shot that puts the target to sleep for 12 sec.  Any damage will cancel the effect.  When the target wakes up, the Sting causes 300 Nature damage over 12 sec.  Only usable out of combat.  Only one Sting per Hunter can be active on the target at a time.",
-            "row": 4,
+            "description": "A stinging shot that puts the target to sleep for 12 sec.  Any damage will cancel the effect.  When the target wakes up, the Sting causes 300 Nature damage over 12 sec.  Only one Sting per Hunter can be active on the target at a time.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 135125,
-            "prerequisiteId": "hunter-survival-12"
+            "prerequisiteId": "hunter-survival-14"
+          },
+          {
+            "id": "hunter-survival-20",
+            "name": "Expose Weakness",
+            "description": "Your ranged criticals have a %d%% chance to apply an Expose Weakness effect to the target. Expose Weakness increases the attack power of all attackers against that target by 25%% of your Agility for 7 sec.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 132295,
+            "prerequisiteId": "hunter-survival-17"
+          },
+          {
+            "id": "hunter-survival-21",
+            "name": "Master Tactician",
+            "description": "Your successful ranged attacks have a 6%% chance to increase your critical strike chance with all attacks by %d%% for 8 sec.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 132178
+          },
+          {
+            "id": "hunter-survival-22",
+            "name": "Readiness",
+            "description": "When activated, this ability immediately finishes the cooldown on your other Hunter abilities.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 132206,
+            "prerequisiteId": "hunter-survival-21"
           }
         ]
       }
@@ -1388,9 +1865,9 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
     "id": "rogue",
     "name": "Rogue",
     "color": "#fff569",
-    "version": "classic-era",
-    "maxLevel": 60,
-    "maxTalentPoints": 51,
+    "version": "tbc",
+    "maxLevel": 70,
+    "maxTalentPoints": 61,
     "trees": [
       {
         "id": "rogue-assassination",
@@ -1408,7 +1885,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-assassination-1",
             "name": "Remorseless Attacks",
-            "description": "After killing an opponent that yields experience or honor, gives you a %d%% increased critical strike chance on your next Sinister Strike, Backstab, Ambush, or Ghostly Strike.  Lasts 20 sec.",
+            "description": "After killing an opponent that yields experience or honor, gives you a %d%% increased critical strike chance on your next Sinister Strike, Hemorrhage, Backstab, Mutilate, Ambush, or Ghostly Strike.  Lasts 20 sec.",
             "row": 0,
             "column": 1,
             "maxRank": 2,
@@ -1426,7 +1903,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-assassination-3",
             "name": "Ruthlessness",
-            "description": "Gives your finishing moves a %d%% chance to add a combo point to your target.",
+            "description": "Gives your melee finishing moves a %d%% chance to add a combo point to your target.",
             "row": 1,
             "column": 0,
             "maxRank": 3,
@@ -1443,17 +1920,17 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "rogue-assassination-5",
-            "name": "Improved Slice and Dice",
-            "description": "Increases the duration of your Slice and Dice ability by %d%%.",
+            "name": "Puncturing Wounds",
+            "description": "Increases the critical strike chance of your Backstab ability by %d%%, and the critical strike chance of your Mutilate ability by %d%%.",
             "row": 1,
             "column": 3,
             "maxRank": 3,
-            "iconId": 132306
+            "iconId": 132090
           },
           {
             "id": "rogue-assassination-6",
             "name": "Relentless Strikes",
-            "description": "Your finishing moves have a 20%% chance per combo point to restore 25 energy.",
+            "description": "Your finishing moves have a 20% chance per combo point to restore 25 energy.",
             "row": 2,
             "column": 0,
             "maxRank": 1,
@@ -1471,8 +1948,8 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-assassination-8",
             "name": "Lethality",
-            "description": "Increases the critical strike damage bonus of your Sinister Strike, Gouge, Backstab, Ghostly Strike, and Hemorrhage abilities by %d%%.",
-            "row": 0,
+            "description": "Increases the critical strike damage bonus of your Sinister Strike, Gouge, Backstab, Ghostly Strike, Mutilate, Shiv, and Hemorrhage abilities by %d%%.",
+            "row": 2,
             "column": 2,
             "maxRank": 5,
             "iconId": 132109,
@@ -1481,7 +1958,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-assassination-9",
             "name": "Vile Poisons",
-            "description": "Increases the damage dealt by your poisons by %d%% and gives your poisons an additional %d%% chance to resist dispel effects.",
+            "description": "Increases the damage dealt by your poisons and Envenom ability by %d%% and gives your poisons an additional %d%% chance to resist dispel effects.",
             "row": 3,
             "column": 1,
             "maxRank": 5,
@@ -1498,15 +1975,24 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "rogue-assassination-11",
+            "name": "Fleet Footed",
+            "description": "Increases your chance to resist movement impairing effects by %d%% and increases your movement speed by %d%%.  This does not stack with other movement speed increasing effects.",
+            "row": 4,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 132296
+          },
+          {
+            "id": "rogue-assassination-12",
             "name": "Cold Blood",
-            "description": "When activated, increases the critical strike chance of your next Sinister Strike, Backstab, Ambush, or Eviscerate by 100%%.",
+            "description": "When activated, increases the critical strike chance of your next offensive ability by 100%.",
             "row": 4,
             "column": 1,
             "maxRank": 1,
             "iconId": 135988
           },
           {
-            "id": "rogue-assassination-12",
+            "id": "rogue-assassination-13",
             "name": "Improved Kidney Shot",
             "description": "While affected by your Kidney Shot ability, the target receives an additional %d%% damage from all sources.",
             "row": 4,
@@ -1515,23 +2001,69 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 132298
           },
           {
-            "id": "rogue-assassination-13",
+            "id": "rogue-assassination-14",
+            "name": "Quick Recovery",
+            "description": "All healing effects on you are increased by %d%%.  In addition, your finishing moves cost %d%% less Energy when they fail to hit.",
+            "row": 4,
+            "column": 3,
+            "maxRank": 2,
+            "iconId": 132301
+          },
+          {
+            "id": "rogue-assassination-15",
             "name": "Seal Fate",
             "description": "Your critical strikes from abilities that add combo points have a %d%% chance to add an additional combo point.",
-            "row": 4,
+            "row": 5,
             "column": 1,
             "maxRank": 5,
             "iconId": 136130,
-            "prerequisiteId": "rogue-assassination-11"
+            "prerequisiteId": "rogue-assassination-12"
           },
           {
-            "id": "rogue-assassination-14",
+            "id": "rogue-assassination-16",
+            "name": "Master Poisoner",
+            "description": "Reduces the chance your poisons will be resisted by %d%% and increases your chance to resist Poison effects by an additional %d%%.",
+            "row": 5,
+            "column": 2,
+            "maxRank": 2,
+            "iconId": 132108
+          },
+          {
+            "id": "rogue-assassination-17",
             "name": "Vigor",
             "description": "Increases your maximum Energy by 10.",
             "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 136023
+          },
+          {
+            "id": "rogue-assassination-18",
+            "name": "Deadened Nerves",
+            "description": "Decreases all physical damage taken by %d%%.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 132286
+          },
+          {
+            "id": "rogue-assassination-19",
+            "name": "Find Weakness",
+            "description": "Your finishing moves increase the damage of all your offensive abilities by %d%% for 10 sec.",
+            "row": 7,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 132295
+          },
+          {
+            "id": "rogue-assassination-20",
+            "name": "Mutilate",
+            "description": "Instantly attacks with both weapons for an additional 44 with each weapon.  Damage is increased by 50% against Poisoned targets.  Must be behind the target.  Awards 2 combo points.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 132304,
+            "prerequisiteId": "rogue-assassination-17"
           }
         ]
       },
@@ -1568,12 +2100,12 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "rogue-combat-3",
-            "name": "Improved Backstab",
-            "description": "Increases the critical strike chance of your Backstab ability by %d%%.",
+            "name": "Improved Slice and Dice",
+            "description": "Increases the duration of your Slice and Dice ability by %d%%.",
             "row": 1,
             "column": 0,
             "maxRank": 3,
-            "iconId": 132090
+            "iconId": 132306
           },
           {
             "id": "rogue-combat-4",
@@ -1587,7 +2119,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-combat-5",
             "name": "Precision",
-            "description": "Increases your chance to hit with melee weapons by %d%%.",
+            "description": "Increases your chance to hit with weapons by %d%%.",
             "row": 1,
             "column": 2,
             "maxRank": 5,
@@ -1605,8 +2137,8 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-combat-7",
             "name": "Riposte",
-            "description": "A strike that becomes active after parrying an opponent's attack.  This attack deals 150%% weapon damage and disarms the target for 6 sec.",
-            "row": 1,
+            "description": "A strike that becomes active after parrying an opponent's attack.  This attack deals 150% weapon damage and disarms the target for 6 sec.",
+            "row": 2,
             "column": 1,
             "maxRank": 1,
             "iconId": 132336,
@@ -1615,7 +2147,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-combat-8",
             "name": "Improved Sprint",
-            "description": "Gives a %d%% chance to remove all movement impairing effects when you activate your Sprint ability.",
+            "description": "Gives a %d%% chance to remove all Movement Impairing effects when you activate your Sprint ability.",
             "row": 2,
             "column": 3,
             "maxRank": 2,
@@ -1643,7 +2175,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "id": "rogue-combat-11",
             "name": "Dual Wield Specialization",
             "description": "Increases the damage done by your offhand weapon by %d%%.",
-            "row": 1,
+            "row": 3,
             "column": 2,
             "maxRank": 5,
             "iconId": 132147,
@@ -1652,7 +2184,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-combat-12",
             "name": "Mace Specialization",
-            "description": "Increases your skill with Maces by %d, and gives you a %d%% chance to stun your target for 3 sec with a mace.",
+            "description": "Increases the damage dealt by your critical strikes with maces by %d%%, and gives you a %d%% chance to stun your target for 3 sec with a mace.",
             "row": 4,
             "column": 0,
             "maxRank": 5,
@@ -1661,7 +2193,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-combat-13",
             "name": "Blade Flurry",
-            "description": "Increases your attack speed by 20%%.  In addition, attacks strike an additional nearby opponent.  Lasts 15 sec.",
+            "description": "Increases your attack speed by 20%.  In addition, attacks strike an additional nearby opponent.  Lasts 15 sec.",
             "row": 4,
             "column": 1,
             "maxRank": 1,
@@ -1670,7 +2202,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-combat-14",
             "name": "Sword Specialization",
-            "description": "Gives you a %d%% chance to get an extra attack on the same target after dealing damage with your Sword.",
+            "description": "Gives you a %d%% chance to get an extra attack on the same target after hitting your target with your Sword.",
             "row": 4,
             "column": 2,
             "maxRank": 5,
@@ -1687,31 +2219,77 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "rogue-combat-16",
+            "name": "Blade Twisting",
+            "description": "Gives your Sinister Strike, Backstab, Gouge and Shiv abilities a %d%% chance to Daze the target for 8 sec.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 132283
+          },
+          {
+            "id": "rogue-combat-17",
             "name": "Weapon Expertise",
-            "description": "Increases your skill with Sword, Fist and Dagger weapons by %d.",
-            "row": 4,
+            "description": "Increases your expertise by %d.",
+            "row": 5,
             "column": 1,
             "maxRank": 2,
             "iconId": 135882,
             "prerequisiteId": "rogue-combat-13"
           },
           {
-            "id": "rogue-combat-17",
+            "id": "rogue-combat-18",
             "name": "Aggression",
-            "description": "Increases the damage of your Sinister Strike and Eviscerate abilities by %d%%.",
+            "description": "Increases the damage of your Sinister Strike, Backstab, and Eviscerate abilities by %d%%.",
             "row": 5,
             "column": 2,
             "maxRank": 3,
             "iconId": 132275
           },
           {
-            "id": "rogue-combat-18",
+            "id": "rogue-combat-19",
+            "name": "Vitality",
+            "description": "Increases your total Stamina by %d%% and your total Agility by %d%%.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 132353
+          },
+          {
+            "id": "rogue-combat-20",
             "name": "Adrenaline Rush",
-            "description": "Increases your Energy regeneration rate by 100%% for 15 sec.",
+            "description": "Increases your Energy regeneration rate by 100% for 15 sec.",
             "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 136206
+          },
+          {
+            "id": "rogue-combat-21",
+            "name": "Nerves of Steel",
+            "description": "Increases your chance to resist Stun and Fear effects by an additional %d%%.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 2,
+            "iconId": 132300
+          },
+          {
+            "id": "rogue-combat-22",
+            "name": "Combat Potency",
+            "description": "Gives your successful off-hand melee attacks a 20%% chance to generate %d Energy.",
+            "row": 7,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 135673
+          },
+          {
+            "id": "rogue-combat-23",
+            "name": "Surprise Attacks",
+            "description": "Your finishing moves can no longer be dodged, and the damage dealt by your Sinister Strike, Backstab, Shiv and Gouge abilities is increased by 10%.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 132308,
+            "prerequisiteId": "rogue-combat-20"
           }
         ]
       },
@@ -1731,7 +2309,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-subtlety-1",
             "name": "Opportunity",
-            "description": "Increases the damage dealt when striking from behind with your Backstab, Garrote, or Ambush abilities by %d%%.",
+            "description": "Increases the damage dealt when striking from behind with your Backstab, Mutilate, Garrote and Ambush abilities by %d%%.",
             "row": 0,
             "column": 2,
             "maxRank": 5,
@@ -1748,12 +2326,12 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "rogue-subtlety-3",
-            "name": "Elusiveness",
-            "description": "Reduces the cooldown of your Vanish and Blind abilities by %d sec.",
+            "name": "Dirty Tricks",
+            "description": "Increases the range of your Blind and Sap abilities by %d yards and reduces the energy cost of your Blind and Sap abilities by %d%%.",
             "row": 1,
             "column": 1,
             "maxRank": 2,
-            "iconId": 135994
+            "iconId": 132310
           },
           {
             "id": "rogue-subtlety-4",
@@ -1776,7 +2354,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-subtlety-6",
             "name": "Ghostly Strike",
-            "description": "A strike that deals 125%% weapon damage and increases your chance to dodge by 15%% for 7 sec.  Awards 1 combo point.",
+            "description": "A strike that deals 125% weapon damage and increases your chance to dodge by 15% for 7 sec.  Awards 1 combo point.",
             "row": 2,
             "column": 1,
             "maxRank": 1,
@@ -1802,17 +2380,17 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "rogue-subtlety-9",
-            "name": "Improved Sap",
-            "description": "Gives you a %d%% chance to return to stealth mode after using your Sap ability.",
+            "name": "Elusiveness",
+            "description": "Reduces the cooldown of your Vanish and Blind abilities by %d sec.",
             "row": 3,
             "column": 1,
-            "maxRank": 3,
-            "iconId": 132310
+            "maxRank": 2,
+            "iconId": 135994
           },
           {
             "id": "rogue-subtlety-10",
             "name": "Serrated Blades",
-            "description": "Causes your attacks to ignore 0 of your target's Armor and increases the damage dealt by your Rupture ability by %d%%.  The amount of Armor reduced increases with your level.",
+            "description": "Causes your attacks to ignore %.2f*level of your target's Armor and increases the damage dealt by your Rupture ability by %d%%.  The amount of Armor reduced increases with your level.",
             "row": 3,
             "column": 2,
             "maxRank": 3,
@@ -1830,7 +2408,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-subtlety-12",
             "name": "Preparation",
-            "description": "When activated, this ability immediately finishes the cooldown on your other Rogue abilities.",
+            "description": "When activated, this ability immediately finishes the cooldown on your Evasion, Sprint, Vanish, Cold Blood, Shadowstep and Premeditation abilities.",
             "row": 4,
             "column": 1,
             "maxRank": 1,
@@ -1839,7 +2417,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-subtlety-13",
             "name": "Dirty Deeds",
-            "description": "Reduces the Energy cost of your Cheap Shot and Garrote abilities by %d.",
+            "description": "Reduces the Energy cost of your Cheap Shot and Garrote abilities by %d.  Additionally, your special abilities cause %d%% more damage against targets below 35%% health.",
             "row": 4,
             "column": 2,
             "maxRank": 2,
@@ -1848,31 +2426,77 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "rogue-subtlety-14",
             "name": "Hemorrhage",
-            "description": "An instant strike that damages the opponent and causes the target to hemorrhage, increasing any Physical damage dealt to the target by up to 3.  Lasts 30 charges or 15 sec.  Awards 1 combo point.",
-            "row": 3,
-            "column": 2,
+            "description": "An instant strike that deals 110% weapon damage and causes the target to hemorrhage, increasing any Physical damage dealt to the target by up to 13.  Lasts 10 charges or 15 sec.  Awards 1 combo point.",
+            "row": 4,
+            "column": 3,
             "maxRank": 1,
             "iconId": 136168,
             "prerequisiteId": "rogue-subtlety-10"
           },
           {
             "id": "rogue-subtlety-15",
+            "name": "Master of Subtlety",
+            "description": "Attacks made while stealthed and for 6 seconds after breaking stealth cause an additional %d%% damage.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 132299
+          },
+          {
+            "id": "rogue-subtlety-16",
             "name": "Deadliness",
-            "description": "Increases your Attack Power by %d%%.",
+            "description": "Increases your attack power by %d%%.",
             "row": 5,
             "column": 2,
             "maxRank": 5,
             "iconId": 135540
           },
           {
-            "id": "rogue-subtlety-16",
+            "id": "rogue-subtlety-17",
+            "name": "Enveloping Shadows",
+            "description": "Increases your chance to avoid area of effect attacks by an additional %d%%.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 132291
+          },
+          {
+            "id": "rogue-subtlety-18",
             "name": "Premeditation",
-            "description": "When used, adds 2 combo points to your target.  You must add to or use those combo points within 10 sec or the combo points are lost. ",
-            "row": 4,
+            "description": "When used, adds 2 combo points to your target.  You must add to or use those combo points within 10 sec or the combo points are lost.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 136183,
             "prerequisiteId": "rogue-subtlety-12"
+          },
+          {
+            "id": "rogue-subtlety-19",
+            "name": "Cheat Death",
+            "description": "You have a %d%% chance that an attack which would otherwise kill you will instead reduce you to 10%% of your maximum health. In addition, all damage taken will be reduced by up to 90%% for 3 sec (modified by resilience).  This effect cannot occur more than once per minute.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 132285
+          },
+          {
+            "id": "rogue-subtlety-20",
+            "name": "Sinister Calling",
+            "description": "Increases your total Agility by %d%% and increases the percentage damage bonus of Backstab and Hemorrhage by an additional %d%%.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 132305,
+            "prerequisiteId": "rogue-subtlety-18"
+          },
+          {
+            "id": "rogue-subtlety-21",
+            "name": "Shadowstep",
+            "description": "Attempts to step through the shadows and reappear behind your enemy and increases movement speed by 70% for 3 sec.  The damage of your next ability is increased by 20% and the threat caused is reduced by 50%.  Lasts 10 sec.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 132303
           }
         ]
       }
@@ -1882,9 +2506,9 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
     "id": "priest",
     "name": "Priest",
     "color": "#ffffff",
-    "version": "classic-era",
-    "maxLevel": 60,
-    "maxTalentPoints": 51,
+    "version": "tbc",
+    "maxLevel": 70,
+    "maxTalentPoints": 61,
     "trees": [
       {
         "id": "priest-discipline",
@@ -1911,7 +2535,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "priest-discipline-2",
             "name": "Silent Resolve",
-            "description": "Reduces the threat generated by your spells by %d%%.",
+            "description": "Reduces the threat generated by your Holy and Discipline spells by %d%% and reduces the chance your spells will be dispelled by %d%%.",
             "row": 1,
             "column": 0,
             "maxRank": 5,
@@ -1938,7 +2562,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "priest-discipline-5",
             "name": "Martyrdom",
-            "description": "Gives you a %d%% chance to gain the Focused Casting effect that lasts for 6 sec after being the victim of a melee or ranged critical strike.  The Focused Casting effect prevents you from losing casting time when taking damage and increases resistance to Interrupt effects by %d%%.",
+            "description": "Gives you a %d%% chance to gain the Focused Casting effect that lasts for 6 sec after being the victim of a melee or ranged critical strike.  The Focused Casting effect prevents you from losing casting time when taking damage while casting Priest spells and increases resistance to Interrupt effects by %d%%.",
             "row": 1,
             "column": 3,
             "maxRank": 2,
@@ -1946,33 +2570,42 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "priest-discipline-6",
+            "name": "Absolution",
+            "description": "Reduces the mana cost of your Dispel Magic, Cure Disease, Abolish Disease and Mass Dispel spells by %d%%.",
+            "row": 2,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 135868
+          },
+          {
+            "id": "priest-discipline-7",
             "name": "Inner Focus",
-            "description": "When activated, reduces the Mana cost of your next spell by 100%% and increases its critical effect chance by 25%% if it is capable of a critical effect.",
+            "description": "When activated, reduces the mana cost of your next spell by 100% and increases its critical effect chance by 25% if it is capable of a critical effect.",
             "row": 2,
             "column": 1,
             "maxRank": 1,
             "iconId": 135863
           },
           {
-            "id": "priest-discipline-7",
+            "id": "priest-discipline-8",
             "name": "Meditation",
-            "description": "Allows %d%% of your Mana regeneration to continue while casting.",
+            "description": "Allows %d%% of your mana regeneration to continue while casting.",
             "row": 2,
             "column": 2,
             "maxRank": 3,
             "iconId": 136090
           },
           {
-            "id": "priest-discipline-8",
+            "id": "priest-discipline-9",
             "name": "Improved Inner Fire",
-            "description": "Increases the Armor bonus of your Inner Fire spell by %d%%.",
+            "description": "Increases the armor bonus of your Inner Fire spell by %d%%.",
             "row": 3,
             "column": 0,
             "maxRank": 3,
             "iconId": 135926
           },
           {
-            "id": "priest-discipline-9",
+            "id": "priest-discipline-10",
             "name": "Mental Agility",
             "description": "Reduces the mana cost of your instant cast spells by %d%%.",
             "row": 3,
@@ -1981,35 +2614,54 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 132156
           },
           {
-            "id": "priest-discipline-10",
+            "id": "priest-discipline-11",
             "name": "Improved Mana Burn",
-            "description": "Reduces the casting time of your Mana Burn spell by %.2f secs.",
+            "description": "Reduces the casting time of your Mana Burn spell by %.1f sec.",
             "row": 3,
             "column": 3,
             "maxRank": 2,
             "iconId": 136170
           },
           {
-            "id": "priest-discipline-11",
+            "id": "priest-discipline-12",
             "name": "Mental Strength",
-            "description": "Increases your maximum Mana by %d%%.",
+            "description": "Increases your maximum mana by %d%%.",
             "row": 4,
             "column": 1,
             "maxRank": 5,
             "iconId": 136031
           },
           {
-            "id": "priest-discipline-12",
+            "id": "priest-discipline-13",
             "name": "Divine Spirit",
             "description": "Holy power infuses the target, increasing their Spirit by 17 for 30 min.",
-            "row": 2,
+            "row": 4,
             "column": 2,
             "maxRank": 1,
             "iconId": 135898,
-            "prerequisiteId": "priest-discipline-7"
+            "prerequisiteId": "priest-discipline-8"
           },
           {
-            "id": "priest-discipline-13",
+            "id": "priest-discipline-14",
+            "name": "Improved Divine Spirit",
+            "description": "Your Divine Spirit and Prayer of Spirit spells also increase the target's spell damage and healing by an amount equal to %d%% of their total Spirit.",
+            "row": 4,
+            "column": 3,
+            "maxRank": 2,
+            "iconId": 135898,
+            "prerequisiteId": "priest-discipline-13"
+          },
+          {
+            "id": "priest-discipline-15",
+            "name": "Focused Power",
+            "description": "Your Smite, Mind Blast and Mass Dispel spells have an additional %d%% chance to hit.  In addition, your Mass Dispel cast time is reduced by %.1f sec.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 136158
+          },
+          {
+            "id": "priest-discipline-16",
             "name": "Force of Will",
             "description": "Increases your spell damage by %d%% and the critical strike chance of your offensive spells by %d%%.",
             "row": 5,
@@ -2018,14 +2670,50 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 136092
           },
           {
-            "id": "priest-discipline-14",
+            "id": "priest-discipline-17",
+            "name": "Focused Will",
+            "description": "After taking a critical hit you gain the Focused Will effect, reducing all damage taken by %d%% and increasing healing effects on you by %d%%.  Stacks up to 3 times.  Lasts 8 sec.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 135737
+          },
+          {
+            "id": "priest-discipline-18",
             "name": "Power Infusion",
-            "description": "Infuses the target with power, increasing their spell damage and healing by 20%%.  Lasts 15 sec.",
-            "row": 4,
+            "description": "Infuses the target with power, increasing spell casting speed by 20% and reducing the mana cost of all spells by 20%.  Lasts 15 sec.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 135939,
-            "prerequisiteId": "priest-discipline-11"
+            "prerequisiteId": "priest-discipline-12"
+          },
+          {
+            "id": "priest-discipline-19",
+            "name": "Reflective Shield",
+            "description": "Causes %d%% of the damage absorbed by your Power Word: Shield to reflect back at the attacker.  This damage causes no threat.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 135940
+          },
+          {
+            "id": "priest-discipline-20",
+            "name": "Enlightenment",
+            "description": "Increases your total Stamina, Intellect and Spirit by %d%%.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 135740
+          },
+          {
+            "id": "priest-discipline-21",
+            "name": "Pain Suppression",
+            "description": "Instantly reduces a friendly target's threat by 5%, reduces all damage taken by 40% and increases resistance to Dispel mechanics by 65% for 8 sec.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 135936
           }
         ]
       },
@@ -2081,7 +2769,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "priest-holy-5",
             "name": "Holy Nova",
-            "description": "Causes an explosion of holy light around the caster, causing 28 to 32 Holy damage to all enemy targets within 10 yards and healing all party members within 10 yards for 52 to 60.  These effects cause no threat.",
+            "description": "Causes an explosion of holy light around the caster, causing 29 to 34 Holy damage to all enemy targets within 10 yards and healing all party members within 10 yards for 54 to 63.  These effects cause no threat.",
             "row": 2,
             "column": 0,
             "maxRank": 1,
@@ -2099,7 +2787,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "priest-holy-7",
             "name": "Inspiration",
-            "description": "Increases your target's armor by %d%% for 15 sec after getting a critical effect from your Flash Heal, Heal, Greater Heal, or Prayer of Healing spell.",
+            "description": "Increases your target's armor by %d%% for 15 sec after getting a critical effect from your Flash Heal, Heal, Greater Heal, Binding Heal, Prayer of Healing, or Circle of Healing spell.",
             "row": 2,
             "column": 3,
             "maxRank": 3,
@@ -2108,7 +2796,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "priest-holy-8",
             "name": "Holy Reach",
-            "description": "Increases the range of your Smite and Holy Fire spells and the radius of your Prayer of Healing and Holy Nova spells by %d%%.",
+            "description": "Increases the range of your Smite and Holy Fire spells and the radius of your Prayer of Healing, Holy Nova and Circle of Healing spells by %d%%.",
             "row": 3,
             "column": 0,
             "maxRank": 2,
@@ -2117,7 +2805,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "priest-holy-9",
             "name": "Improved Healing",
-            "description": "Reduces the Mana cost of your Lesser Heal, Heal, and Greater Heal spells by %d%%.",
+            "description": "Reduces the mana cost of your Lesser Heal, Heal, and Greater Heal spells by %d%%.",
             "row": 3,
             "column": 1,
             "maxRank": 3,
@@ -2127,7 +2815,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "id": "priest-holy-10",
             "name": "Searing Light",
             "description": "Increases the damage of your Smite and Holy Fire spells by %d%%.",
-            "row": 1,
+            "row": 3,
             "column": 2,
             "maxRank": 2,
             "iconId": 135973,
@@ -2135,8 +2823,8 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "priest-holy-11",
-            "name": "Improved Prayer of Healing",
-            "description": "Reduces the Mana cost of your Prayer of Healing spell by %d%%.",
+            "name": "Healing Prayers",
+            "description": "Reduces the mana cost of your Prayer of Healing and Prayer of Mending spell by %d%%.",
             "row": 4,
             "column": 0,
             "maxRank": 2,
@@ -2145,7 +2833,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "priest-holy-12",
             "name": "Spirit of Redemption",
-            "description": "Upon death, the priest becomes the Spirit of Redemption for 10 sec.  The Spirit of Redemption cannot move, attack, be attacked or targeted by any spells or effects.  While in this form the priest can cast any healing spell free of cost.  When the effect ends, the priest dies.",
+            "description": "Increases total Spirit by 5% and upon death, the priest becomes the Spirit of Redemption for 15 sec.  The Spirit of Redemption cannot move, attack, be attacked or targeted by any spells or effects.  While in this form the priest can cast any healing spell free of cost.  When the effect ends, the priest dies.",
             "row": 4,
             "column": 1,
             "maxRank": 1,
@@ -2162,6 +2850,15 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "priest-holy-14",
+            "name": "Surge of Light",
+            "description": "Your spell criticals have a %d%% chance to cause your next Smite spell to be instant cast, cost no mana but be incapable of a critical hit.  This effect lasts 10 sec.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 135981
+          },
+          {
+            "id": "priest-holy-15",
             "name": "Spiritual Healing",
             "description": "Increases the amount healed by your healing spells by %d%%.",
             "row": 5,
@@ -2170,14 +2867,50 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 136057
           },
           {
-            "id": "priest-holy-15",
+            "id": "priest-holy-16",
+            "name": "Holy Concentration",
+            "description": "Gives you a %d%% chance to enter a Clearcasting state after casting any Flash Heal, Binding Heal, or Greater Heal spell.  The Clearcasting state reduces the mana cost of your next Flash Heal, Binding Heal, or Greater Heal spell by 100%%.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 135905
+          },
+          {
+            "id": "priest-holy-17",
             "name": "Lightwell",
-            "description": "Creates a holy Lightwell near the priest.  Members of your raid or party can click the Lightwell to restore 800 health over 10 sec.  Being attacked cancels the effect.  Lightwell lasts for 3 min or 5 charges.",
-            "row": 4,
+            "description": "Creates a Holy Lightwell.  Members of your raid or party can click the Lightwell to restore 801 health over 6 sec.  Any damage taken will cancel the effect.  Lightwell lasts for 3 min or 5 charges.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 135980,
             "prerequisiteId": "priest-holy-12"
+          },
+          {
+            "id": "priest-holy-18",
+            "name": "Blessed Resilience",
+            "description": "Critical hits made against you have a %d%% chance to prevent you from being critically hit again for 6 sec.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 135878
+          },
+          {
+            "id": "priest-holy-19",
+            "name": "Empowered Healing",
+            "description": "Your Greater Heal spell gains an additional %d%% and your Flash Heal and Binding Heal gain an additional %d%% of your bonus healing effects.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 135913
+          },
+          {
+            "id": "priest-holy-20",
+            "name": "Circle of Healing",
+            "description": "Heals friendly target and that target's party members within 15 yards of the target for 250 to 274.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 135887
           }
         ]
       },
@@ -2188,7 +2921,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "priest-shadow-0",
             "name": "Spirit Tap",
-            "description": "Gives you a %d%% chance to gain a 100%% bonus to your Spirit after killing a target that yields experience.  For the duration, your Mana will regenerate at a 50%% rate while casting.  Lasts 15 sec.",
+            "description": "Gives you a %d%% chance to gain a 100%% bonus to your Spirit after killing a target that yields experience or honor.  For the duration, your mana will regenerate at a 50%% rate while casting.  Lasts 15 sec.",
             "row": 0,
             "column": 1,
             "maxRank": 5,
@@ -2251,7 +2984,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "priest-shadow-7",
             "name": "Mind Flay",
-            "description": "Assault the target's mind with Shadow energy, causing 75 Shadow damage over 3 sec and slowing their movement speed by 50%%.",
+            "description": "Assault the target's mind with Shadow energy, causing 75 Shadow damage over 3 sec and slowing their movement speed by 50%.",
             "row": 2,
             "column": 2,
             "maxRank": 1,
@@ -2269,16 +3002,16 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "priest-shadow-9",
             "name": "Shadow Reach",
-            "description": "Increases the range of your Shadow damage spells by %d%%.",
+            "description": "Increases the range of your offensive Shadow spells by %d%%.",
             "row": 3,
             "column": 2,
-            "maxRank": 3,
+            "maxRank": 2,
             "iconId": 136130
           },
           {
             "id": "priest-shadow-10",
             "name": "Shadow Weaving",
-            "description": "Your Shadow damage spells have a %d%% chance to cause your target to be vulnerable to Shadow damage.  This vulnerability increases the Shadow damage dealt to your target by 3%% and lasts 15 sec.  Stacks up to 5 times.",
+            "description": "Your Shadow damage spells have a %d%% chance to cause your target to be vulnerable to Shadow damage.  This vulnerability increases the Shadow damage dealt to your target by 2%% and lasts 15 sec.  Stacks up to 5 times.",
             "row": 3,
             "column": 3,
             "maxRank": 5,
@@ -2288,7 +3021,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "id": "priest-shadow-11",
             "name": "Silence",
             "description": "Silences the target, preventing them from casting spells for 5 sec.",
-            "row": 2,
+            "row": 4,
             "column": 0,
             "maxRank": 1,
             "iconId": 136164,
@@ -2297,7 +3030,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "priest-shadow-12",
             "name": "Vampiric Embrace",
-            "description": "Afflicts your target with Shadow energy that causes all party members to be healed for 20%% of any Shadow spell damage you deal for 1 min.",
+            "description": "Afflicts your target with Shadow energy that causes all party members to be healed for 15% of any Shadow spell damage you deal for 1 min.",
             "row": 4,
             "column": 1,
             "maxRank": 1,
@@ -2308,13 +3041,31 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "name": "Improved Vampiric Embrace",
             "description": "Increases the percentage healed by Vampiric Embrace by an additional %d%%.",
             "row": 4,
-            "column": 1,
+            "column": 2,
             "maxRank": 2,
             "iconId": 136165,
             "prerequisiteId": "priest-shadow-12"
           },
           {
             "id": "priest-shadow-14",
+            "name": "Focused Mind",
+            "description": "Reduces the mana cost of your Mind Blast, Mind Control and Mind Flay spells by %d%%.",
+            "row": 4,
+            "column": 3,
+            "maxRank": 3,
+            "iconId": 136035
+          },
+          {
+            "id": "priest-shadow-15",
+            "name": "Shadow Resilience",
+            "description": "Reduces the chance you'll be critically hit by all spells by %d%%.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 136162
+          },
+          {
+            "id": "priest-shadow-16",
             "name": "Darkness",
             "description": "Increases your Shadow spell damage by %d%%.",
             "row": 5,
@@ -2323,14 +3074,42 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 136223
           },
           {
-            "id": "priest-shadow-15",
+            "id": "priest-shadow-17",
             "name": "Shadowform",
-            "description": "Assume a Shadowform, increasing your Shadow damage by 15%% and reducing Physical damage done to you by 15%%.  However, you may not cast Holy spells while in this form.",
-            "row": 4,
+            "description": "Assume a Shadowform, increasing your Shadow damage by 15% and reducing Physical damage done to you by 15%.  However, you may not cast Holy spells while in this form.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 136200,
             "prerequisiteId": "priest-shadow-12"
+          },
+          {
+            "id": "priest-shadow-18",
+            "name": "Shadow Power",
+            "description": "Increases the critical strike chance of your Mind Blast and Shadow Word: Death spells by %d%%.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 136204
+          },
+          {
+            "id": "priest-shadow-19",
+            "name": "Misery",
+            "description": "Your Shadow Word: Pain, Mind Flay and Vampiric Touch spells also cause the target to take an additional %d%% spell damage.",
+            "row": 7,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 136176
+          },
+          {
+            "id": "priest-shadow-20",
+            "name": "Vampiric Touch",
+            "description": "Causes 450 Shadow damage over 15 sec to your target and causes all party members to gain mana equal to 5% of any Shadow spell damage you deal.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 135978,
+            "prerequisiteId": "priest-shadow-17"
           }
         ]
       }
@@ -2340,9 +3119,9 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
     "id": "shaman",
     "name": "Shaman",
     "color": "#0070de",
-    "version": "classic-era",
-    "maxLevel": 60,
-    "maxTalentPoints": 51,
+    "version": "tbc",
+    "maxLevel": 70,
+    "maxTalentPoints": 61,
     "trees": [
       {
         "id": "shaman-elemental",
@@ -2396,7 +3175,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "shaman-elemental-5",
             "name": "Elemental Focus",
-            "description": "Gives you a 10%% chance to enter a Clearcasting state after casting any Fire, Frost, or Nature damage spell.  The Clearcasting state reduces the mana cost of your next damage spell by 100%%.",
+            "description": "After landing a critical strike with a Fire, Frost, or Nature damage spell, you enter a Clearcasting state.  The Clearcasting state reduces the mana cost of your next 2 damage spells by 40%.",
             "row": 2,
             "column": 0,
             "maxRank": 1,
@@ -2432,11 +3211,11 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "shaman-elemental-9",
             "name": "Eye of the Storm",
-            "description": "Gives you a %d%% chance to gain the Focused Casting effect that lasts for 6 sec after being the victim of a melee or ranged critical strike.  The Focused Casting effect prevents you from losing casting time when taking damage.",
+            "description": "Gives you a %d%% chance to gain the Focused Casting effect that lasts for 6 sec after being the victim of a melee or ranged critical strike.  The Focused Casting effect prevents you from losing casting time on Shaman spells when taking damage.",
             "row": 3,
             "column": 1,
             "maxRank": 3,
-            "iconId": 136032
+            "iconId": 136213
           },
           {
             "id": "shaman-elemental-10",
@@ -2459,7 +3238,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "shaman-elemental-12",
             "name": "Elemental Fury",
-            "description": "Increases the critical strike damage bonus of your Searing, Magma, and Fire Nova Totems and your Fire, Frost, and Nature spells by 100%%.",
+            "description": "Increases the critical strike damage bonus of your Searing, Magma, and Fire Nova Totems and your Fire, Frost, and Nature spells by 100%.",
             "row": 4,
             "column": 1,
             "maxRank": 1,
@@ -2467,23 +3246,69 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "shaman-elemental-13",
+            "name": "Unrelenting Storm",
+            "description": "Regenerate mana equal to %d%% of your Intellect every 5 sec, even while casting.",
+            "row": 4,
+            "column": 3,
+            "maxRank": 5,
+            "iconId": 136111
+          },
+          {
+            "id": "shaman-elemental-14",
+            "name": "Elemental Precision",
+            "description": "Increases your chance to hit with Fire, Frost and Nature spells by %d%% and reduces the threat caused by Fire, Frost and Nature spells by %d%%.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 136028
+          },
+          {
+            "id": "shaman-elemental-15",
             "name": "Lightning Mastery",
             "description": "Reduces the cast time of your Lightning Bolt and Chain Lightning spells by %.1f sec.",
-            "row": 2,
+            "row": 5,
             "column": 2,
             "maxRank": 5,
             "iconId": 135990,
             "prerequisiteId": "shaman-elemental-7"
           },
           {
-            "id": "shaman-elemental-14",
+            "id": "shaman-elemental-16",
             "name": "Elemental Mastery",
-            "description": "When activated, this spell gives your next Fire, Frost, or Nature damage spell a 100%% critical strike chance and reduces the mana cost by 100%%.",
-            "row": 4,
+            "description": "When activated, this spell gives your next Fire, Frost, or Nature damage spell a 100% critical strike chance and reduces the mana cost by 100%.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 136115,
             "prerequisiteId": "shaman-elemental-12"
+          },
+          {
+            "id": "shaman-elemental-17",
+            "name": "Elemental Shields",
+            "description": "Reduces the chance you will be critically hit by melee and ranged attacks by %d%%.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 136030
+          },
+          {
+            "id": "shaman-elemental-18",
+            "name": "Lightning Overload",
+            "description": "Gives your Lightning Bolt and Chain Lightning spells a %d%% chance to cast a second, similar spell on the same target at no additional cost that causes half damage and no threat.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 136050
+          },
+          {
+            "id": "shaman-elemental-19",
+            "name": "Totem of Wrath",
+            "description": "Summons a Totem of Wrath with 5 health at the feet of the caster.  The totem increases the chance to hit and critically strike with spells by 3% for all party members within 20 yards.  Lasts 2 min.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 135829,
+            "prerequisiteId": "shaman-elemental-18"
           }
         ]
       },
@@ -2494,7 +3319,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "shaman-enhancement-0",
             "name": "Ancestral Knowledge",
-            "description": "Increases your maximum Mana by %d%%.",
+            "description": "Increases your maximum mana by %d%%.",
             "row": 0,
             "column": 1,
             "maxRank": 5,
@@ -2556,12 +3381,12 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "shaman-enhancement-7",
-            "name": "Two-Handed Axes and Maces",
-            "description": "Allows you to use Two-Handed Axes and Two-Handed Maces.",
+            "name": "Shamanistic Focus",
+            "description": "After landing a melee critical strike, you enter a Focused state.  The Focused state reduces the mana cost of your next Shock spell by 60%.",
             "row": 2,
             "column": 2,
             "maxRank": 1,
-            "iconId": 132401
+            "iconId": 136027
           },
           {
             "id": "shaman-enhancement-8",
@@ -2576,7 +3401,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "id": "shaman-enhancement-9",
             "name": "Flurry",
             "description": "Increases your attack speed by %d%% for your next 3 swings after dealing a critical strike.",
-            "row": 1,
+            "row": 3,
             "column": 1,
             "maxRank": 5,
             "iconId": 132152,
@@ -2585,7 +3410,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "shaman-enhancement-10",
             "name": "Toughness",
-            "description": "Increases your armor value from items by %d%%.",
+            "description": "Increases your armor value from items by %d%%, and reduces the duration of movement slowing effects on you by %d%%.",
             "row": 3,
             "column": 2,
             "maxRank": 5,
@@ -2602,40 +3427,87 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "shaman-enhancement-12",
-            "name": "Elemental Weapons",
-            "description": "Increases the melee attack power bonus of your Rockbiter Weapon by %d%%, your Windfury Weapon effect by %d%% and increases the damage caused by your Flametongue Weapon and Frostbrand Weapon by %d%%.",
+            "name": "Spirit Weapons",
+            "description": "Gives a chance to parry enemy melee attacks and reduces the threat generated by your melee attacks by 30%.",
             "row": 4,
             "column": 1,
-            "maxRank": 3,
-            "iconId": 135814
-          },
-          {
-            "id": "shaman-enhancement-13",
-            "name": "Parry",
-            "description": "Gives a chance to parry enemy melee attacks.",
-            "row": 4,
-            "column": 2,
             "maxRank": 1,
             "iconId": 132269
           },
           {
+            "id": "shaman-enhancement-13",
+            "name": "Elemental Weapons",
+            "description": "Increases the damage caused by your Rockbiter Weapon by %d%%, your Windfury Weapon effect by %d%% and increases the damage caused by your Flametongue Weapon and Frostbrand Weapon by %d%%.",
+            "row": 4,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 135814
+          },
+          {
             "id": "shaman-enhancement-14",
+            "name": "Mental Quickness",
+            "description": "Reduces the mana cost of your instant cast Shaman spells by %d%% and increases your spell damage and healing by an amount equal to %d%% of your attack power.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 136055
+          },
+          {
+            "id": "shaman-enhancement-15",
             "name": "Weapon Mastery",
             "description": "Increases the damage you deal with all weapons by %d%%.",
             "row": 5,
-            "column": 2,
+            "column": 3,
             "maxRank": 5,
             "iconId": 132215
           },
           {
-            "id": "shaman-enhancement-15",
-            "name": "Stormstrike",
-            "description": "Gives you an extra attack.  In addition, the next 2 sources of Nature damage dealt to the target are increased by 20%%.  Lasts 12 sec.",
-            "row": 4,
+            "id": "shaman-enhancement-16",
+            "name": "Dual Wield Specialization",
+            "description": "Increases your chance to hit while dual wielding by an additional %d%%.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 132148,
+            "prerequisiteId": "shaman-enhancement-17"
+          },
+          {
+            "id": "shaman-enhancement-17",
+            "name": "Dual Wield",
+            "description": "Allows one-hand and off-hand weapons to be equipped in the off-hand.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
-            "iconId": 135963,
+            "iconId": 132147,
             "prerequisiteId": "shaman-enhancement-12"
+          },
+          {
+            "id": "shaman-enhancement-18",
+            "name": "Stormstrike",
+            "description": "Instantly attack with both weapons.  In addition, the next 2 sources of Nature damage dealt to the target are increased by 20%.  Lasts 12 sec.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 1,
+            "iconId": 132314,
+            "prerequisiteId": "shaman-enhancement-13"
+          },
+          {
+            "id": "shaman-enhancement-19",
+            "name": "Unleashed Rage",
+            "description": "Causes your critical hits with melee attacks to increase all party members' melee attack power by %d%% if within 20 yards of the Shaman.  Lasts 10 sec.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 136110
+          },
+          {
+            "id": "shaman-enhancement-20",
+            "name": "Shamanistic Rage",
+            "description": "Reduces all damage taken by 30% and gives your successful melee attacks a chance to regenerate mana equal to 30% of your attack power.  Lasts 15 sec.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 136088
           }
         ]
       },
@@ -2655,7 +3527,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "shaman-restoration-1",
             "name": "Tidal Focus",
-            "description": "Reduces the Mana cost of your healing spells by %d%%.",
+            "description": "Reduces the mana cost of your healing spells by %d%%.",
             "row": 0,
             "column": 2,
             "maxRank": 5,
@@ -2682,7 +3554,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "shaman-restoration-4",
             "name": "Totemic Focus",
-            "description": "Reduces the Mana cost of your totems by %d%%.",
+            "description": "Reduces the mana cost of your totems by %d%%.",
             "row": 1,
             "column": 2,
             "maxRank": 5,
@@ -2700,7 +3572,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "shaman-restoration-6",
             "name": "Healing Focus",
-            "description": "Gives you a %d%% chance to avoid interruption caused by damage while casting any healing spell.",
+            "description": "Gives you a %d%% chance to avoid interruption caused by damage while casting any Shaman healing spell.",
             "row": 2,
             "column": 1,
             "maxRank": 5,
@@ -2709,7 +3581,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "shaman-restoration-7",
             "name": "Totemic Mastery",
-            "description": "The radius of your totems that affect friendly targets is increased to 30 yd.",
+            "description": "The radius of your totems that affect friendly targets is increased to 30 yards.",
             "row": 2,
             "column": 2,
             "maxRank": 1,
@@ -2718,7 +3590,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "shaman-restoration-8",
             "name": "Healing Grace",
-            "description": "Reduces the threat generated by your healing spells by %d%%.",
+            "description": "Reduces the threat generated by your healing spells by %d%% and reduces the chance your spells will be dispelled by %d%%.",
             "row": 2,
             "column": 3,
             "maxRank": 3,
@@ -2762,6 +3634,15 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "shaman-restoration-13",
+            "name": "Focused Mind",
+            "description": "Reduces the duration of any Silence or Interrupt effects used against the Shaman by %d%%. This effect does not stack with other similar effects.",
+            "row": 4,
+            "column": 3,
+            "maxRank": 3,
+            "iconId": 136035
+          },
+          {
+            "id": "shaman-restoration-14",
             "name": "Purification",
             "description": "Increases the effectiveness of your healing spells by %d%%.",
             "row": 5,
@@ -2770,14 +3651,51 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 135865
           },
           {
-            "id": "shaman-restoration-14",
+            "id": "shaman-restoration-15",
             "name": "Mana Tide Totem",
-            "description": "Summons a Mana Tide Totem with 5 health at the feet of the caster for 12 sec that restores 170 mana every 3 seconds to group members within 20 yards.",
-            "row": 3,
+            "description": "Summons a Mana Tide Totem with 5 health at the feet of the caster for 12 sec that restores 6% of total mana every 3 seconds to group members within 20 yards.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 135861,
             "prerequisiteId": "shaman-restoration-9"
+          },
+          {
+            "id": "shaman-restoration-16",
+            "name": "Nature's Guardian",
+            "description": "Whenever a damaging attack is taken that reduces you below 30%% health, you have a %d%% chance to heal 10%% of your total health and reduce your threat level on that target.  5 second cooldown.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 136060
+          },
+          {
+            "id": "shaman-restoration-17",
+            "name": "Nature's Blessing",
+            "description": "Increases your spell damage and healing by an amount equal to %d%% of your Intellect.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 3,
+            "iconId": 136059
+          },
+          {
+            "id": "shaman-restoration-18",
+            "name": "Improved Chain Heal",
+            "description": "Increases the amount healed by your Chain Heal spell by %d%%.",
+            "row": 7,
+            "column": 2,
+            "maxRank": 2,
+            "iconId": 136042
+          },
+          {
+            "id": "shaman-restoration-19",
+            "name": "Earth Shield",
+            "description": "Protects the target with an earthen shield, giving a 30% chance of ignoring spell interruption when damaged and causing attacks to heal the shielded target for 150.  This effect can only occur once every few seconds.  6 charges.  Lasts 10 min.  Earth Shield can only be placed on one target at a time and only one Elemental Shield can be active on a target at a time.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 136089,
+            "prerequisiteId": "shaman-restoration-17"
           }
         ]
       }
@@ -2787,9 +3705,9 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
     "id": "mage",
     "name": "Mage",
     "color": "#69ccf0",
-    "version": "classic-era",
-    "maxLevel": 60,
-    "maxTalentPoints": 51,
+    "version": "tbc",
+    "maxLevel": 70,
+    "maxTalentPoints": 61,
     "trees": [
       {
         "id": "mage-arcane",
@@ -2860,8 +3778,8 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "mage-arcane-7",
-            "name": "Improved Arcane Explosion",
-            "description": "Increases the critical strike chance of your Arcane Explosion spell by an additional %d%%.",
+            "name": "Arcane Impact",
+            "description": "Increases the critical strike chance of your Arcane Explosion and Arcane Blast spells by an additional %d%%.",
             "row": 2,
             "column": 1,
             "maxRank": 3,
@@ -2869,10 +3787,10 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "mage-arcane-8",
-            "name": "Arcane Resilience",
-            "description": "Increases your armor by an amount equal to 50%% of your Intellect.",
+            "name": "Arcane Fortitude",
+            "description": "Increases your armor by an amount equal to 100% of your Intellect.",
             "row": 2,
-            "column": 2,
+            "column": 3,
             "maxRank": 1,
             "iconId": 135733
           },
@@ -2897,7 +3815,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "mage-arcane-11",
             "name": "Arcane Meditation",
-            "description": "Allows %d%% of your Mana regeneration to continue while casting.",
+            "description": "Allows %d%% of your mana regeneration to continue while casting.",
             "row": 3,
             "column": 3,
             "maxRank": 3,
@@ -2905,6 +3823,15 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "mage-arcane-12",
+            "name": "Improved Blink",
+            "description": "For 4 sec after casting Blink, your chance to be hit by all attacks and spells is reduced by %d%%.",
+            "row": 4,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 135736
+          },
+          {
+            "id": "mage-arcane-13",
             "name": "Presence of Mind",
             "description": "When activated, your next Mage spell with a casting time less than 10 sec becomes an instant cast spell.",
             "row": 4,
@@ -2913,34 +3840,88 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 136031
           },
           {
-            "id": "mage-arcane-13",
-            "name": "Arcane Mind",
-            "description": "Increases your maximum Mana by %d%%.",
-            "row": 2,
-            "column": 2,
-            "maxRank": 5,
-            "iconId": 136129,
-            "prerequisiteId": "mage-arcane-8"
-          },
-          {
             "id": "mage-arcane-14",
-            "name": "Arcane Instability",
-            "description": "Increases your spell damage and critical strike chance by %d%%.",
+            "name": "Arcane Mind",
+            "description": "Increases your total Intellect by %d%%.",
             "row": 4,
-            "column": 1,
-            "maxRank": 3,
-            "iconId": 136222,
-            "prerequisiteId": "mage-arcane-12"
+            "column": 3,
+            "maxRank": 5,
+            "iconId": 136129
           },
           {
             "id": "mage-arcane-15",
-            "name": "Arcane Power",
-            "description": "When activated, your spells deal 30%% more damage while costing 30%% more mana to cast.  This effect lasts 15 sec.",
+            "name": "Prismatic Cloak",
+            "description": "Reduces all damage taken by %d%%.",
             "row": 5,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 135752
+          },
+          {
+            "id": "mage-arcane-16",
+            "name": "Arcane Instability",
+            "description": "Increases your spell damage and critical strike chance by %d%%.",
+            "row": 5,
+            "column": 1,
+            "maxRank": 3,
+            "iconId": 136222,
+            "prerequisiteId": "mage-arcane-13"
+          },
+          {
+            "id": "mage-arcane-17",
+            "name": "Arcane Potency",
+            "description": "Increases the critical strike chance of any spell cast while Clearcasting by %d%%.",
+            "row": 5,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 135732,
+            "prerequisiteId": "mage-arcane-5"
+          },
+          {
+            "id": "mage-arcane-18",
+            "name": "Empowered Arcane Missiles",
+            "description": "Your Arcane Missiles spell gains an additional %d%% of your bonus spell damage effects, but mana cost is increased by %d%%.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 136096
+          },
+          {
+            "id": "mage-arcane-19",
+            "name": "Arcane Power",
+            "description": "When activated, your spells deal 30% more damage while costing 30% more mana to cast.  This effect lasts 15 sec.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 136048,
-            "prerequisiteId": "mage-arcane-14"
+            "prerequisiteId": "mage-arcane-16"
+          },
+          {
+            "id": "mage-arcane-20",
+            "name": "Spell Power",
+            "description": "Increases critical strike damage bonus of all spells by %d%%.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 2,
+            "iconId": 135734
+          },
+          {
+            "id": "mage-arcane-21",
+            "name": "Mind Mastery",
+            "description": "Increases spell damage by up to %d%% of your total Intellect.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 135740
+          },
+          {
+            "id": "mage-arcane-22",
+            "name": "Slow",
+            "description": "Reduces target's movement speed by 50%, increases the time between ranged attacks by 50% and increases casting time by 50%.  Lasts 15 sec.  Slow can only affect one target at a time.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 136091
           }
         ]
       },
@@ -2995,7 +3976,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "mage-fire-5",
-            "name": "Incinerate",
+            "name": "Incineration",
             "description": "Increases the critical strike chance of your Fire Blast and Scorch spells by %d%%.",
             "row": 2,
             "column": 0,
@@ -3014,7 +3995,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "mage-fire-7",
             "name": "Pyroblast",
-            "description": "Hurls an immense fiery boulder that causes 141 to 187 Fire damage and an additional 56 Fire damage over 12 sec.",
+            "description": "Hurls an immense fiery boulder that causes 148 to 195 Fire damage and an additional 56 Fire damage over 12 sec.",
             "row": 2,
             "column": 2,
             "maxRank": 1,
@@ -3040,8 +4021,8 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "mage-fire-10",
-            "name": "Improved Fire Ward",
-            "description": "Causes your Fire Ward to have a %d%% chance to reflect Fire spells while active.",
+            "name": "Molten Shields",
+            "description": "Causes your Fire Ward to have a %d%% chance to reflect Fire spells while active. In addition, your Molten Armor has a %d%% chance to affect ranged and spell attacks.",
             "row": 3,
             "column": 1,
             "maxRank": 2,
@@ -3058,6 +4039,15 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "mage-fire-12",
+            "name": "Playing with Fire",
+            "description": "Increases all spell damage caused by %d%% and all spell damage taken by %d%%.",
+            "row": 4,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 135823
+          },
+          {
+            "id": "mage-fire-13",
             "name": "Critical Mass",
             "description": "Increases the critical strike chance of your Fire spells by %d%%.",
             "row": 4,
@@ -3066,17 +4056,26 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 136115
           },
           {
-            "id": "mage-fire-13",
+            "id": "mage-fire-14",
             "name": "Blast Wave",
-            "description": "A wave of flame radiates outward from the caster, damaging all enemies caught within the blast for 154 to 186 Fire damage, and dazing them for 6 sec.",
-            "row": 2,
+            "description": "A wave of flame radiates outward from the caster, damaging all enemies caught within the blast for 160 to 192 Fire damage, and Dazing them for 6 sec.",
+            "row": 4,
             "column": 2,
             "maxRank": 1,
             "iconId": 135903,
             "prerequisiteId": "mage-fire-7"
           },
           {
-            "id": "mage-fire-14",
+            "id": "mage-fire-15",
+            "name": "Blazing Speed",
+            "description": "Gives you a %d%% chance when hit by a melee or ranged attack to increase your movement speed by 50%% and dispel all movement impairing effects.  This effect lasts 8 sec.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 135788
+          },
+          {
+            "id": "mage-fire-16",
             "name": "Fire Power",
             "description": "Increases the damage done by your Fire spells by %d%%.",
             "row": 5,
@@ -3085,14 +4084,51 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 135817
           },
           {
-            "id": "mage-fire-15",
+            "id": "mage-fire-17",
+            "name": "Pyromaniac",
+            "description": "Increases chance to critically hit and reduces the mana cost of all Fire spells by an additional %d%%.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 135789
+          },
+          {
+            "id": "mage-fire-18",
             "name": "Combustion",
-            "description": "When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by 10%%.  This effect lasts until you have caused 3 critical strikes with Fire spells.",
-            "row": 4,
+            "description": "When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by 10%.  This effect lasts until you have caused 3 critical strikes with Fire spells.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 135824,
-            "prerequisiteId": "mage-fire-12"
+            "prerequisiteId": "mage-fire-13"
+          },
+          {
+            "id": "mage-fire-19",
+            "name": "Molten Fury",
+            "description": "Increases damage of all spells against targets with less than 20%% health by %d%%.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 2,
+            "iconId": 135822
+          },
+          {
+            "id": "mage-fire-20",
+            "name": "Empowered Fireball",
+            "description": "Your Fireball spell gains an additional %d%% of your bonus spell damage effects.",
+            "row": 7,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 135812
+          },
+          {
+            "id": "mage-fire-21",
+            "name": "Dragon's Breath",
+            "description": "Targets in a cone in front of the caster take 382 to 442 Fire damage and are Disoriented for 3 sec.  Any direct damaging attack will revive targets.  Turns off your attack when used.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 134153,
+            "prerequisiteId": "mage-fire-18"
           }
         ]
       },
@@ -3121,7 +4157,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "mage-frost-2",
             "name": "Elemental Precision",
-            "description": "Reduces the chance that the opponent can resist your Frost and Fire spells by %d%%.",
+            "description": "Reduces the mana cost and chance targets resist your Frost and Fire spells by %d%%.",
             "row": 0,
             "column": 2,
             "maxRank": 3,
@@ -3174,12 +4210,12 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "mage-frost-8",
-            "name": "Cold Snap",
-            "description": "When activated, this spell finishes the cooldown on all of your Frost spells.",
+            "name": "Icy Veins",
+            "description": "Hastens your spellcasting, increasing spell casting speed by 20% and gives you 100% chance to avoid interruption caused by damage while casting.  Lasts 20 sec.",
             "row": 2,
             "column": 1,
             "maxRank": 1,
-            "iconId": 135865
+            "iconId": 135838
           },
           {
             "id": "mage-frost-9",
@@ -3193,7 +4229,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "mage-frost-10",
             "name": "Arctic Reach",
-            "description": "Increases the range of your Frostbolt and Blizzard spells and the radius of your Frost Nova and Cone of Cold spells by %d%%.",
+            "description": "Increases the range of your Frostbolt, Ice Lance and Blizzard spells and the radius of your Frost Nova and Cone of Cold spells by %d%%.",
             "row": 3,
             "column": 0,
             "maxRank": 2,
@@ -3212,7 +4248,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "id": "mage-frost-12",
             "name": "Shatter",
             "description": "Increases the critical strike chance of all your spells against frozen targets by %d%%.",
-            "row": 1,
+            "row": 3,
             "column": 2,
             "maxRank": 5,
             "iconId": 135849,
@@ -3220,15 +4256,24 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "mage-frost-13",
-            "name": "Ice Block",
-            "description": "You become encased in a block of ice, protecting you from all physical attacks and spells for 10 sec, but during that time you cannot attack, move or cast spells.",
+            "name": "Frozen Core",
+            "description": "Reduces the damage taken by Frost and Fire effects by %d%%.",
             "row": 4,
-            "column": 1,
-            "maxRank": 1,
-            "iconId": 135841
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 135851
           },
           {
             "id": "mage-frost-14",
+            "name": "Cold Snap",
+            "description": "When activated, this spell finishes the cooldown on all Frost spells you recently cast.",
+            "row": 4,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 135865
+          },
+          {
+            "id": "mage-frost-15",
             "name": "Improved Cone of Cold",
             "description": "Increases the damage dealt by your Cone of Cold spell by %d%%.",
             "row": 4,
@@ -3237,7 +4282,16 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 135852
           },
           {
-            "id": "mage-frost-15",
+            "id": "mage-frost-16",
+            "name": "Ice Floes",
+            "description": "Reduces the cooldown of your Cone of Cold, Cold Snap, Ice Barrier and Ice Block spells by %d%%.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 135854
+          },
+          {
+            "id": "mage-frost-17",
             "name": "Winter's Chill",
             "description": "Gives your Frost damage spells a %d%% chance to apply the Winter's Chill effect, which increases the chance a Frost spell will critically hit the target by 2%% for 15 sec.  Stacks up to 5 times.",
             "row": 5,
@@ -3246,14 +4300,41 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 135836
           },
           {
-            "id": "mage-frost-16",
+            "id": "mage-frost-18",
             "name": "Ice Barrier",
-            "description": "Instantly shields you, absorbing 438 damage.  Lasts 1 min.  While the shield holds, spells will not be interrupted.\\r\\n",
-            "row": 4,
+            "description": "Instantly shields you, absorbing 454 damage.  Lasts 1 min.  While the shield holds, spells will not be interrupted.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 135988,
-            "prerequisiteId": "mage-frost-13"
+            "prerequisiteId": "mage-frost-14"
+          },
+          {
+            "id": "mage-frost-19",
+            "name": "Arctic Winds",
+            "description": "Increases all Frost damage you cause by %d%% and reduces the chance melee and ranged attacks will hit you by %d%%.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 135833
+          },
+          {
+            "id": "mage-frost-20",
+            "name": "Empowered Frostbolt",
+            "description": "Your Frostbolt spell gains an additional %d%% of your bonus spell damage effects and an additional %d%% chance to critically strike.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 135846
+          },
+          {
+            "id": "mage-frost-21",
+            "name": "Summon Water Elemental",
+            "description": "Summon a Water Elemental to fight for the caster for 45 sec.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 135862
           }
         ]
       }
@@ -3263,9 +4344,9 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
     "id": "warlock",
     "name": "Warlock",
     "color": "#9482c9",
-    "version": "classic-era",
-    "maxLevel": 60,
-    "maxTalentPoints": 51,
+    "version": "tbc",
+    "maxLevel": 70,
+    "maxTalentPoints": 61,
     "trees": [
       {
         "id": "warlock-affliction",
@@ -3295,13 +4376,13 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "description": "Increases the effect of your Curse of Weakness by %d%%.",
             "row": 1,
             "column": 0,
-            "maxRank": 3,
+            "maxRank": 2,
             "iconId": 136138
           },
           {
             "id": "warlock-affliction-3",
             "name": "Improved Drain Soul",
-            "description": "Gives you a %d%% chance to get a 100%% increase to your Mana regeneration for 10 sec if the target is killed by you while you drain its soul.  In addition your Mana may continue to regenerate while casting at 50%% of normal.",
+            "description": "Returns %d%% of your maximum mana if the target is killed by you while you drain its soul.  In addition, your Affliction spells generate %d%% less threat.",
             "row": 1,
             "column": 1,
             "maxRank": 2,
@@ -3318,11 +4399,11 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "warlock-affliction-5",
-            "name": "Improved Drain Life",
-            "description": "Increases the Health drained by your Drain Life spell by %d%%.",
+            "name": "Soul Siphon",
+            "description": "Increases the amount drained by your Drain Life spell by an additional %d%% for each Affliction effect on the target, up to a maximum of %d%% additional effect.",
             "row": 1,
             "column": 3,
-            "maxRank": 5,
+            "maxRank": 2,
             "iconId": 136169
           },
           {
@@ -3331,7 +4412,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "description": "Increases the damage done by your Curse of Agony by %d%%.",
             "row": 2,
             "column": 0,
-            "maxRank": 3,
+            "maxRank": 2,
             "iconId": 136139
           },
           {
@@ -3346,7 +4427,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warlock-affliction-8",
             "name": "Amplify Curse",
-            "description": "Increases the effect of your next Curse of Weakness or Curse of Agony by 50%%, or your next Curse of Exhaustion by 20%%.  Lasts 30 sec.",
+            "description": "Increases the effect of your next Curse of Doom or Curse of Agony by 50%, or your next Curse of Exhaustion by an additional 20%.  Lasts 30 sec.",
             "row": 2,
             "column": 2,
             "maxRank": 1,
@@ -3372,15 +4453,24 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "warlock-affliction-11",
-            "name": "Improved Drain Mana",
-            "description": "Causes %d%% of the Mana drained by your Drain Mana spell to damage the opponent.",
+            "name": "Empowered Corruption",
+            "description": "Your Corruption spell gains an additional %d%% of your bonus spell damage effects.",
             "row": 3,
             "column": 3,
-            "maxRank": 2,
-            "iconId": 136208
+            "maxRank": 3,
+            "iconId": 136118
           },
           {
             "id": "warlock-affliction-12",
+            "name": "Shadow Embrace",
+            "description": "Your Corruption, Curse of Agony, Siphon Life and Seed of Corruption spells also cause the Shadow Embrace effect, which reduces physical damage caused by %d%%.",
+            "row": 4,
+            "column": 0,
+            "maxRank": 5,
+            "iconId": 136198
+          },
+          {
+            "id": "warlock-affliction-13",
             "name": "Siphon Life",
             "description": "Transfers 15 health from the target to the caster every 3 sec.  Lasts 30 sec.",
             "row": 4,
@@ -3389,43 +4479,70 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 136188
           },
           {
-            "id": "warlock-affliction-13",
+            "id": "warlock-affliction-14",
             "name": "Curse of Exhaustion",
-            "description": "Reduces the target's movement speed by 10%% for 12 sec.  Only one Curse per Warlock can be active on any one target.",
-            "row": 2,
+            "description": "Reduces the target's movement speed by 30% for 12 sec.  Only one Curse per Warlock can be active on any one target.",
+            "row": 4,
             "column": 2,
             "maxRank": 1,
             "iconId": 136162,
             "prerequisiteId": "warlock-affliction-8"
           },
           {
-            "id": "warlock-affliction-14",
-            "name": "Improved Curse of Exhaustion",
-            "description": "Increases the speed reduction of your Curse of Exhaustion by %d%%.",
-            "row": 4,
-            "column": 2,
-            "maxRank": 4,
-            "iconId": 136162,
-            "prerequisiteId": "warlock-affliction-13"
-          },
-          {
             "id": "warlock-affliction-15",
             "name": "Shadow Mastery",
             "description": "Increases the damage dealt or life drained by your Shadow spells by %d%%.",
-            "row": 4,
+            "row": 5,
             "column": 1,
             "maxRank": 5,
             "iconId": 136195,
-            "prerequisiteId": "warlock-affliction-12"
+            "prerequisiteId": "warlock-affliction-13"
           },
           {
             "id": "warlock-affliction-16",
-            "name": "Dark Pact",
-            "description": "Drains 150 of your pet's Mana, returning 100%% to you.",
+            "name": "Contagion",
+            "description": "Increases the damage of Curse of Agony, Corruption and Seed of Corruption by %d%% and reduces the chance your Affliction spells will be dispelled by an additional %d%%.",
             "row": 6,
             "column": 1,
+            "maxRank": 5,
+            "iconId": 136180
+          },
+          {
+            "id": "warlock-affliction-17",
+            "name": "Dark Pact",
+            "description": "Drains 305 of your pet's Mana, returning 100% to you.",
+            "row": 6,
+            "column": 2,
             "maxRank": 1,
             "iconId": 136141
+          },
+          {
+            "id": "warlock-affliction-18",
+            "name": "Improved Howl of Terror",
+            "description": "Reduces the casting time of your Howl of Terror spell by %.1f sec.",
+            "row": 7,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 136147
+          },
+          {
+            "id": "warlock-affliction-19",
+            "name": "Malediction",
+            "description": "Increases the damage bonus effect of your Curse of the Elements spell by an additional %d%%.",
+            "row": 7,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 136137
+          },
+          {
+            "id": "warlock-affliction-20",
+            "name": "Unstable Affliction",
+            "description": "Shadow energy slowly destroys the target, causing 660 damage over 18 sec.  In addition, if the Unstable Affliction is dispelled it will cause 990 damage to the dispeller and silence them for 5 sec.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 136228,
+            "prerequisiteId": "warlock-affliction-16"
           }
         ]
       },
@@ -3463,7 +4580,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warlock-demonology-3",
             "name": "Improved Health Funnel",
-            "description": "Increases the amount of Health transferred by your Health Funnel spell by %d%%.",
+            "description": "Increases the amount of Health transferred by your Health Funnel spell by %d%% and reduces the initial health cost by %d%%.",
             "row": 1,
             "column": 0,
             "maxRank": 2,
@@ -3481,10 +4598,10 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warlock-demonology-5",
             "name": "Fel Intellect",
-            "description": "Increases the maximum Mana of your Imp, Voidwalker, Succubus, and Felhunter by %d%%.",
+            "description": "Increases the Intellect of your Imp, Voidwalker, Succubus, Felhunter and Felguard by %d%% and increases your maximum mana by %d%%.",
             "row": 1,
             "column": 2,
-            "maxRank": 5,
+            "maxRank": 3,
             "iconId": 135932
           },
           {
@@ -3499,7 +4616,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warlock-demonology-7",
             "name": "Fel Domination",
-            "description": "Your next Imp, Voidwalker, Succubus, or Felhunter Summon spell has its casting time reduced by 5.5 sec and its Mana cost reduced by 50%%.",
+            "description": "Your next Imp, Voidwalker, Succubus, Felhunter or Felguard Summon spell has its casting time reduced by 5.5 sec and its Mana cost reduced by 50%.",
             "row": 2,
             "column": 1,
             "maxRank": 1,
@@ -3508,86 +4625,131 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warlock-demonology-8",
             "name": "Fel Stamina",
-            "description": "Increases the maximum Health of your Imp, Voidwalker, Succubus, and Felhunter by %d%%.",
+            "description": "Increases the Stamina of your Imp, Voidwalker, Succubus, Felhunter and Felguard by %d%% and increases your maximum health by %d%%.",
             "row": 2,
             "column": 2,
-            "maxRank": 5,
+            "maxRank": 3,
             "iconId": 136121
           },
           {
             "id": "warlock-demonology-9",
-            "name": "Master Summoner",
-            "description": "Reduces the casting time of your Imp, Voidwalker, Succubus, and Felhunter Summoning spells by %d sec and the Mana cost by %d%%.",
+            "name": "Demonic Aegis",
+            "description": "Increases the effectiveness of your Demon Armor and Fel Armor spells by %d%%.",
             "row": 2,
+            "column": 3,
+            "maxRank": 3,
+            "iconId": 136185
+          },
+          {
+            "id": "warlock-demonology-10",
+            "name": "Master Summoner",
+            "description": "Reduces the casting time of your Imp, Voidwalker, Succubus, Felhunter and Fel Guard Summoning spells by %d sec and the Mana cost by %d%%.",
+            "row": 3,
             "column": 1,
             "maxRank": 2,
             "iconId": 136164,
             "prerequisiteId": "warlock-demonology-7"
           },
           {
-            "id": "warlock-demonology-10",
+            "id": "warlock-demonology-11",
             "name": "Unholy Power",
-            "description": "Increases the damage done by your Voidwalker, Succubus, and Felhunter's melee attacks by %d%%.",
+            "description": "Increases the damage done by your Voidwalker, Succubus, Felhunter and Felguard's melee attacks and your Imp's Firebolt by %d%%.",
             "row": 3,
             "column": 2,
             "maxRank": 5,
             "iconId": 136206
           },
           {
-            "id": "warlock-demonology-11",
+            "id": "warlock-demonology-12",
             "name": "Improved Enslave Demon",
             "description": "Reduces the Attack Speed and Casting Speed penalty of your Enslave Demon spell by %d%% and reduces the resist chance by %d%%.",
             "row": 4,
             "column": 0,
-            "maxRank": 5,
+            "maxRank": 2,
             "iconId": 136154
           },
           {
-            "id": "warlock-demonology-12",
+            "id": "warlock-demonology-13",
             "name": "Demonic Sacrifice",
-            "description": "When activated, sacrifices your summoned demon to grant you an effect that lasts 30 min.  The effect is canceled if any Demon is summoned.\\r\\n\\r\\nImp: Increases your Fire damage by 15%%.\\r\\n\\r\\nVoidwalker: Restores 3%% of total Health every 4 sec.\\r\\n\\r\\nSuccubus: Increases your Shadow damage by 15%%.\\r\\n\\r\\nFelhunter: Restores 2%% of total Mana every 4 sec.",
+            "description": "When activated, sacrifices your summoned demon to grant you an effect that lasts 30 min.  The effect is canceled if any Demon is summoned.\r\n\r\nImp: Increases your Fire damage by 15%.\r\n\r\nVoidwalker: Restores 2% of total health every 4 sec.\r\n\r\nSuccubus: Increases your Shadow damage by 15%.\r\n\r\nFelhunter: Restores 3% of total mana every 4 sec.\r\n\r\nFelguard: Increases your Shadow damage by 10% and restores 2% of total mana every 4 sec.",
             "row": 4,
             "column": 1,
             "maxRank": 1,
             "iconId": 136184
           },
           {
-            "id": "warlock-demonology-13",
-            "name": "Improved Firestone",
-            "description": "Increases the bonus Fire damage from Firestones and the Firestone effect by %d%%.",
+            "id": "warlock-demonology-14",
+            "name": "Master Conjuror",
+            "description": "Increases the bonus Fire damage from Firestones and the Firestone effect by %d%% and increases the spell critical strike rating bonus of your Spellstone by %d%%.",
             "row": 4,
             "column": 3,
             "maxRank": 2,
             "iconId": 132386
           },
           {
-            "id": "warlock-demonology-14",
-            "name": "Master Demonologist",
-            "description": "Grants both the Warlock and the summoned demon an effect as long as that demon is active.\\r\\n\\r\\nImp - Reduces threat caused by %d%%.\\r\\n\\r\\nVoidwalker - Reduces physical damage taken by %d%%.\\r\\n\\r\\nSuccubus - Increases all damage caused by %d%%.\\r\\n\\r\\nFelhunter - Increases all resistances by %.1f per level.",
-            "row": 3,
-            "column": 2,
-            "maxRank": 5,
-            "iconId": 136203,
-            "prerequisiteId": "warlock-demonology-10"
-          },
-          {
             "id": "warlock-demonology-15",
-            "name": "Soul Link",
-            "description": "When active, 30%% of all damage taken by the caster is taken by your Imp, Voidwalker, Succubus, or Felhunter demon instead.  In addition, both the demon and master will inflict 3%% more damage.  Lasts as long as the demon is active.",
-            "row": 4,
-            "column": 1,
-            "maxRank": 1,
-            "iconId": 136160,
-            "prerequisiteId": "warlock-demonology-12"
+            "name": "Mana Feed",
+            "description": "When you gain mana from Drain Mana or Life Tap spells, your pet gains %d%% of the mana you gain.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 136171
           },
           {
             "id": "warlock-demonology-16",
-            "name": "Improved Spellstone",
-            "description": "Increases the amount of damage absorbed by your Spellstone by %d%%.",
+            "name": "Master Demonologist",
+            "description": "Grants both the Warlock and the summoned demon an effect as long as that demon is active.\r\n\r\nImp - Reduces threat caused by %d%%.\r\n\r\nVoidwalker - Reduces physical damage taken by %d%%.\r\n\r\nSuccubus - Increases all damage caused by %d%%.\r\n\r\nFelhunter - Increases all resistances by %.1f per level.\r\n\r\nFelguard - Increases all damage caused by %d%% and all resistances by %.1f per level.",
+            "row": 5,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 136203,
+            "prerequisiteId": "warlock-demonology-11"
+          },
+          {
+            "id": "warlock-demonology-17",
+            "name": "Demonic Resilience",
+            "description": "Reduces the chance you'll be critically hit by melee and spells by %d%% and reduces all damage your summoned demon takes by %d%%.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 136149
+          },
+          {
+            "id": "warlock-demonology-18",
+            "name": "Soul Link",
+            "description": "When active, 20% of all damage taken by the caster is taken by your Imp, Voidwalker, Succubus, Felhunter, Felguard, or enslaved demon instead.  That damage cannot be prevented.  In addition, both the demon and master will inflict 5% more damage.  Lasts as long as the demon is active and controlled.",
+            "row": 6,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 136160,
+            "prerequisiteId": "warlock-demonology-13"
+          },
+          {
+            "id": "warlock-demonology-19",
+            "name": "Demonic Knowledge",
+            "description": "Increases your spell damage by an amount equal to %d%% of the total of your active demon's Stamina plus Intellect.",
             "row": 6,
             "column": 2,
-            "maxRank": 2,
-            "iconId": 134131
+            "maxRank": 3,
+            "iconId": 136165
+          },
+          {
+            "id": "warlock-demonology-20",
+            "name": "Demonic Tactics",
+            "description": "Increases melee and spell critical strike chance for you and your summoned demon by %d%%.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 136150
+          },
+          {
+            "id": "warlock-demonology-21",
+            "name": "Summon Felguard",
+            "description": "Summons a Felguard under the command of the Warlock.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 136216
           }
         ]
       },
@@ -3634,7 +4796,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warlock-destruction-4",
             "name": "Improved Firebolt",
-            "description": "Reduces the casting time of your Imp's Firebolt spell by %.1f sec.",
+            "description": "Reduces the casting time of your Imp's Firebolt spell by %.2f sec.",
             "row": 2,
             "column": 0,
             "maxRank": 2,
@@ -3661,7 +4823,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warlock-destruction-7",
             "name": "Shadowburn",
-            "description": "Instantly blasts the target for 87 to 99 Shadow damage.  If the target dies within 5 sec of Shadowburn, and yields experience or honor, the caster gains a Soul Shard.",
+            "description": "Instantly blasts the target for 91 to 104 Shadow damage.  If the target dies within 5 sec of Shadowburn, and yields experience or honor, the caster gains a Soul Shard.",
             "row": 2,
             "column": 3,
             "maxRank": 1,
@@ -3670,7 +4832,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warlock-destruction-8",
             "name": "Intensity",
-            "description": "Gives you a %d%% chance to resist interruption caused by damage while channeling the Rain of Fire, Hellfire or Soul Fire spell.",
+            "description": "Gives you a %d%% chance to resist interruption caused by damage while casting or channeling any Destruction spell.",
             "row": 3,
             "column": 0,
             "maxRank": 2,
@@ -3679,7 +4841,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warlock-destruction-9",
             "name": "Destructive Reach",
-            "description": "Increases the range of your Destruction spells by %d%%.",
+            "description": "Increases the range of your Destruction spells by %d%% and reduces threat caused by Destruction spells by %d%%.",
             "row": 3,
             "column": 1,
             "maxRank": 2,
@@ -3691,14 +4853,14 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "description": "Increases the critical strike chance of your Searing Pain spell by %d%%.",
             "row": 3,
             "column": 3,
-            "maxRank": 5,
+            "maxRank": 3,
             "iconId": 135827
           },
           {
             "id": "warlock-destruction-11",
             "name": "Pyroclasm",
             "description": "Gives your Rain of Fire, Hellfire, and Soul Fire spells a %d%% chance to stun the target for 3 sec.",
-            "row": 3,
+            "row": 4,
             "column": 0,
             "maxRank": 2,
             "iconId": 135830,
@@ -3716,8 +4878,8 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "warlock-destruction-13",
             "name": "Ruin",
-            "description": "Increases the critical strike damage bonus of your Destruction spells by 100%%.",
-            "row": 2,
+            "description": "Increases the critical strike damage bonus of your Destruction spells by 100%.",
+            "row": 4,
             "column": 2,
             "maxRank": 1,
             "iconId": 136207,
@@ -3725,22 +4887,68 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "warlock-destruction-14",
+            "name": "Nether Protection",
+            "description": "After being hit with a Shadow or Fire spell, you have a %d%% chance to become immune to Shadow and Fire spells for 4 sec.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 136178
+          },
+          {
+            "id": "warlock-destruction-15",
             "name": "Emberstorm",
-            "description": "Increases the damage done by your Fire spells by %d%%.",
+            "description": "Increases the damage done by your Fire spells by %d%% and reduces the cast time of your Incinerate spell by %d%%.",
             "row": 5,
             "column": 2,
             "maxRank": 5,
             "iconId": 135826
           },
           {
-            "id": "warlock-destruction-15",
+            "id": "warlock-destruction-16",
+            "name": "Backlash",
+            "description": "Increases your critical strike chance with spells by an additional %d%% and gives you a %d%% chance when hit by a physical attack to reduce the cast time of your next Shadow Bolt or Incinerate spell by 100%%.  This effect lasts 8 sec and will not occur more than once every 8 seconds.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 135823
+          },
+          {
+            "id": "warlock-destruction-17",
             "name": "Conflagrate",
-            "description": "Ignites a target that is already afflicted by Immolate, dealing 240 to 306 Fire damage and consuming the Immolate spell.",
-            "row": 4,
+            "description": "Ignites a target that is already afflicted by your Immolate, dealing 249 to 316 Fire damage and consuming the Immolate spell.",
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 135807,
             "prerequisiteId": "warlock-destruction-12"
+          },
+          {
+            "id": "warlock-destruction-18",
+            "name": "Soul Leech",
+            "description": "Gives your Shadow Bolt, Shadowburn, Soul Fire, Incinerate, Searing Pain and Conflagrate spells a %d%% chance to return health equal to 20%% of the damage caused.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 136214
+          },
+          {
+            "id": "warlock-destruction-19",
+            "name": "Shadow and Flame",
+            "description": "Your Shadow Bolt and Incinerate spells gain an additional %d%% of your bonus spell damage effects.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 136196
+          },
+          {
+            "id": "warlock-destruction-20",
+            "name": "Shadowfury",
+            "description": "Shadowfury is unleashed, causing 355 to 420 Shadow damage and stunning all enemies within 8 yds for 2 sec.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 136201,
+            "prerequisiteId": "warlock-destruction-19"
           }
         ]
       }
@@ -3750,9 +4958,9 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
     "id": "druid",
     "name": "Druid",
     "color": "#ff7d0a",
-    "version": "classic-era",
-    "maxLevel": 60,
-    "maxTalentPoints": 51,
+    "version": "tbc",
+    "maxLevel": 70,
+    "maxTalentPoints": 61,
     "trees": [
       {
         "id": "druid-balance",
@@ -3760,8 +4968,8 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
         "talents": [
           {
             "id": "druid-balance-0",
-            "name": "Improved Wrath",
-            "description": "Reduces the cast time of your Wrath spell by %.1f sec.",
+            "name": "Starlight Wrath",
+            "description": "Reduces the cast time of your Wrath and Starfire spells by %.1f sec.",
             "row": 0,
             "column": 0,
             "maxRank": 5,
@@ -3770,7 +4978,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "druid-balance-1",
             "name": "Nature's Grasp",
-            "description": "While active, any time an enemy strikes the caster they have a 35%% chance to become afflicted by Entangling Roots (Rank 1).  Only useable outdoors.  1 charge.  Lasts 45 sec.",
+            "description": "While active, any time an enemy strikes the caster they have a 35% chance to become afflicted by Entangling Roots (Rank 1).  Only useable outdoors.  1 charge.  Lasts 45 sec.",
             "row": 0,
             "column": 1,
             "maxRank": 1,
@@ -3781,15 +4989,15 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "name": "Improved Nature's Grasp",
             "description": "Increases the chance for your Nature's Grasp to entangle an enemy by %d%%.",
             "row": 0,
-            "column": 1,
+            "column": 2,
             "maxRank": 4,
             "iconId": 136063,
             "prerequisiteId": "druid-balance-1"
           },
           {
             "id": "druid-balance-3",
-            "name": "Improved Entangling Roots",
-            "description": "Gives you a %d%% chance to avoid interruption caused by damage while casting Entangling Roots.",
+            "name": "Control of Nature",
+            "description": "Gives you a %d%% chance to avoid interruption caused by damage while casting Entangling Roots and Cyclone.",
             "row": 1,
             "column": 0,
             "maxRank": 3,
@@ -3797,77 +5005,76 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "druid-balance-4",
-            "name": "Improved Moonfire",
-            "description": "Increases the damage and critical strike chance of your Moonfire spell by %d%%.",
+            "name": "Focused Starlight",
+            "description": "Increases the critical strike chance of your Wrath and Starfire spells by %d%%.",
             "row": 1,
             "column": 1,
-            "maxRank": 5,
-            "iconId": 136096
-          },
-          {
-            "id": "druid-balance-5",
-            "name": "Natural Weapons",
-            "description": "Increases the damage you deal with physical attacks in all forms by %d%%.",
-            "row": 1,
-            "column": 2,
-            "maxRank": 5,
+            "maxRank": 2,
             "iconId": 135138
           },
           {
-            "id": "druid-balance-6",
-            "name": "Natural Shapeshifter",
-            "description": "Reduces the mana cost of all shapeshifting by %d%%.",
+            "id": "druid-balance-5",
+            "name": "Improved Moonfire",
+            "description": "Increases the damage and critical strike chance of your Moonfire spell by %d%%.",
             "row": 1,
-            "column": 3,
-            "maxRank": 3,
-            "iconId": 136116
+            "column": 2,
+            "maxRank": 2,
+            "iconId": 136096
           },
           {
-            "id": "druid-balance-7",
-            "name": "Improved Thorns",
-            "description": "Increases damage caused by your Thorns spell by %d%%.",
+            "id": "druid-balance-6",
+            "name": "Brambles",
+            "description": "Increases damage caused by your Thorns and Entangling Roots spells by %d%%.",
             "row": 2,
             "column": 0,
             "maxRank": 3,
             "iconId": 136104
           },
           {
-            "id": "druid-balance-8",
-            "name": "Omen of Clarity",
-            "description": "Imbues the Druid with natural energy.  Each of the Druid's melee attacks has a chance of causing the caster to enter a Clearcasting state.  The Clearcasting state reduces the Mana, Rage or Energy cost of your next damage or healing spell or offensive ability by 100%%.  Lasts 10 min.",
-            "row": 1,
+            "id": "druid-balance-7",
+            "name": "Insect Swarm",
+            "description": "The enemy target is swarmed by insects, decreasing their chance to hit by 2% and causing 108 Nature damage over 12 sec.",
+            "row": 2,
             "column": 2,
             "maxRank": 1,
-            "iconId": 136017,
-            "prerequisiteId": "druid-balance-5"
+            "iconId": 136045
           },
           {
-            "id": "druid-balance-9",
+            "id": "druid-balance-8",
             "name": "Nature's Reach",
-            "description": "Increases the range of your Wrath, Entangling Roots, Faerie Fire, Moonfire, Starfire, and Hurricane spells by %d%%.",
+            "description": "Increases the range of your Balance spells and Faerie Fire (Feral) ability by %d%%.",
             "row": 2,
             "column": 3,
             "maxRank": 2,
             "iconId": 136065
           },
           {
-            "id": "druid-balance-10",
+            "id": "druid-balance-9",
             "name": "Vengeance",
             "description": "Increases the critical strike damage bonus of your Starfire, Moonfire, and Wrath spells by %d%%.",
-            "row": 1,
+            "row": 3,
             "column": 1,
             "maxRank": 5,
             "iconId": 136075,
             "prerequisiteId": "druid-balance-4"
           },
           {
-            "id": "druid-balance-11",
-            "name": "Improved Starfire",
-            "description": "Reduces the cast time of Starfire by %.1f sec and has a %d%% chance to stun the target for 3 sec.",
+            "id": "druid-balance-10",
+            "name": "Celestial Focus",
+            "description": "Gives your Starfire spell a %d%% chance to stun the target for 3 sec and increases the chance you'll resist spell interruption when casting your Wrath spell by %d%%.",
             "row": 3,
             "column": 2,
-            "maxRank": 5,
+            "maxRank": 3,
             "iconId": 135753
+          },
+          {
+            "id": "druid-balance-11",
+            "name": "Lunar Guidance",
+            "description": "Increases your spell damage and healing by %d%% of your total Intellect.",
+            "row": 4,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 132132
           },
           {
             "id": "druid-balance-12",
@@ -3891,7 +5098,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "id": "druid-balance-14",
             "name": "Moonfury",
             "description": "Increases the damage done by your Starfire, Moonfire and Wrath spells by %d%%.",
-            "row": 4,
+            "row": 5,
             "column": 1,
             "maxRank": 5,
             "iconId": 136057,
@@ -3899,12 +5106,57 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "druid-balance-15",
+            "name": "Balance of Power",
+            "description": "Increases your chance to hit with all spells and reduces the chance you'll be hit by spells by %d%%.",
+            "row": 5,
+            "column": 2,
+            "maxRank": 2,
+            "iconId": 132113
+          },
+          {
+            "id": "druid-balance-16",
+            "name": "Dreamstate",
+            "description": "Regenerate mana equal to %d%% of your Intellect every 5 sec, even while casting.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 132123
+          },
+          {
+            "id": "druid-balance-17",
             "name": "Moonkin Form",
-            "description": "Transforms the Druid into Moonkin Form.  While in this form the armor contribution from items is increased by 360%% and all party members within 30 yards have their spell critical chance increased by 3%%.  The Moonkin can only cast Balance spells while shapeshifted.\\r\\n\\r\\nThe act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
+            "description": "Shapeshift into Moonkin Form.  While in this form the armor contribution from items is increased by 400%, attack power is increased by 150% of your level and all party members within 30 yards have their spell critical chance increased by 5%.  Melee attacks in this form have a chance on hit to regenerate mana based on attack power.  The Moonkin can only cast Balance and Remove Curse spells while shapeshifted.\r\n\r\nThe act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
             "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 136036
+          },
+          {
+            "id": "druid-balance-18",
+            "name": "Improved Faerie Fire",
+            "description": "Your Faerie Fire spell also increases the chance the target will be hit by melee and ranged attacks by %d%%.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 136033
+          },
+          {
+            "id": "druid-balance-19",
+            "name": "Wrath of Cenarius",
+            "description": "Your Starfire spell gains an additional %d%% and your Wrath gains an additional %d%% of your bonus damage effects.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 132146
+          },
+          {
+            "id": "druid-balance-20",
+            "name": "Force of Nature",
+            "description": "Summons 3 treants to attack enemy targets for 30 sec.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 132129
           }
         ]
       },
@@ -3915,7 +5167,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "druid-feral-combat-0",
             "name": "Ferocity",
-            "description": "Reduces the cost of your Maul, Swipe, Claw, and Rake abilities by %d Rage or Energy.",
+            "description": "Reduces the cost of your Maul, Swipe, Claw, Rake and Mangle abilities by %d Rage or Energy.",
             "row": 0,
             "column": 1,
             "maxRank": 5,
@@ -3924,7 +5176,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "druid-feral-combat-1",
             "name": "Feral Aggression",
-            "description": "Increases the Attack Power reduction of your Demoralizing Roar by %d%% and the damage caused by your Ferocious Bite by %d%%.",
+            "description": "Increases the attack power reduction of your Demoralizing Roar by %d%% and the damage caused by your Ferocious Bite by %d%%.",
             "row": 0,
             "column": 2,
             "maxRank": 5,
@@ -3936,7 +5188,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "description": "Increases threat caused in Bear and Dire Bear Form by %d%% and reduces the chance enemies have to detect you while Prowling.",
             "row": 1,
             "column": 0,
-            "maxRank": 5,
+            "maxRank": 3,
             "iconId": 132089
           },
           {
@@ -3954,13 +5206,13 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "description": "Increases your Armor contribution from items by %d%%.",
             "row": 1,
             "column": 2,
-            "maxRank": 5,
+            "maxRank": 3,
             "iconId": 134355
           },
           {
             "id": "druid-feral-combat-5",
-            "name": "Feline Swiftness",
-            "description": "Increases your movement speed by %d%% while outdoors in Cat Form and increases your chance to dodge while in Cat Form by %d%%.",
+            "name": "Feral Swiftness",
+            "description": "Increases your movement speed by %d%% while outdoors in Cat Form and increases your chance to dodge while in Cat Form, Bear Form and Dire Bear Form by %d%%.",
             "row": 2,
             "column": 0,
             "maxRank": 2,
@@ -3986,8 +5238,8 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "druid-feral-combat-8",
-            "name": "Improved Shred",
-            "description": "Reduces the Energy cost of your Shred ability by %d.",
+            "name": "Shredding Attacks",
+            "description": "Reduces the energy cost of your Shred ability by %d and the rage cost of your Lacerate ability by %d.",
             "row": 3,
             "column": 0,
             "maxRank": 2,
@@ -3996,7 +5248,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           {
             "id": "druid-feral-combat-9",
             "name": "Predatory Strikes",
-            "description": "Increases your melee attack power in Cat, Bear and Dire Bear Forms by %d%% of your level.",
+            "description": "Increases your melee attack power in Cat, Bear, Dire Bear and Moonkin Forms by %d%% of your level.",
             "row": 3,
             "column": 1,
             "maxRank": 3,
@@ -4004,35 +5256,25 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "druid-feral-combat-10",
-            "name": "Blood Frenzy",
-            "description": "Your critical strikes from Cat Form abilities that add combo points  have a %d%% chance to add an additional combo point.",
-            "row": 2,
-            "column": 2,
-            "maxRank": 2,
-            "iconId": 132152,
-            "prerequisiteId": "druid-feral-combat-7"
-          },
-          {
-            "id": "druid-feral-combat-11",
             "name": "Primal Fury",
-            "description": "Gives you a %d%% chance to gain an additional 5 Rage anytime you get a critical strike while in Bear and Dire Bear Form.",
-            "row": 2,
+            "description": "Gives you a %d%% chance to gain an additional 5 Rage anytime you get a critical strike while in Bear and Dire Bear Form and your critical strikes from Cat Form abilities that add combo points  have a %d%% chance to add an additional combo point.",
+            "row": 3,
             "column": 2,
             "maxRank": 2,
             "iconId": 132278,
             "prerequisiteId": "druid-feral-combat-7"
           },
           {
-            "id": "druid-feral-combat-12",
+            "id": "druid-feral-combat-11",
             "name": "Savage Fury",
-            "description": "Increases the damage caused by your Claw, Rake, Maul and Swipe abilities by %d%%.",
+            "description": "Increases the damage caused by your Claw, Rake, and Mangle (Cat) abilities by %d%%.",
             "row": 4,
             "column": 0,
             "maxRank": 2,
             "iconId": 132141
           },
           {
-            "id": "druid-feral-combat-13",
+            "id": "druid-feral-combat-12",
             "name": "Faerie Fire (Feral)",
             "description": "Decrease the armor of the target by 175 for 40 sec.  While affected, the target cannot stealth or turn invisible.",
             "row": 4,
@@ -4041,10 +5283,19 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "iconId": 136033
           },
           {
+            "id": "druid-feral-combat-13",
+            "name": "Nurturing Instinct",
+            "description": "Increases your healing spells by up to %d%% of your Agility, and increases healing done to you by %d%% while in Cat form.",
+            "row": 4,
+            "column": 3,
+            "maxRank": 2,
+            "iconId": 132130
+          },
+          {
             "id": "druid-feral-combat-14",
             "name": "Heart of the Wild",
-            "description": "Increases your Intellect by %d%%.  In addition, while in Bear or Dire Bear Form your Stamina is increased by %d%% and while in Cat Form your Strength is increased by %d%%.",
-            "row": 3,
+            "description": "Increases your Intellect by %d%%.  In addition, while in Bear or Dire Bear Form your Stamina is increased by %d%% and while in Cat Form your attack power is increased by %d%%.",
+            "row": 5,
             "column": 1,
             "maxRank": 5,
             "iconId": 135879,
@@ -4052,12 +5303,59 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "druid-feral-combat-15",
+            "name": "Survival of the Fittest",
+            "description": "Increases all attributes by %d%% and reduces the chance you'll be critically hit by melee attacks by %d%%.",
+            "row": 5,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 132126
+          },
+          {
+            "id": "druid-feral-combat-16",
+            "name": "Primal Tenacity",
+            "description": "Increases your chance to resist Stun and Fear mechanics by %d%%.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 132139
+          },
+          {
+            "id": "druid-feral-combat-17",
             "name": "Leader of the Pack",
-            "description": "While in Cat, Bear or Dire Bear Form, the Leader of the Pack increases ranged and melee critical chance of all party members within 45 yards by 3%%.",
+            "description": "While in Cat, Bear or Dire Bear Form, the Leader of the Pack increases ranged and melee critical chance of all party members within 45 yards by 5%.",
             "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 136112
+          },
+          {
+            "id": "druid-feral-combat-18",
+            "name": "Improved Leader of the Pack",
+            "description": "Your Leader of the Pack ability also causes affected targets to have a 100%% chance to heal themselves for %d%% of their total health when they critically hit with a melee or ranged attack.  The healing effect cannot occur more than once every 6 sec.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 2,
+            "iconId": 136112,
+            "prerequisiteId": "druid-feral-combat-17"
+          },
+          {
+            "id": "druid-feral-combat-19",
+            "name": "Predatory Instincts",
+            "description": "While in Cat Form, Bear Form, or Dire Bear Form, increases your damage from melee critical strikes by %d%% and your chance to avoid area effect attacks by %d%%.",
+            "row": 7,
+            "column": 2,
+            "maxRank": 5,
+            "iconId": 132138
+          },
+          {
+            "id": "druid-feral-combat-20",
+            "name": "Mangle",
+            "description": "Mangle the target, inflicting damage and causing the target to take additional damage from bleed effects for 12 sec.  This ability can be used in Cat Form or Dire Bear Form.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 132135,
+            "prerequisiteId": "druid-feral-combat-17"
           }
         ]
       },
@@ -4085,8 +5383,8 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "druid-restoration-2",
-            "name": "Improved Healing Touch",
-            "description": "Reduces the cast time of your Healing Touch spell by %.1f sec.",
+            "name": "Naturalist",
+            "description": "Reduces the cast time of your Healing Touch spell by %.1f sec and increases the damage you deal with physical attacks in all forms by %d%%.",
             "row": 1,
             "column": 0,
             "maxRank": 5,
@@ -4103,39 +5401,39 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "druid-restoration-4",
-            "name": "Improved Enrage",
-            "description": "The Enrage ability now instantly generates %d Rage.",
+            "name": "Natural Shapeshifter",
+            "description": "Reduces the mana cost of all shapeshifting by %d%%.",
             "row": 1,
             "column": 2,
-            "maxRank": 2,
-            "iconId": 132126
+            "maxRank": 3,
+            "iconId": 136116
           },
           {
             "id": "druid-restoration-5",
-            "name": "Reflection",
-            "description": "Allows %d%% of your Mana regeneration to continue while casting.",
+            "name": "Intensity",
+            "description": "Allows %d%% of your Mana regeneration to continue while casting and causes your Enrage ability to instantly generate %d rage.",
             "row": 2,
-            "column": 1,
+            "column": 0,
             "maxRank": 3,
             "iconId": 135863
           },
           {
             "id": "druid-restoration-6",
-            "name": "Insect Swarm",
-            "description": "The enemy target is swarmed by insects, decreasing their chance to hit by 2%% and causing 66 Nature damage over 12 sec.",
+            "name": "Subtlety",
+            "description": "Reduces the threat generated by your spells by %d%% and reduces the chance your spells will be dispelled by %d%%.",
             "row": 2,
-            "column": 2,
-            "maxRank": 1,
-            "iconId": 136045
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 132150
           },
           {
             "id": "druid-restoration-7",
-            "name": "Subtlety",
-            "description": "Reduces the threat generated by your Healing spells by %d%%.",
+            "name": "Omen of Clarity",
+            "description": "Imbues the Druid with natural energy.  Each of the Druid's melee attacks has a chance of causing the caster to enter a Clearcasting state.  The Clearcasting state reduces the Mana, Rage or Energy cost of your next damage or healing spell or offensive ability by 100%.  Lasts 30 min.",
             "row": 2,
-            "column": 3,
-            "maxRank": 5,
-            "iconId": 132150
+            "column": 2,
+            "maxRank": 1,
+            "iconId": 136017
           },
           {
             "id": "druid-restoration-8",
@@ -4151,7 +5449,7 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "name": "Improved Rejuvenation",
             "description": "Increases the effect of your Rejuvenation spell by %d%%.",
             "row": 3,
-            "column": 3,
+            "column": 2,
             "maxRank": 3,
             "iconId": 136081
           },
@@ -4159,21 +5457,20 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
             "id": "druid-restoration-10",
             "name": "Nature's Swiftness",
             "description": "When activated, your next Nature spell becomes an instant cast spell.",
-            "row": 1,
+            "row": 4,
             "column": 0,
             "maxRank": 1,
             "iconId": 136076,
-            "prerequisiteId": "druid-restoration-2"
+            "prerequisiteId": "druid-restoration-5"
           },
           {
             "id": "druid-restoration-11",
             "name": "Gift of Nature",
             "description": "Increases the effect of all healing spells by %d%%.",
-            "row": 2,
-            "column": 2,
+            "row": 4,
+            "column": 1,
             "maxRank": 5,
-            "iconId": 136074,
-            "prerequisiteId": "druid-restoration-6"
+            "iconId": 136074
           },
           {
             "id": "druid-restoration-12",
@@ -4186,22 +5483,69 @@ export const CLASSIC_TALENT_CLASSES: TalentClass[] = [
           },
           {
             "id": "druid-restoration-13",
+            "name": "Empowered Touch",
+            "description": "Your Healing Touch spell gains an additional %d%% of your bonus healing effects.",
+            "row": 5,
+            "column": 0,
+            "maxRank": 2,
+            "iconId": 132125
+          },
+          {
+            "id": "druid-restoration-14",
             "name": "Improved Regrowth",
             "description": "Increases the critical effect chance of your Regrowth spell by %d%%.",
             "row": 5,
             "column": 2,
             "maxRank": 5,
-            "iconId": 136085
+            "iconId": 136085,
+            "prerequisiteId": "druid-restoration-9"
           },
           {
-            "id": "druid-restoration-14",
+            "id": "druid-restoration-15",
+            "name": "Living Spirit",
+            "description": "Increases your total Spirit by %d%%.",
+            "row": 6,
+            "column": 0,
+            "maxRank": 3,
+            "iconId": 136037
+          },
+          {
+            "id": "druid-restoration-16",
             "name": "Swiftmend",
             "description": "Consumes a Rejuvenation or Regrowth effect on a friendly target to instantly heal them an amount equal to 12 sec. of Rejuvenation or 18 sec. of Regrowth.",
-            "row": 3,
+            "row": 6,
             "column": 1,
             "maxRank": 1,
             "iconId": 134914,
-            "prerequisiteId": "druid-restoration-8"
+            "prerequisiteId": "druid-restoration-11"
+          },
+          {
+            "id": "druid-restoration-17",
+            "name": "Natural Perfection",
+            "description": "Your critical strike chance with all spells is increased by %d%% and critical strikes against you give you the Natural Perfection effect reducing all damage taken by %d%%.  Stacks up to 3 times.  Lasts 8 sec.",
+            "row": 6,
+            "column": 2,
+            "maxRank": 3,
+            "iconId": 132137
+          },
+          {
+            "id": "druid-restoration-18",
+            "name": "Empowered Rejuvenation",
+            "description": "The bonus healing effects of your healing over time spells is increased by %d%%.",
+            "row": 7,
+            "column": 1,
+            "maxRank": 5,
+            "iconId": 132124
+          },
+          {
+            "id": "druid-restoration-19",
+            "name": "Tree of Life",
+            "description": "Shapeshift into the Tree of Life.  While in this form you increase healing received by 25% of your total Spirit for all party members within 45 yards, your movement speed is reduced by 20%, and you can only cast Swiftmend, Innervate, Nature's Swiftness, Rebirth, Barkskin, poison removing and healing over time spells, but the mana cost of these spells is reduced by 20%.\r\n\r\nThe act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
+            "row": 8,
+            "column": 1,
+            "maxRank": 1,
+            "iconId": 132145,
+            "prerequisiteId": "druid-restoration-18"
           }
         ]
       }

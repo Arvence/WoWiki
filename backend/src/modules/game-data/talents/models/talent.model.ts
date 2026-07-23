@@ -19,9 +19,9 @@ export type TalentClass = {
   id: string
   name: string
   color: string
-  version: 'classic-era'
-  maxLevel: 60
-  maxTalentPoints: 51
+  version: 'classic-era' | 'tbc'
+  maxLevel: 60 | 70
+  maxTalentPoints: 51 | 61
   trees: TalentTree[]
 }
 
