@@ -3,11 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import DropdownMenu from "../ui/DropdownMenu"
 import { useAuth } from "../../features/auth/AuthContext"
 
-const navButtons = [
-  { label: "Tools", items: ["Talent Calculator", "Item Comparator", "Item Finder"] },
-  { label: "Guides", items: ["Class Builds", "Raids", "PvP"] },
-]
-
 const profileButton = {
   label: "Profile",
   items: ["Saved Articles", "Settings", "Sign Out", "About", "Support", "Privacy"],
@@ -89,18 +84,20 @@ export default function AppHeader(): JSX.Element {
             <svg className="h-4 w-4 transition group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3" strokeWidth="1.8" /><path d="M4 5v7c0 1.66 3.58 3 8 3s8-1.34 8-3V5M4 12v7c0 1.66 3.58 3 8 3s8-1.34 8-3v-7" strokeWidth="1.8" /></svg>
             Database
           </Link>
-          {navButtons.map((button) => (
-            <DropdownMenu
-              key={button.label}
-              label={button.label}
-              items={button.items}
-              isOpen={openDropdown === button.label}
-              onToggle={() => setOpenDropdown((current) => (current === button.label ? null : button.label))}
-              onOpen={() => setOpenDropdown(button.label)}
-              onClose={() => setOpenDropdown(null)}
-              align="right"
-            />
-          ))}
+          <Link
+            to="/guides"
+            className="group inline-flex items-center gap-2 rounded-xl border border-primary/45 bg-gradient-to-br from-primary/20 to-primary/[0.06] px-3.5 py-2 text-sm font-bold text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition hover:border-primary/70 hover:bg-primary/25 hover:text-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          >
+            <svg className="h-4 w-4 transition group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z" /><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v17h4.5A2.5 2.5 0 0 1 20 22V5.5Z" /></svg>
+            Guides
+          </Link>
+          <Link
+            to="/tools"
+            className="group inline-flex items-center gap-2 rounded-xl border border-primary/45 bg-gradient-to-br from-primary/20 to-primary/[0.06] px-3.5 py-2 text-sm font-bold text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition hover:border-primary/70 hover:bg-primary/25 hover:text-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          >
+            <svg className="h-5 w-5 transition group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="m14.7 6.3 3-3a4.2 4.2 0 0 1-5.5 5.5L5.3 15.7a2.1 2.1 0 1 0 3 3l6.9-6.9a4.2 4.2 0 0 0 5.5-5.5l-3 3" /><circle cx="6.8" cy="17.2" r=".8" fill="currentColor" stroke="none" /></svg>
+            Tools
+          </Link>
           <div className="ml-1 flex items-center gap-2 pl-1">
             {user ? <DropdownMenu label={user.displayName} items={profileButton.items} isOpen={openDropdown === profileButton.label} onToggle={() => setOpenDropdown((current) => current === profileButton.label ? null : profileButton.label)} onOpen={() => setOpenDropdown(profileButton.label)} onClose={() => setOpenDropdown(null)} variant="profile" align="right" dividerBefore={profileButton.dividerBefore} onSelect={selectProfileItem} avatarText={user.displayName} profileSubtitle={user.email} /> : <Link to="/auth" className="rounded-xl bg-primary px-3.5 py-2 text-sm font-bold text-background hover:bg-primary-hover">Sign in</Link>}
           </div>
@@ -127,25 +124,14 @@ export default function AppHeader(): JSX.Element {
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3" strokeWidth="1.8" /><path d="M4 5v7c0 1.66 3.58 3 8 3s8-1.34 8-3V5M4 12v7c0 1.66 3.58 3 8 3s8-1.34 8-3v-7" strokeWidth="1.8" /></svg>
               Database
             </Link>
-            {navButtons.map((button) => (
-              <details key={button.label} className="rounded-xl bg-background/35">
-                <summary className="flex cursor-pointer items-center justify-between gap-2 rounded-xl px-3 py-2 text-sm font-medium text-text transition hover:bg-primary/10 hover:text-primary">
-                  {button.label}
-                  <span className="text-muted">&#9662;</span>
-                </summary>
-                <div className="space-y-1 px-3 pb-2">
-                  {button.items.map((item) => (
-                    <a
-                      key={item}
-                      href="#"
-                      className="block rounded-md px-2 py-2 text-sm text-text transition hover:bg-background/90"
-                    >
-                      {item}
-                    </a>
-                  ))}
-                </div>
-              </details>
-            ))}
+            <Link to="/guides" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/10 px-3 py-2.5 text-sm font-bold text-primary transition hover:bg-primary/20 hover:text-primary-hover">
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z" /><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v17h4.5A2.5 2.5 0 0 1 20 22V5.5Z" /></svg>
+              Guides
+            </Link>
+            <Link to="/tools" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/10 px-3 py-2.5 text-sm font-bold text-primary transition hover:bg-primary/20 hover:text-primary-hover">
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="m14.7 6.3 3-3a4.2 4.2 0 0 1-5.5 5.5L5.3 15.7a2.1 2.1 0 1 0 3 3l6.9-6.9a4.2 4.2 0 0 0 5.5-5.5l-3 3" /></svg>
+              Tools
+            </Link>
             {user ? <details className="rounded-xl bg-primary/[0.07]">
               <summary className="flex cursor-pointer items-center justify-between gap-2 rounded-xl px-3 py-2 text-sm font-medium text-text transition hover:bg-primary/10">
                 <span className="flex items-center gap-2">

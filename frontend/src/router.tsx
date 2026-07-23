@@ -14,6 +14,9 @@ import AuthPage from './features/auth/AuthPage'
 import ProfilePage from './features/auth/ProfilePage'
 import SearchPage from './features/search/SearchPage'
 import NotFoundPage from './pages/NotFoundPage'
+import GuidesPage from './pages/GuidesPage'
+import ToolsPage from './pages/ToolsPage'
+import TalentCalculatorPage from './features/tools/talent-calculator/pages/TalentCalculatorPage'
 
 export const router = createBrowserRouter([
   { path: '/auth', element: <AuthPage /> },
@@ -42,6 +45,18 @@ export const router = createBrowserRouter([
   {
     path: '/database/:collection',
     element: <DatabaseCollectionPage />,
+  },
+  {
+    path: '/guides',
+    element: <GuidesPage />,
+  },
+  {
+    path: '/tools',
+    element: <ToolsPage />,
+  },
+  {
+    path: '/tools/talent-calculator',
+    element: <TalentCalculatorPage />,
   },
   {
     path: '/privacy',
