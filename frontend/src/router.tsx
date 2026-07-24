@@ -17,6 +17,7 @@ import NotFoundPage from './pages/NotFoundPage'
 import GuidesPage from './pages/GuidesPage'
 import ToolsPage from './pages/ToolsPage'
 import TalentCalculatorPage from './features/tools/talent-calculator/pages/TalentCalculatorPage'
+import RaidPlannerPage from './features/tools/raid-planner/pages/RaidPlannerPage'
 
 export const router = createBrowserRouter([
   { path: '/auth', element: <AuthPage /> },
@@ -57,6 +58,10 @@ export const router = createBrowserRouter([
   {
     path: '/tools/talent-calculator',
     element: <TalentCalculatorPage />,
+  },
+  {
+    path: '/tools/raid-planner',
+    element: <RaidPlannerPage />,
   },
   {
     path: '/privacy',

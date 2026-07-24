@@ -14,8 +14,8 @@ const iconClassName = 'h-5 w-5'
 export const tools: readonly ToolDefinition[] = [
   {
     title: 'Raid Planner',
-    status: 'Soon',
     description: 'Organize roles, groups, buffs, and preparation lists for your next raid night.',
+    href: '/tools/raid-planner',
     image: '/images/tools/raid-planner-dragon.png',
     icon: <svg className={iconClassName} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M8 3v4M16 3v4M4 10h16M8 14h3M13 14h3M8 17h3" /></svg>,
   },
