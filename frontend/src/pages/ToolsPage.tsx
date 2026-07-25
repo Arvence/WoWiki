@@ -4,14 +4,14 @@ import AppHeader from '../components/layout/AppHeader'
 import { tools } from '../features/tools/tools.config'
 
 export default function ToolsPage(): JSX.Element {
-  const toolClassName = 'group relative isolate flex h-full min-h-[30rem] w-60 shrink-0 flex-col justify-end overflow-hidden rounded-2xl bg-surface p-6 text-left shadow-[0_14px_38px_rgba(0,0,0,0.22)] transition hover:-translate-y-1 hover:bg-primary/[0.08] hover:shadow-[0_20px_46px_rgba(0,0,0,0.3)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40'
+  const toolClassName = 'group relative isolate flex min-h-[22rem] min-w-0 flex-col justify-end overflow-hidden rounded-2xl bg-surface p-5 text-left shadow-[0_14px_38px_rgba(0,0,0,0.22)] transition hover:-translate-y-1 hover:bg-primary/[0.08] hover:shadow-[0_20px_46px_rgba(0,0,0,0.3)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 sm:min-h-[26rem] sm:p-6 lg:min-h-[30rem]'
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <AppHeader />
-      <main className="flex w-full flex-1 items-stretch px-4 py-8 sm:px-6 lg:py-10">
-        <section className="mx-auto flex w-full max-w-[120rem] overflow-x-auto py-2" aria-label="WoWiki tools">
-          <div className="mx-auto flex w-max min-w-full items-stretch justify-center gap-4 px-2">
+      <main className="w-full min-w-0 flex-1 px-2 py-6 sm:px-6 sm:py-8 lg:py-10">
+        <section className="mx-auto w-full min-w-0 max-w-[120rem] py-2" aria-label="WoWiki tools">
+          <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6">
             {tools.map((tool) => {
             const content = (
               <>

@@ -9,6 +9,7 @@ type ActionsProps = {
   onLike?: (liked: boolean) => Promise<void>
   likeCount?: number
   likeOnce?: boolean
+  showLike?: boolean
   showSave?: boolean
   showShare?: boolean
   showReport?: boolean
@@ -19,7 +20,7 @@ type ActionsProps = {
   leadingAction?: ReactNode
 }
 
-export default function Actions({ target, storageKey, onLike, likeCount, likeOnce = false, showSave = true, showShare = true, showReport = true, showDownload = false, onDownload, downloading = false, orientation = 'horizontal', leadingAction }: ActionsProps): JSX.Element {
+export default function Actions({ target, storageKey, onLike, likeCount, likeOnce = false, showLike = true, showSave = true, showShare = true, showReport = true, showDownload = false, onDownload, downloading = false, orientation = 'horizontal', leadingAction }: ActionsProps): JSX.Element {
   const [liked, setLiked] = useState(false)
   const [saved, setSaved] = useState(false)
   const [updatingLike, setUpdatingLike] = useState(false)
@@ -88,7 +89,7 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
       <div className={`flex items-center ${orientationClasses}`}>
       {leadingAction}
 
-      <TextTooltip text={liked ? `Unlike ${target.title}` : `Like ${target.title}`} onlyWhenTruncated={false} delayMs={ACTION_TOOLTIP_DELAY_MS}>
+      {showLike && <TextTooltip text={liked ? `Unlike ${target.title}` : `Like ${target.title}`} onlyWhenTruncated={false} delayMs={ACTION_TOOLTIP_DELAY_MS}>
         <button
           type="button"
           onClick={() => void handleLike()}
@@ -102,7 +103,7 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
           </svg>
           {likeCount !== undefined && <span className="ml-1 text-xs tabular-nums">{likeCount}</span>}
         </button>
-      </TextTooltip>
+      </TextTooltip>}
 
       {showSave && <TextTooltip text={saved ? 'Remove from saved items' : 'Save article'} onlyWhenTruncated={false} delayMs={ACTION_TOOLTIP_DELAY_MS}><button
         type="button"
