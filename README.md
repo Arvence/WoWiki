@@ -6,6 +6,8 @@ WoWiki is a modular World of Warcraft Classic platform built with a React fronte
 
 The browser uses one origin: `http://localhost:8080`.
 
+[![WoWiki gateway-first request and response architecture](docs/assets/wowiki-request-response-map.svg)](docs/request-response-map.md)
+
 | Public path | Destination |
 | --- | --- |
 | `/` | React frontend on port `3000` |
@@ -16,6 +18,12 @@ The browser uses one origin: `http://localhost:8080`.
 | `/gateway/health` | Gateway health |
 
 The frontend only uses relative application URLs. Internal ports remain implementation details behind the gateway.
+Protected NestJS operations forward the session cookie and correlation ID to the Auth service;
+the gateway-forwarded client address keeps authentication limits partitioned per browser.
+
+See the [gateway-first request/response map](docs/request-response-map.md) for
+end-to-end flows, endpoint access levels, propagated headers, response shapes,
+and service ownership.
 
 ## Run locally
 
@@ -61,3 +69,5 @@ services/tools/    Planned ASP.NET Core tools service
 
 The gateway is the required browser entry point. Vite serves frontend assets internally and does not proxy application APIs.
 Gateway API routes include per-client rate limiting, correlation IDs, baseline security headers, request hardening, and structured request logging.
+Content and game-data reads are public. Mutations require an authenticated moderator or admin,
+while community creation, comments, and reactions require an authenticated user.

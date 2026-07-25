@@ -1,0 +1,44 @@
+flowchart LR
+    B["Browser / React"]
+    G["Gateway :8080"]
+    F["Vite frontend :3000"]
+    N["NestJS API :5000"]
+    A["Auth service :5100"]
+    P["PDF service :5200"]
+    DB[("Auth users and roles<br/>SQLite")]
+    KEYS[("Cookie-protection keys<br/>protected files")]
+    MEM[("In-memory game and<br/>content data")]
+    IMG[("Backend image files")]
+
+    B -->|"All HTTP requests<br/>relative application URLs"| G
+
+    G -->|"/ and frontend routes"| F
+    G -->|"/api/auth/*"| A
+    G -->|"/api/pdf/*"| P
+    G -->|"/api/*"| N
+    G -->|"/images/*"| N
+
+    N -->|"Protected action<br/>Cookie + X-Correlation-ID<br/>GET /api/auth/me"| A
+
+    A --> DB
+    A --> KEYS
+    N --> MEM
+    N --> IMG
+
+    F -->|"HTML, JavaScript, CSS"| G
+    A -->|"JSON + Set-Cookie<br/>when the session changes"| G
+    P -->|"application/pdf<br/>or Problem Details"| G
+    N -->|"JSON, image bytes,<br/>or API errors"| G
+    A -->|"User + roles or 401"| N
+
+    G -->|"Status + body<br/>security and correlation headers"| B
+
+    classDef gateway fill:#3b2d0c,stroke:#d69e2e,color:#fff7db,stroke-width:3px
+    classDef service fill:#17251d,stroke:#38a169,color:#e9fff0,stroke-width:2px
+    classDef client fill:#17223a,stroke:#4c8dff,color:#edf4ff,stroke-width:2px
+    classDef data fill:#241a38,stroke:#9f7aea,color:#f5efff,stroke-width:2px
+
+    class B client
+    class G gateway
+    class F,N,A,P service
+    class DB,KEYS,MEM,IMG data
