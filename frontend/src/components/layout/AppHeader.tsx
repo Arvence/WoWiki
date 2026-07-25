@@ -35,7 +35,7 @@ export default function AppHeader(): JSX.Element {
   return (
     <header className="sticky top-2 z-40 rounded-2xl bg-surface/80 shadow-[0_12px_38px_rgba(0,0,0,0.22)] backdrop-blur-xl">
       <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" aria-hidden="true" />
-      <div className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-3 py-2.5 sm:grid-cols-[9rem_minmax(12rem,1fr)_9rem] sm:gap-3 sm:px-4 lg:grid-cols-[auto_minmax(12rem,1fr)_auto]">
+      <div className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-3 py-2.5 sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:gap-3 sm:px-4 lg:grid-cols-[auto_minmax(12rem,1fr)_auto]">
         <div className="col-start-1 row-start-1 flex items-center">
           <Link to="/" className="group flex items-center gap-2 focus:outline-none focus-visible:text-primary-hover">
             <img
@@ -47,7 +47,7 @@ export default function AppHeader(): JSX.Element {
         </div>
 
         <div className="col-span-2 row-start-2 flex w-full min-w-0 justify-center sm:col-span-1 sm:col-start-2 sm:row-start-1">
-          <form className="relative w-full min-w-0 max-w-none sm:max-w-[48rem] lg:max-w-[72rem]" role="search" onSubmit={submitSearch}>
+          <form className="relative w-full min-w-0 max-w-none lg:max-w-[72rem]" role="search" onSubmit={submitSearch}>
             <svg className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35" />
               <circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth={2} />
