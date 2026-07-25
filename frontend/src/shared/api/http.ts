@@ -21,7 +21,7 @@ export class HttpError extends Error {
   }
 }
 
-async function request<T>(url: string, options: RequestOptions = {}): Promise<T> {
+async function sendRequest(url: string, options: RequestOptions = {}): Promise<Response> {
   const { errorMessage = 'Request failed', notFoundMessage, headers: initialHeaders, ...requestOptions } = options
   const headers = new Headers(initialHeaders)
 
@@ -37,8 +37,8 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
     throw new HttpError(errorMessage, 0)
   }
 
-  const body = await parseResponseBody(response)
   if (!response.ok) {
+    const body = await parseResponseBody(response)
     if (response.status === 401 && url.endsWith('/auth/me')) {
       window.dispatchEvent(new Event('wowiki:auth-expired'))
     }
@@ -48,7 +48,12 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
     throw new HttpError(message, response.status, apiError)
   }
 
-  return body as T
+  return response
+}
+
+async function request<T>(url: string, options: RequestOptions = {}): Promise<T> {
+  const response = await sendRequest(url, options)
+  return await parseResponseBody(response) as T
 }
 
 async function parseResponseBody(response: Response): Promise<unknown> {
@@ -97,5 +102,13 @@ export const http = {
 
   delete(url: string, options?: HttpOptions): Promise<void> {
     return request<void>(url, { ...options, method: 'DELETE' })
+  },
+
+  postForResponse(url: string, body: unknown, options?: HttpOptions): Promise<Response> {
+    return sendRequest(url, {
+      ...options,
+      method: 'POST',
+      body: JSON.stringify(body),
+    })
   },
 }

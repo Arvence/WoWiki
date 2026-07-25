@@ -40,12 +40,10 @@ export default function CreateNewsCommunityEntry({ newsId, newsTitle, plus = fal
     try {
       await createCommunityEntry({
         newsId,
-        author: user?.displayName ?? 'Guest',
         title: String(form.get('title')),
         excerpt: String(form.get('content')).slice(0, 180),
         content: String(form.get('content')),
         category: String(form.get('category')),
-        publishedAt: new Date().toISOString(),
         image: String(form.get('image') || '').trim() || undefined,
         hashtags: String(form.get('hashtags') || '').split(/[\s,]+/).map((tag) => tag.replace(/^#/, '').trim().toLowerCase()).filter(Boolean).slice(0, 6),
       })

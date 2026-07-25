@@ -8,4 +8,6 @@ export type ApiErrorResponse = {
   errors?: Record<string, string[]>
   timestamp?: string
   path?: string
+  traceId?: string
+  correlationId?: string
 }

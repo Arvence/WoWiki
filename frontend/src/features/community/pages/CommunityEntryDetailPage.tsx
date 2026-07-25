@@ -8,14 +8,12 @@ import ViewerCount from '../../../components/ui/ViewerCount'
 import { formatDate, formatRelativeDate } from '../../../shared/utils/date'
 import { createCommunityComment, fetchCommunityComments, fetchCommunityEntries, fetchCommunityEntryById, likeCommunityComment } from '../api/communityService'
 import type { CommunityCommentData, CommunityEntryData } from '../types/community'
-import { useAuth } from '../../auth/AuthContext'
 
 function formatPublishedAt(value: string): string {
   return formatDate(value, { dateStyle: 'long' })
 }
 
 export default function CommunityEntryDetailPage(): JSX.Element {
-  const { user } = useAuth()
   const { entryId } = useParams<{ entryId: string }>()
   const [entry, setEntry] = useState<CommunityEntryData | null>(null)
   const [comments, setComments] = useState<CommunityCommentData[]>([])
@@ -52,7 +50,7 @@ export default function CommunityEntryDetailPage(): JSX.Element {
 
   const createComment = async (input: { content: string; parentId?: string }) => {
     if (!entryId) throw new Error('Community entry not found')
-    const created = await createCommunityComment(entryId, { ...input, author: user?.displayName ?? 'Guest' })
+    const created = await createCommunityComment(entryId, input)
     setComments((current) => [...current, created])
   }
 

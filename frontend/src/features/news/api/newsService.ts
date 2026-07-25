@@ -17,13 +17,9 @@ export async function setNewsLiked(newsId: string, liked: boolean): Promise<News
 }
 
 export async function downloadNewsPdf(article: News): Promise<void> {
-  const response = await fetch('/api/pdf/news', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(article),
+  const response = await http.postForResponse('/api/pdf/news', article, {
+    errorMessage: 'Failed to create PDF',
   })
-
-  if (!response.ok) throw new Error('Failed to create PDF')
 
   const blobUrl = URL.createObjectURL(await response.blob())
   const disposition = response.headers.get('content-disposition') ?? ''
