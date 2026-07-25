@@ -11,10 +11,9 @@ The browser uses one origin: `http://localhost:8080`.
 | `/` | React frontend on port `3000` |
 | `/api/auth/*` | Auth service on port `5100` |
 | `/api/pdf/*` | PDF service on port `5200` |
-| `/api/tools/*` | Planned Tools service on port `5300` |
 | `/api/*` | NestJS backend on port `5000` |
 | `/images/*` | NestJS backend on port `5000` |
-| `/gateway/health` | Gateway health check |
+| `/gateway/health` | Gateway health |
 
 The frontend only uses relative application URLs. Internal ports remain implementation details behind the gateway.
 
@@ -61,3 +60,4 @@ services/tools/    Planned ASP.NET Core tools service
 ```
 
 The gateway is the required browser entry point. Vite serves frontend assets internally and does not proxy application APIs.
+Gateway API routes include per-client rate limiting, correlation IDs, baseline security headers, request hardening, and structured request logging.
