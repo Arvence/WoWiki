@@ -34,8 +34,14 @@ public sealed class AuthFlowTests : IAsyncLifetime
             HandleCookies = true,
         });
 
-        var healthResponse = await client.GetAsync("/health");
+        var correlationId = Guid.NewGuid();
+        using var healthRequest = new HttpRequestMessage(HttpMethod.Get, "/health");
+        healthRequest.Headers.Add("X-Correlation-ID", correlationId.ToString());
+        var healthResponse = await client.SendAsync(healthRequest);
         Assert.Equal(HttpStatusCode.OK, healthResponse.StatusCode);
+        Assert.Equal(
+            correlationId.ToString("N"),
+            healthResponse.Headers.GetValues("X-Correlation-ID").Single());
 
         var registerResponse = await client.PostAsJsonAsync("/api/auth/register", new
         {
@@ -59,6 +65,26 @@ public sealed class AuthFlowTests : IAsyncLifetime
         Assert.Equal(HttpStatusCode.Unauthorized, signedOutResponse.StatusCode);
     }
 
+    [Fact]
+    public async Task AuthAttemptLimitUsesTheForwardedClientAddress()
+    {
+        using var factory = _factory!.WithWebHostBuilder(builder =>
+        {
+            builder.UseSetting("RateLimiting:AuthAttempts:PermitLimit", "1");
+            builder.UseSetting("RateLimiting:AuthAttempts:WindowSeconds", "60");
+        });
+        using var client = factory.CreateClient();
+
+        var firstAttempt = await SendLoginAsync(client, "192.0.2.10");
+        var repeatedAttempt = await SendLoginAsync(client, "192.0.2.10");
+        var differentClientAttempt = await SendLoginAsync(client, "192.0.2.11");
+
+        Assert.Equal(HttpStatusCode.Unauthorized, firstAttempt.StatusCode);
+        Assert.Equal(HttpStatusCode.TooManyRequests, repeatedAttempt.StatusCode);
+        Assert.True(repeatedAttempt.Headers.Contains("Retry-After"));
+        Assert.Equal(HttpStatusCode.Unauthorized, differentClientAttempt.StatusCode);
+    }
+
     public async Task DisposeAsync()
     {
         if (_factory is not null)
@@ -77,4 +103,19 @@ public sealed class AuthFlowTests : IAsyncLifetime
     }
 
     private sealed record UserResponse(string Email, DateTimeOffset CreatedAtUtc, IReadOnlyCollection<string> Roles);
+
+    private static async Task<HttpResponseMessage> SendLoginAsync(HttpClient client, string forwardedAddress)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Post, "/api/auth/login")
+        {
+            Content = JsonContent.Create(new
+            {
+                Email = "missing@wowiki.local",
+                Password = "ClassicWow1",
+                RememberMe = false,
+            }),
+        };
+        request.Headers.Add("X-Forwarded-For", forwardedAddress);
+        return await client.SendAsync(request);
+    }
 }

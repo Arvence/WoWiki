@@ -26,7 +26,9 @@ The API listens at `http://localhost:5100`. On first startup, EF Core applies mi
 | `PATCH` | `/api/auth/me` | Required | Update display name and email |
 | `POST` | `/api/auth/change-password` | Required | Change the current password |
 
-Register and login return an HTTP-only `wowiki.auth` cookie. Browser requests must use credentials (`credentials: 'include'`). The development CORS policy permits the frontend ports `3000` and `5173`.
+Register and login return an HTTP-only `wowiki.auth` cookie. Browser requests go through the
+gateway and use credentials (`credentials: 'include'`). The Auth service does not require a
+browser CORS policy because it is not a public browser origin.
 
 ## Configuration
 
@@ -34,4 +36,12 @@ Settings live in `src/WoWiki.Auth.Api/appsettings.json`. Override secrets and de
 
 Cookie encryption keys are persisted in the ignored `DataProtection-Keys` directory so local sessions survive restarts. In production, mount this path from a protected persistent secret volume and terminate traffic over HTTPS.
 
-The next integration step is standards-based access-token issuance for the NestJS API. Cookie authentication is intentionally implemented first so local account flows can be built and tested safely without storing credentials or tokens in browser storage.
+The gateway forwards the effective client address, and Auth trusts forwarded headers only from
+configured proxy addresses. This keeps the login/register limiter partitioned per browser rather
+than per gateway process. Configure production proxies with
+`ForwardedHeaders__KnownProxies__0` and adjust the limiter with
+`RateLimiting__AuthAttempts__PermitLimit` and
+`RateLimiting__AuthAttempts__WindowSeconds`.
+
+The NestJS API validates protected requests against `/api/auth/me`, forwarding the session cookie
+and correlation ID with a short timeout.
