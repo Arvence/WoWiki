@@ -22,7 +22,7 @@ export class CommunityService {
     return this.withCommentCount(entry)
   }
 
-  create(createCommunityEntryDto: CreateCommunityEntryDto): CommunityEntry {
+  create(createCommunityEntryDto: CreateCommunityEntryDto & { author: string; publishedAt: string }): CommunityEntry {
     const entry = this.repository.create({ ...createCommunityEntryDto, viewerCount: 0 })
     return this.withCommentCount(entry)
   }

@@ -17,7 +17,7 @@ export class NewsService {
     return this.repository.findOne(id)
   }
 
-  create(createNewsDto: CreateNewsDto): News {
+  create(createNewsDto: CreateNewsDto & { author: string; updatedAt: string }): News {
     return this.repository.create({ ...createNewsDto, likeCount: 0 })
   }
 
@@ -27,7 +27,7 @@ export class NewsService {
     return this.repository.update(id, { likeCount })
   }
 
-  update(id: string, updateNewsDto: UpdateNewsDto): News {
+  update(id: string, updateNewsDto: UpdateNewsDto & { updatedAt: string }): News {
     return this.repository.update(id, updateNewsDto)
   }
 

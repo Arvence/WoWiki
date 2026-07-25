@@ -26,7 +26,7 @@ export class CommentsService {
   create(
     targetType: CommentTargetType,
     targetId: string,
-    createCommentDto: CreateCommentDto,
+    createCommentDto: CreateCommentDto & { author: string },
   ): Comment {
     if (createCommentDto.parentId) {
       const parent = this.findEntity(createCommentDto.parentId)

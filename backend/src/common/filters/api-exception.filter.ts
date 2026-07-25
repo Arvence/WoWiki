@@ -21,6 +21,7 @@ export class ApiExceptionFilter implements ExceptionFilter {
       message: exceptionBody.message ?? 'Internal server error',
       timestamp: new Date().toISOString(),
       path: request.originalUrl,
+      correlationId: request.header('X-Correlation-ID'),
     }
 
     response.status(statusCode).json(body)

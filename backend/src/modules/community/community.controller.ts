@@ -42,7 +42,11 @@ export class CommunityController {
   @Post()
   @UseGuards(AuthGuard)
   create(@Body() createCommunityEntryDto: CreateCommunityEntryDto, @Req() request: AuthenticatedRequest) {
-    return this.communityService.create({ ...createCommunityEntryDto, author: request.user.displayName })
+    return this.communityService.create({
+      ...createCommunityEntryDto,
+      author: request.user.displayName,
+      publishedAt: new Date().toISOString(),
+    })
   }
 
   @Patch(':id')

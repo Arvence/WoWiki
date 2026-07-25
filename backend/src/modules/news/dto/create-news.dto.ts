@@ -18,14 +18,6 @@ export class CreateNewsDto {
   category!: string
 
   @IsString()
-  @IsNotEmpty()
-  author!: string
-
-  @IsString()
-  @IsNotEmpty()
-  updatedAt!: string
-
-  @IsString()
   @IsOptional()
   imageUrl?: string
 

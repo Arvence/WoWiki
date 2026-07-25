@@ -4,4 +4,5 @@ export type ApiErrorResponse = {
   message: string | string[]
   timestamp: string
   path: string
+  correlationId?: string
 }

@@ -3,10 +3,6 @@ import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator'
 export class CreateCommunityEntryDto {
   @IsString()
   @IsNotEmpty()
-  author!: string
-
-  @IsString()
-  @IsNotEmpty()
   title!: string
 
   @IsString()
@@ -20,10 +16,6 @@ export class CreateCommunityEntryDto {
   @IsString()
   @IsNotEmpty()
   category!: string
-
-  @IsString()
-  @IsNotEmpty()
-  publishedAt!: string
 
   @IsString()
   @IsOptional()

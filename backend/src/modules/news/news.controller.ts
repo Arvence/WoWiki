@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common'
 import { AuthGuard } from '../auth/auth.guard'
 import { Roles } from '../auth/roles.decorator'
 import { RolesGuard } from '../auth/roles.guard'
+import type { AuthenticatedRequest } from '../auth/auth.types'
 import { CreateNewsDto } from './dto/create-news.dto'
 import { LikeNewsDto } from './dto/like-news.dto'
 import { UpdateNewsDto } from './dto/update-news.dto'
@@ -30,15 +31,22 @@ export class NewsController {
   @Post()
   @Roles('moderator', 'admin')
   @UseGuards(AuthGuard, RolesGuard)
-  create(@Body() createNewsDto: CreateNewsDto) {
-    return this.newsService.create(createNewsDto)
+  create(@Body() createNewsDto: CreateNewsDto, @Req() request: AuthenticatedRequest) {
+    return this.newsService.create({
+      ...createNewsDto,
+      author: request.user.displayName,
+      updatedAt: new Date().toISOString(),
+    })
   }
 
   @Patch(':id')
   @Roles('moderator', 'admin')
   @UseGuards(AuthGuard, RolesGuard)
   update(@Param('id') id: string, @Body() updateNewsDto: UpdateNewsDto) {
-    return this.newsService.update(id, updateNewsDto)
+    return this.newsService.update(id, {
+      ...updateNewsDto,
+      updatedAt: new Date().toISOString(),
+    })
   }
 
   @Delete(':id')
