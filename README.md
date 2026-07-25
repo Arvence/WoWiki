@@ -11,6 +11,7 @@ The browser uses one origin: `http://localhost:8080`.
 | `/` | React frontend on port `3000` |
 | `/api/auth/*` | Auth service on port `5100` |
 | `/api/pdf/*` | PDF service on port `5200` |
+| `/api/tools/*` | Planned Tools service on port `5300` |
 | `/api/*` | NestJS backend on port `5000` |
 | `/images/*` | NestJS backend on port `5000` |
 | `/gateway/health` | Gateway health check |
@@ -56,6 +57,7 @@ backend/           NestJS content and canonical game-data API
 services/auth/     ASP.NET Core identity service
 services/pdf/      ASP.NET Core PDF generation service
 services/gateway/  YARP public entry point and request routing
+services/tools/    Planned ASP.NET Core tools service
 ```
 
-The existing Vite development proxy remains available during the gateway migration. The gateway is the preferred browser entry point.
+The gateway is the required browser entry point. Vite serves frontend assets internally and does not proxy application APIs.

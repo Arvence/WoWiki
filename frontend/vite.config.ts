@@ -5,23 +5,6 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    proxy: {
-      '/api/auth': {
-        target: 'http://localhost:5100',
-        changeOrigin: true,
-      },
-      '/api/pdf': {
-        target: 'http://localhost:5200',
-        changeOrigin: true,
-      },
-      '/api': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-      },
-      '/images': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-      },
-    },
+    strictPort: true,
   },
 })

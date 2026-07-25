@@ -46,6 +46,7 @@ builder.Services
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.Name = builder.Configuration["Auth:CookieName"] ?? "wowiki.auth";
+    options.Cookie.Path = "/";
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
     options.Cookie.SameSite = SameSiteMode.Lax;
