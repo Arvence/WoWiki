@@ -3,6 +3,22 @@ import TextTooltip from './TextTooltip'
 
 const ACTION_TOOLTIP_DELAY_MS = 400
 
+function readStoredFlag(key: string): boolean {
+  try {
+    return window.localStorage.getItem(key) === 'true'
+  } catch {
+    return false
+  }
+}
+
+function writeStoredFlag(key: string, value: boolean): void {
+  try {
+    window.localStorage.setItem(key, String(value))
+  } catch {
+    return
+  }
+}
+
 type ActionsProps = {
   target: { id: string; title: string; path: string }
   storageKey: string
@@ -29,8 +45,8 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
   const shareFeedbackTimer = useRef<number | null>(null)
 
   useEffect(() => {
-    setLiked(localStorage.getItem(`wowiki:liked-${storageKey}:${target.id}`) === 'true')
-    setSaved(localStorage.getItem(`wowiki:saved-${storageKey}:${target.id}`) === 'true')
+    setLiked(readStoredFlag(`wowiki:liked-${storageKey}:${target.id}`))
+    setSaved(readStoredFlag(`wowiki:saved-${storageKey}:${target.id}`))
   }, [storageKey, target.id])
 
   useEffect(() => () => {
@@ -47,7 +63,7 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
     try {
       await onLike?.(nextLiked)
       setLiked(nextLiked)
-      localStorage.setItem(`wowiki:liked-${storageKey}:${target.id}`, String(nextLiked))
+      writeStoredFlag(`wowiki:liked-${storageKey}:${target.id}`, nextLiked)
     } catch {
       setActionMessage('Could not update your like. Please try again.')
     } finally {
@@ -58,7 +74,7 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
   const handleSave = () => {
     const nextSaved = !saved
     setSaved(nextSaved)
-    localStorage.setItem(`wowiki:saved-${storageKey}:${target.id}`, String(nextSaved))
+    writeStoredFlag(`wowiki:saved-${storageKey}:${target.id}`, nextSaved)
     setActionMessage(nextSaved ? 'Article saved.' : 'Article removed from saved items.')
   }
 
