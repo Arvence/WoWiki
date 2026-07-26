@@ -6,7 +6,7 @@ internal static partial class FileNames
 {
     public static string Sanitize(string value)
     {
-        var cleaned = InvalidFileNameCharacters().Replace(value.Trim(), "-").Trim('-');
+        var cleaned = InvalidFileNameCharacters().Replace(value.Trim(), "-").Trim('-', '_');
         return string.IsNullOrWhiteSpace(cleaned) ? "wowiki-news" : cleaned[..Math.Min(cleaned.Length, 80)];
     }
 

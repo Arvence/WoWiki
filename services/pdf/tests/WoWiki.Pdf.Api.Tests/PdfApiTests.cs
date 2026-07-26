@@ -63,4 +63,21 @@ public sealed class PdfApiTests : IClassFixture<WebApplicationFactory<Program>>
         Assert.Equal("Gateway-Integration.pdf", response.Content.Headers.ContentDisposition?.FileNameStar);
         Assert.NotEmpty(await response.Content.ReadAsByteArrayAsync());
     }
+
+    [Fact]
+    public async Task PunctuationOnlyTitleUsesFallbackDownloadName()
+    {
+        var response = await _client.PostAsJsonAsync("/api/pdf/news", new
+        {
+            Title = "___",
+            Summary = string.Empty,
+            Content = "A valid article whose title cannot be used as a filename.",
+            Category = "News",
+            Author = "WoWiki",
+            UpdatedAt = DateTimeOffset.UtcNow,
+        });
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal("wowiki-news.pdf", response.Content.Headers.ContentDisposition?.FileNameStar);
+    }
 }
