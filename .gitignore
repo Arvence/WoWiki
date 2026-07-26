@@ -146,3 +146,8 @@ services/auth/**/*.db
 services/auth/**/*.db-shm
 services/auth/**/*.db-wal
 services/auth/**/DataProtection-Keys/
+
+# Local backend content database
+backend/**/*.db
+backend/**/*.db-shm
+backend/**/*.db-wal

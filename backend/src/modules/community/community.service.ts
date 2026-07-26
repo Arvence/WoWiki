@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { InMemoryRepository } from '../../common/repositories/in-memory.repository'
+import { DatabaseService } from '../../common/database/database.service'
+import { SqliteRepository } from '../../common/repositories/sqlite.repository'
 import { CommentsService } from '../comments/comments.service'
 import { CreateCommunityEntryDto } from './dto/create-community-entry.dto'
 import { UpdateCommunityEntryDto } from './dto/update-community-entry.dto'
@@ -8,9 +9,19 @@ import { COMMUNITY_ENTRIES } from './seeds/community-entries.seed'
 
 @Injectable()
 export class CommunityService {
-  private readonly repository = new InMemoryRepository(COMMUNITY_ENTRIES, 'Community entry')
+  private readonly repository: SqliteRepository<CommunityEntry>
 
-  constructor(private readonly commentsService: CommentsService) {}
+  constructor(
+    database: DatabaseService,
+    private readonly commentsService: CommentsService,
+  ) {
+    this.repository = new SqliteRepository(
+      database,
+      'community',
+      COMMUNITY_ENTRIES,
+      'Community entry',
+    )
+  }
 
   findAll(): Array<CommunityEntry & { commentCount: number }> {
     return this.repository.findAll().map((entry) => this.withCommentCount(entry))

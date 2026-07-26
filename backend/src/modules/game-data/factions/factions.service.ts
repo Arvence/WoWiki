@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { InMemoryRepository } from '../../../common/repositories/in-memory.repository'
+import { DatabaseService } from '../../../common/database/database.service'
+import { SqliteRepository } from '../../../common/repositories/sqlite.repository'
 import { CreateFactionDto } from './dto/create-faction.dto'
 import { UpdateFactionDto } from './dto/update-faction.dto'
 import { Faction } from './models/faction.model'
@@ -7,7 +8,11 @@ import { FACTIONS } from './seeds/factions.seed'
 
 @Injectable()
 export class FactionsService {
-  private readonly repository = new InMemoryRepository(FACTIONS, 'Faction')
+  private readonly repository: SqliteRepository<Faction>
+
+  constructor(database: DatabaseService) {
+    this.repository = new SqliteRepository(database, 'factions', FACTIONS, 'Faction')
+  }
 
   findAll(): Faction[] {
     return this.repository.findAll()

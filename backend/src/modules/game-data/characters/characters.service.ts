@@ -1,12 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { InMemoryRepository } from '../../../common/repositories/in-memory.repository'
+import { DatabaseService } from '../../../common/database/database.service'
+import { SqliteRepository } from '../../../common/repositories/sqlite.repository'
 import { CreateCharacterDto } from './dto/create-character.dto'
 import { UpdateCharacterDto } from './dto/update-character.dto'
 import { Character } from './models/character.model'
 import { CHARACTERS } from './seeds/characters.seed'
-import { CLASSES } from '../classes/seeds/classes.seed'
+import { ClassesService } from '../classes/classes.service'
 import { GameClass } from '../classes/models/class.model'
-import { FACTIONS } from '../factions/seeds/factions.seed'
+import { FactionsService } from '../factions/factions.service'
 import { Faction } from '../factions/models/faction.model'
 
 export type CharacterDetails = Character & {
@@ -16,7 +17,15 @@ export type CharacterDetails = Character & {
 
 @Injectable()
 export class CharactersService {
-  private readonly repository = new InMemoryRepository(CHARACTERS, 'Character')
+  private readonly repository: SqliteRepository<Character>
+
+  constructor(
+    database: DatabaseService,
+    private readonly classesService: ClassesService,
+    private readonly factionsService: FactionsService,
+  ) {
+    this.repository = new SqliteRepository(database, 'characters', CHARACTERS, 'Character')
+  }
 
   findAll(): CharacterDetails[] {
     return this.repository.findAll().map((character) => this.resolveRelations(character))
@@ -42,17 +51,17 @@ export class CharactersService {
   }
 
   private validateRelations(classId: string, factionId: string): void {
-    if (!CLASSES.some((gameClass) => gameClass.id === classId)) {
+    if (!this.classesService.findAll().some((gameClass) => gameClass.id === classId)) {
       throw new BadRequestException(`Class with id ${classId} not found`)
     }
-    if (!FACTIONS.some((faction) => faction.id === factionId)) {
+    if (!this.factionsService.findAll().some((faction) => faction.id === factionId)) {
       throw new BadRequestException(`Faction with id ${factionId} not found`)
     }
   }
 
   private resolveRelations(character: Character): CharacterDetails {
-    const gameClass = CLASSES.find((item) => item.id === character.classId)
-    const faction = FACTIONS.find((item) => item.id === character.factionId)
+    const gameClass = this.classesService.findAll().find((item) => item.id === character.classId)
+    const faction = this.factionsService.findAll().find((item) => item.id === character.factionId)
     if (!gameClass || !faction) throw new Error(`Character ${character.id} has invalid game-data relationships`)
     return { ...character, class: gameClass, faction }
   }

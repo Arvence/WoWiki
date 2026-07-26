@@ -5,5 +5,6 @@ import { FactionsService } from './factions.service'
 @Module({
   controllers: [FactionsController],
   providers: [FactionsService],
+  exports: [FactionsService],
 })
 export class FactionsModule {}

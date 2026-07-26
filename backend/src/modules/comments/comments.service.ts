@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { findByIdOrThrow } from '../../common/errors/find-by-id-or-throw'
-import { cloneValue } from '../../common/utils/clone-value'
+import { DatabaseService } from '../../common/database/database.service'
+import { SqliteRepository } from '../../common/repositories/sqlite.repository'
 import { CreateCommentDto } from './dto/create-comment.dto'
 import { UpdateCommentDto } from './dto/update-comment.dto'
 import { Comment, CommentTargetType } from './models/comment.model'
@@ -8,19 +8,24 @@ import { COMMENTS } from './seeds/comments.seed'
 
 @Injectable()
 export class CommentsService {
-  private comments: Comment[] = cloneValue(COMMENTS)
-  private nextId = Math.max(0, ...this.comments.map((comment) => Number(comment.id))) + 1
+  private readonly repository: SqliteRepository<Comment>
+
+  constructor(database: DatabaseService) {
+    this.repository = new SqliteRepository(database, 'comments', COMMENTS, 'Comment')
+  }
 
   findForTarget(targetType: CommentTargetType, targetId: string): Comment[] {
-    return cloneValue(this.comments.filter((comment) => comment.targetType === targetType && comment.targetId === targetId))
+    return this.repository.findAll().filter(
+      (comment) => comment.targetType === targetType && comment.targetId === targetId,
+    )
   }
 
   countForTarget(targetType: CommentTargetType, targetId: string): number {
-    return this.comments.filter((comment) => comment.targetType === targetType && comment.targetId === targetId).length
+    return this.findForTarget(targetType, targetId).length
   }
 
   findOne(id: string): Comment {
-    return cloneValue(this.findEntity(id))
+    return this.repository.findOne(id)
   }
 
   create(
@@ -29,44 +34,39 @@ export class CommentsService {
     createCommentDto: CreateCommentDto & { author: string },
   ): Comment {
     if (createCommentDto.parentId) {
-      const parent = this.findEntity(createCommentDto.parentId)
+      const parent = this.repository.findOne(createCommentDto.parentId)
       if (parent.targetType !== targetType || parent.targetId !== targetId) {
         throw new BadRequestException('Reply parent must belong to the same target')
       }
     }
 
-    const comment: Comment = cloneValue({
-      id: String(this.nextId++),
+    return this.repository.create({
       targetType,
       targetId,
       ...createCommentDto,
       createdAt: new Date().toISOString(),
       likeCount: 0,
     })
-    this.comments.push(comment)
-    return cloneValue(comment)
   }
 
   update(id: string, updateCommentDto: UpdateCommentDto): Comment {
-    const comment = this.findEntity(id)
-    Object.assign(comment, cloneValue(updateCommentDto))
-    return cloneValue(comment)
+    return this.repository.update(id, updateCommentDto)
   }
 
   like(id: string): Comment {
-    const comment = this.findEntity(id)
-    comment.likeCount += 1
-    return cloneValue(comment)
+    const comment = this.repository.findOne(id)
+    return this.repository.update(id, { likeCount: comment.likeCount + 1 })
   }
 
   remove(id: string): void {
-    this.findEntity(id)
+    this.repository.findOne(id)
     const idsToRemove = new Set([id])
+    const comments = this.repository.findAll()
     let foundDescendant = true
 
     while (foundDescendant) {
       foundDescendant = false
-      for (const comment of this.comments) {
+      for (const comment of comments) {
         if (comment.parentId && idsToRemove.has(comment.parentId) && !idsToRemove.has(comment.id)) {
           idsToRemove.add(comment.id)
           foundDescendant = true
@@ -74,16 +74,13 @@ export class CommentsService {
       }
     }
 
-    this.comments = this.comments.filter((comment) => !idsToRemove.has(comment.id))
+    this.repository.removeMany(idsToRemove)
   }
 
   removeForTarget(targetType: CommentTargetType, targetId: string): void {
-    this.comments = this.comments.filter(
-      (comment) => comment.targetType !== targetType || comment.targetId !== targetId,
+    const idsToRemove = new Set(
+      this.findForTarget(targetType, targetId).map((comment) => comment.id),
     )
-  }
-
-  private findEntity(id: string): Comment {
-    return findByIdOrThrow(this.comments, id, 'Comment')
+    this.repository.removeMany(idsToRemove)
   }
 }

@@ -8,6 +8,7 @@ import { ApiExceptionFilter } from './common/filters/api-exception.filter'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+  app.enableShutdownHooks()
   app.use((request: Request, response: Response, next: NextFunction) => {
     const suppliedCorrelationId = request.header('X-Correlation-ID')
     const correlationId = suppliedCorrelationId && /^[0-9a-f]{32}$/i.test(suppliedCorrelationId)

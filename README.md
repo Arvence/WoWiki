@@ -20,6 +20,8 @@ The browser uses one origin: `http://localhost:8080`.
 The frontend only uses relative application URLs. Internal ports remain implementation details behind the gateway.
 Protected NestJS operations forward the session cookie and correlation ID to the Auth service;
 the gateway-forwarded client address keeps authentication limits partitioned per browser.
+Mutable backend content and game data persist in `backend/Data/wowiki-backend.db`;
+the Auth service keeps identity data in its separate SQLite database.
 
 See the [gateway-first request/response map](docs/request-response-map.md) for
 end-to-end flows, endpoint access levels, propagated headers, response shapes,

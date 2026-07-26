@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { InMemoryRepository } from '../../common/repositories/in-memory.repository'
+import { DatabaseService } from '../../common/database/database.service'
+import { SqliteRepository } from '../../common/repositories/sqlite.repository'
 import { CreateNewsDto } from './dto/create-news.dto'
 import { UpdateNewsDto } from './dto/update-news.dto'
 import { News } from './models/news.model'
@@ -7,7 +8,11 @@ import { NEWS } from './seeds/news.seed'
 
 @Injectable()
 export class NewsService {
-  private readonly repository = new InMemoryRepository(NEWS, 'News item')
+  private readonly repository: SqliteRepository<News>
+
+  constructor(database: DatabaseService) {
+    this.repository = new SqliteRepository(database, 'news', NEWS, 'News item')
+  }
 
   findAll(): News[] {
     return this.repository.findAll()

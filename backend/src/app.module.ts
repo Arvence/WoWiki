@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common'
+import { DatabaseModule } from './common/database/database.module'
 import { CharactersModule } from './modules/game-data/characters/characters.module'
 import { FactionsModule } from './modules/game-data/factions/factions.module'
 import { CommentsModule } from './modules/comments/comments.module'
@@ -15,6 +16,7 @@ import { HealthController } from './health.controller'
 @Module({
   controllers: [HealthController],
   imports: [
+    DatabaseModule,
     AuthModule,
     CharactersModule,
     FactionsModule,
