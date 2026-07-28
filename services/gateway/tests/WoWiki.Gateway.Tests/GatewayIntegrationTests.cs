@@ -76,6 +76,18 @@ public sealed class GatewayIntegrationTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task DoesNotExposeInternalBackendRoutes()
+    {
+        using var client = CreateClient(_factory!);
+
+        var response = await client.PostAsJsonAsync(
+            "/api/internal/taskforge/user-reports/1/ready",
+            new { externalReference = "WOW-1" });
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
     public async Task RejectsRequestsThatExceedTheClientApiLimit()
     {
         using var factory = CreateFactory(new Dictionary<string, string?>

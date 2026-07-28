@@ -94,6 +94,18 @@ if (builder.Configuration.GetValue("Security:RedirectToHttps", false))
 app.UseMiddleware<GatewayRequestMiddleware>();
 app.UseExceptionHandler();
 app.UseRateLimiter();
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path.StartsWithSegments(
+            "/api/internal",
+            StringComparison.OrdinalIgnoreCase))
+    {
+        context.Response.StatusCode = StatusCodes.Status404NotFound;
+        return;
+    }
+
+    await next(context);
+});
 
 app.MapGet("/gateway/health", (IHostEnvironment environment) => Results.Ok(new
 {
