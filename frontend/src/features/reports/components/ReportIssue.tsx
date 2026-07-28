@@ -9,16 +9,22 @@ const reportOptions: Array<{
   icon: JSX.Element
 }> = [
   {
-    value: 'bug',
-    label: 'Something is broken',
-    description: 'A feature or page is not working',
-    icon: <><path d="M8 2h8l1 4H7l1-4Z" /><path d="M6 9h12v5a6 6 0 0 1-12 0V9Z" /><path d="M3 13h3M18 13h3M5 6l2 2M19 6l-2 2M5 20l2-2M19 20l-2-2M12 9v9" /></>,
+    value: 'incorrect-content',
+    label: 'Incorrect information',
+    description: 'A claim or value appears to be wrong',
+    icon: <><path d="M12 3 3.5 7v5.5c0 4.7 3.6 7.5 8.5 8.5 4.9-1 8.5-3.8 8.5-8.5V7L12 3Z" /><path d="M12 8v5M12 16.5v.01" /></>,
   },
   {
-    value: 'content',
-    label: 'Content correction',
-    description: 'Information is missing or inaccurate',
+    value: 'missing-content',
+    label: 'Missing information',
+    description: 'Important details have not been included',
     icon: <><path d="M4 19.5V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2.5" /><path d="M8 7h6M8 11h6" /></>,
+  },
+  {
+    value: 'outdated-content',
+    label: 'Outdated information',
+    description: 'The content no longer reflects Classic',
+    icon: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2M4.5 4.5 7 7" /></>,
   },
   {
     value: 'broken-link',
@@ -28,8 +34,8 @@ const reportOptions: Array<{
   },
   {
     value: 'other',
-    label: 'Other feedback',
-    description: 'Anything else the team should review',
+    label: 'Other content issue',
+    description: 'Another content problem needs review',
     icon: <><path d="M4 5h16v12H8l-4 4V5Z" /><path d="M8 9h8M8 13h5" /></>,
   },
 ]
@@ -41,7 +47,7 @@ export default function ReportIssue(): JSX.Element {
   const openerRef = useRef<HTMLElement | null>(null)
   const titleRef = useRef<HTMLInputElement>(null)
   const [open, setOpen] = useState(false)
-  const [type, setType] = useState<ReportType>('bug')
+  const [type, setType] = useState<ReportType>('incorrect-content')
   const [title, setTitle] = useState('')
   const [target, setTarget] = useState<ReportDialogRequest['target']>()
   const [submitting, setSubmitting] = useState(false)
@@ -95,7 +101,7 @@ export default function ReportIssue(): JSX.Element {
       : triggerRef.current
     setError(null)
     setCreatedId(null)
-    setType(request.type ?? 'bug')
+    setType(request.type ?? 'incorrect-content')
     setTitle((request.title ?? '').slice(0, 120))
     setTarget(request.target)
     setPagePath(request.pagePath ?? `${window.location.pathname}${window.location.search}${window.location.hash}`)
@@ -134,7 +140,7 @@ export default function ReportIssue(): JSX.Element {
       })
       setCreatedId(report.id)
       event.currentTarget.reset()
-      setType('bug')
+      setType('incorrect-content')
       setTitle('')
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : 'Could not send your report. Please try again.')

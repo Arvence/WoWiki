@@ -1,7 +1,7 @@
 import { http } from '../../../shared/api/http'
 
-export type ReportType = 'bug' | 'content' | 'broken-link' | 'other'
-export type ReportTargetType = 'news' | 'community'
+export type ReportType = 'incorrect-content' | 'missing-content' | 'outdated-content' | 'broken-link' | 'other'
+export type ReportTargetType = 'news' | 'community' | 'character' | 'class' | 'dungeon' | 'raid' | 'item' | 'guide'
 
 export type CreateReportInput = {
   type: ReportType
@@ -17,6 +17,7 @@ type CreatedReport = CreateReportInput & {
   id: string
   status: 'pending'
   createdAt: string
+  taskForgeSubmissionStatus: 'pending' | 'submitted' | 'failed'
 }
 
 export async function createReport(input: CreateReportInput): Promise<CreatedReport> {

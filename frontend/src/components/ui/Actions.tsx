@@ -103,7 +103,7 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
         : undefined
 
     openReportDialog({
-      type: 'content',
+      type: 'incorrect-content',
       title: `Report: ${target.title}`,
       pagePath: target.path,
       target: targetType ? {
