@@ -1,6 +1,6 @@
 # WoWiki
 
-WoWiki is a modular World of Warcraft Classic platform built with a React frontend, a NestJS content and game-data API, ASP.NET Core services, and a YARP gateway.
+WoWiki is a modular World of Warcraft Classic platform built with a React frontend, a NestJS content and game-data API, ASP.NET Core services, and a YARP gateway. User content reports are delivered to the [TaskForge](https://github.com/Arvence/TaskForge) background job processor over a private server-to-server integration.
 
 ## Local architecture
 
@@ -57,6 +57,12 @@ dotnet run --project src/WoWiki.Gateway
 ```
 
 Open `http://localhost:8080`.
+
+TaskForge is optional for general browsing but required for asynchronous
+user-report delivery. Run TaskForge separately on its default
+`http://localhost:8275` address before testing the report workflow. See
+[TaskForge user-report integration](docs/taskforge-user-reports.md) for the
+network boundary and configuration.
 
 ## Repository structure
 

@@ -13,8 +13,10 @@ flowchart LR
     Backend["NestJS Backend<br/>localhost:5000"]
     Auth["ASP.NET Auth<br/>localhost:5100"]
     Pdf["ASP.NET PDF<br/>localhost:5200"]
+    TaskForge["TaskForge<br/>localhost:8275"]
     AuthData[("SQLite users and roles<br/>Data Protection keys")]
-    ContentData[("In-memory content<br/>and game data")]
+    ContentData[("SQLite content,<br/>game data, and reports")]
+    JobData[("SQLite durable jobs")]
     Images[("Static image assets")]
 
     Browser -->|"All browser requests"| Gateway
@@ -24,8 +26,11 @@ flowchart LR
     Gateway -->|"/api/pdf/*"| Pdf
 
     Backend -.->|"Session validation<br/>Cookie + X-Correlation-ID"| Auth
+    Backend -.->|"Submit user-report job"| TaskForge
+    TaskForge -.->|"Private moderation-intake callback"| Backend
     Auth --> AuthData
     Backend --> ContentData
+    TaskForge --> JobData
     Backend --> Images
 ```
 
@@ -41,6 +46,7 @@ Routes are matched from the most specific path to the catch-all frontend route.
 | `GET /gateway/health` | Gateway | No | Gateway health |
 | `/api/auth/*` | Auth `:5100` | Yes | Registration, sessions, and profiles |
 | `/api/pdf/*` | PDF `:5200` | Yes | PDF generation |
+| `/api/internal/*` | Rejected with `404` | No | Private service callbacks are not public |
 | `/api/*` | Backend `:5000` | Yes | Content and game-data API |
 | `/images/*` | Backend `:5000` | No | Static backend images |
 | Everything else | Frontend `:3000` | No | Application shell and frontend assets |
@@ -155,6 +161,35 @@ sequenceDiagram
 PDF generation is currently public and stateless. The frontend sends it through
 the same shared request/error pipeline as JSON APIs.
 
+### User content report through TaskForge
+
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant G as Gateway
+    participant API as Backend
+    participant DB as WoWiki SQLite
+    participant TF as TaskForge
+    participant JDB as TaskForge SQLite
+
+    B->>G: POST /api/reports
+    G->>API: Validated content report
+    API->>DB: Save report as pending
+    API-->>G: Report reference
+    G-->>B: 201-style report response
+    API->>TF: POST /api/jobs + Idempotency-Key
+    TF->>JDB: Persist http-request job
+    TF-->>API: Job ID and initial status
+    API->>DB: Store TaskForge job ID
+    TF->>API: POST private /api/internal/taskforge/user-reports/{id}/ready
+    API->>DB: Mark report ready-for-review
+```
+
+The browser response does not wait for TaskForge. TaskForge receives only the
+report ID and stable reference, not the submitted report text. Its callback
+uses the Backend's private address; the public Gateway rejects
+`/api/internal/*`.
+
 ## Endpoint ownership
 
 ### Auth service
@@ -179,6 +214,7 @@ and `roles`. Passwords and internal credential fields are never returned.
 | News | List and detail | Like/unlike | Create, update, delete |
 | Community | List, detail, comments | Create entry and comment | Update and delete entry |
 | Comments | Detail | Like | Update and delete |
+| User reports | Submit content report | None | Review UI not yet implemented |
 
 For news, community entries, and comments, the server derives the author from
 the authenticated user. The server also owns publication and update timestamps;
@@ -272,6 +308,7 @@ A `429` response can include `Retry-After`.
 | Auth | Users, password verification, session cookies, roles, fine auth-attempt limits | Content permissions beyond supplying roles |
 | Backend | Content, game data, validation, resource authorization | Passwords and session storage |
 | PDF | Validating PDF requests and rendering PDFs | Users, sessions, content persistence |
+| TaskForge | Durable user-report callback jobs, retries, timeouts, and dead-letter state | WoWiki report content or moderation decisions |
 | Frontend | UI state, relative API calls, shared response/error handling | Trust decisions or authoritative identity fields |
 
 This is a focused application gateway, not a general-purpose API-management
@@ -280,8 +317,11 @@ observable public boundary.
 
 ## Current limits and future pressure points
 
-- Backend content and game data are currently in memory. Persistent storage is
-  needed before multi-instance Backend deployment.
+- Backend content and game data persist in a local SQLite database. A shared
+  database or another storage topology is needed before multi-instance Backend
+  deployment.
+- WoWiki does not yet resubmit jobs automatically when TaskForge is unavailable
+  at initial submission time, or poll TaskForge for terminal job status.
 - Auth rate-limit state is process-local. A distributed limiter is needed if
   several Auth instances must share one global attempt budget.
 - Search currently fans out to several read endpoints. A Backend search

@@ -6,6 +6,8 @@ The gateway is WoWiki's only browser-facing entry point. In development it liste
 ## Responsibilities
 
 - Route `/api/auth/*`, `/api/pdf/*`, `/api/*`, `/images/*`, and frontend traffic.
+- Reject `/api/internal/*`; those endpoints are available only to trusted services
+  over the backend's private address.
 - Apply a coarse fixed-window API limit partitioned by client IP.
 - Create and propagate `X-Correlation-ID`.
 - Add baseline browser security headers.
@@ -26,6 +28,9 @@ generation remain in their owning services.
 | `/api/pdf/*` | PDF service on port `5200` |
 | `/api/*` | NestJS backend on port `5000` |
 | `/images/*` | NestJS backend on port `5000` |
+
+`/api/internal/*` is deliberately not proxied. TaskForge uses the private
+backend address for its user-report callback.
 
 `GET /gateway/health` reports whether the gateway process is accepting requests. Downstream
 services expose and own their health checks independently, so one unavailable service does not
