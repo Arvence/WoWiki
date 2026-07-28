@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { openReportDialog } from '../../features/reports/reportDialog'
 import TextTooltip from './TextTooltip'
 
 const ACTION_TOOLTIP_DELAY_MS = 400
@@ -94,6 +95,25 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
     shareFeedbackTimer.current = window.setTimeout(() => setShareFeedback(null), 2200)
   }
 
+  const handleReport = () => {
+    const targetType = storageKey === 'news'
+      ? 'news'
+      : storageKey === 'community'
+        ? 'community'
+        : undefined
+
+    openReportDialog({
+      type: 'content',
+      title: `Report: ${target.title}`,
+      pagePath: target.path,
+      target: targetType ? {
+        type: targetType,
+        id: target.id,
+        title: target.title,
+      } : undefined,
+    })
+  }
+
   const orientationClasses = orientation === 'vertical'
     ? 'flex-col gap-3 [&>*:not(:last-child)]:relative [&>*:not(:last-child)]:after:absolute [&>*:not(:last-child)]:after:-bottom-1.5 [&>*:not(:last-child)]:after:left-1/2 [&>*:not(:last-child)]:after:w-10 [&>*:not(:last-child)]:after:-translate-x-1/2 [&>*:not(:last-child)]:after:border-b [&>*:not(:last-child)]:after:border-border'
     : orientation === 'responsive'
@@ -167,9 +187,9 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
         </svg>
       </button></TextTooltip>}
 
-      {showReport && <TextTooltip text="Report article" onlyWhenTruncated={false} delayMs={ACTION_TOOLTIP_DELAY_MS}><button
+      {showReport && <TextTooltip text="Report content" onlyWhenTruncated={false} delayMs={ACTION_TOOLTIP_DELAY_MS}><button
         type="button"
-        onClick={() => setActionMessage('Report received.')}
+        onClick={handleReport}
         className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted transition hover:bg-danger/10 hover:text-danger focus:outline-none focus-visible:ring-2 focus-visible:ring-danger"
         aria-label={`Report ${target.title}`}
       >

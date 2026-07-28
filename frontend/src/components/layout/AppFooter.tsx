@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import ReportIssue from '../../features/reports/components/ReportIssue'
 
 const socialLinks = [
   { label: 'X', href: 'https://x.com', path: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z' },
@@ -48,6 +49,9 @@ export default function AppFooter(): JSX.Element {
                 <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true"><path d={social.path} /></svg>
               </a>
             ))}
+          </div>
+          <div className="pt-2">
+            <ReportIssue />
           </div>
           <p className="pt-2 text-xs text-muted/75">&copy; {new Date().getFullYear()} WoWiki. Built by and for the community.</p>
           <p className="max-w-lg text-[0.68rem] leading-5 text-muted/60">WoWiki is an independent fan project and is not affiliated with or endorsed by Blizzard Entertainment. Warcraft and World of Warcraft are trademarks of Blizzard Entertainment.</p>

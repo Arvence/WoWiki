@@ -11,6 +11,7 @@ import { DungeonsModule } from './modules/game-data/dungeons/dungeons.module'
 import { RaidsModule } from './modules/game-data/raids/raids.module'
 import { ItemsModule } from './modules/game-data/items/items.module'
 import { AuthModule } from './modules/auth/auth.module'
+import { ReportsModule } from './modules/reports/reports.module'
 import { HealthController } from './health.controller'
 
 @Module({
@@ -28,6 +29,7 @@ import { HealthController } from './health.controller'
     NewsModule,
     CommunityModule,
     TalentsModule,
+    ReportsModule,
   ],
 })
 export class AppModule {}
