@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "start": "node src/main.ts",
+    "start": "npm run build && node dist/main.js",
     "dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "npm run lint -- --fix",
