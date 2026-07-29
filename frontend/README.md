@@ -10,4 +10,6 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000 in your browser.
+Start the other services and gateway as described in the repository README, then
+open http://localhost:8080. Port `3000` is the gateway's internal frontend
+destination, not the browser-facing application URL.

@@ -72,7 +72,6 @@ backend/           NestJS content and canonical game-data API
 services/auth/     ASP.NET Core identity service
 services/pdf/      ASP.NET Core PDF generation service
 services/gateway/  YARP public entry point and request routing
-services/tools/    Planned ASP.NET Core tools service
 ```
 
 The gateway is the required browser entry point. Vite serves frontend assets internally and does not proxy application APIs.
