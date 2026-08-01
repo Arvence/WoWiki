@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react"
+import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import DropdownMenu from "../ui/DropdownMenu"
 import { useAuth } from "../../features/auth/AuthContext"
@@ -15,16 +15,41 @@ export default function AppHeader(): JSX.Element {
   const navigate = useNavigate()
   const location = useLocation()
   const [searchQuery, setSearchQuery] = useState("")
+  const searchInputRef = useRef<HTMLInputElement>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   useEffect(() => {
     setSearchQuery(location.pathname === "/search" ? new URLSearchParams(location.search).get("q") ?? "" : "")
   }, [location.pathname, location.search])
 
+  useEffect(() => {
+    const focusSearch = (event: globalThis.KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault()
+        searchInputRef.current?.focus()
+        searchInputRef.current?.select()
+      }
+    }
+    window.addEventListener("keydown", focusSearch)
+    return () => window.removeEventListener("keydown", focusSearch)
+  }, [])
+
   const submitSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const query = searchQuery.trim()
     if (query) navigate(`/search?q=${encodeURIComponent(query)}`)
+  }
+
+  const clearSearch = () => {
+    setSearchQuery("")
+    if (location.pathname === "/search") navigate("/search")
+    searchInputRef.current?.focus()
+  }
+
+  const handleSearchKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== "Escape") return
+    if (searchQuery) clearSearch()
+    else event.currentTarget.blur()
   }
   const selectProfileItem = (item: string) => {
     const routes: Record<string, string> = { Profile: "/profile", "Saved Articles": "/profile", Settings: "/profile", About: "/about", Support: "/contact", Privacy: "/privacy" }
@@ -47,18 +72,33 @@ export default function AppHeader(): JSX.Element {
         </div>
 
         <div className="col-span-2 row-start-2 flex w-full min-w-0 justify-center sm:col-span-1 sm:col-start-2 sm:row-start-1">
-          <form className="relative w-full min-w-0 max-w-none lg:max-w-[72rem]" role="search" onSubmit={submitSearch}>
+          <form className="group/search relative w-full min-w-0 max-w-none lg:max-w-[72rem]" role="search" onSubmit={submitSearch}>
             <svg className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35" />
               <circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth={2} />
             </svg>
             <input
+              ref={searchInputRef}
+              type="search"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
+              onKeyDown={handleSearchKeyDown}
               aria-label="Search WoWiki"
-              placeholder="Search articles, guides, and lore..."
-              className="w-full min-w-0 rounded-xl bg-background/45 py-2.5 pl-10 pr-4 text-sm text-text shadow-inner shadow-black/10 placeholder:text-muted/75 transition hover:bg-background/60 focus:bg-background/70 focus:outline-none focus:ring-2 focus:ring-primary/30"
+              aria-keyshortcuts="Control+K Meta+K"
+              autoComplete="off"
+              placeholder="Search news, discussions, and database..."
+              className="w-full min-w-0 rounded-xl border border-border/45 bg-background/45 py-2.5 pl-10 pr-[5.5rem] text-sm text-text shadow-inner shadow-black/10 outline-none transition placeholder:text-muted/70 hover:border-border/80 hover:bg-background/60 focus:border-primary/55 focus:bg-background/70 focus:ring-2 focus:ring-primary/20 [&::-webkit-search-cancel-button]:hidden"
             />
+            <div className="absolute inset-y-0 right-1 flex items-center gap-1">
+              {searchQuery ? (
+                <button type="button" onClick={clearSearch} aria-label="Clear search" className="flex h-8 w-8 items-center justify-center rounded-lg text-muted transition hover:bg-surface-alt hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path strokeLinecap="round" d="m7 7 10 10M17 7 7 17" /></svg>
+                </button>
+              ) : <kbd className="hidden rounded-md border border-border/50 bg-surface/70 px-1.5 py-0.5 text-[0.6rem] font-bold text-muted xl:block">Ctrl K</kbd>}
+              <button type="submit" disabled={!searchQuery.trim()} aria-label="Submit search" title="Search" className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-background shadow-sm transition hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:cursor-default disabled:bg-surface-alt disabled:text-muted/60 disabled:shadow-none">
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="m9 6 6 6-6 6" /></svg>
+              </button>
+            </div>
           </form>
         </div>
 

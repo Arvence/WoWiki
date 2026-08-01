@@ -29,15 +29,32 @@ export async function searchWoWiki(query: string, signal?: AbortSignal): Promise
     })),
   ]
 
-  const terms = query.toLocaleLowerCase().split(/\s+/).filter(Boolean)
+  const normalizedQuery = normalizeSearchText(query.trim())
+  const terms = normalizedQuery.split(/\s+/).filter(Boolean)
   return results
-    .map((result) => ({ result, haystack: `${result.title} ${result.description} ${result.searchableText}`.toLocaleLowerCase() }))
+    .map((result) => {
+      const haystack = normalizeSearchText(`${result.title} ${result.description} ${result.category} ${result.searchableText}`)
+      return { result, haystack, rank: score(result, terms, normalizedQuery) }
+    })
     .filter(({ haystack }) => terms.every((term) => haystack.includes(term)))
-    .sort((a, b) => score(b.result, terms) - score(a.result, terms))
+    .sort((a, b) => b.rank - a.rank || a.result.title.localeCompare(b.result.title))
     .map(({ result }) => result)
 }
 
-function score(result: SearchResult, terms: string[]): number {
-  const title = result.title.toLocaleLowerCase()
-  return terms.reduce((total, term) => total + (title === term ? 8 : title.startsWith(term) ? 4 : title.includes(term) ? 2 : 0), 0)
+function score(result: SearchResult, terms: string[], fullQuery: string): number {
+  const title = normalizeSearchText(result.title)
+  const category = normalizeSearchText(result.category)
+  const description = normalizeSearchText(result.description)
+  const phraseScore = title === fullQuery ? 30 : title.startsWith(fullQuery) ? 18 : title.includes(fullQuery) ? 10 : 0
+
+  return phraseScore + terms.reduce((total, term) => {
+    const titleScore = title === term ? 12 : title.startsWith(term) ? 7 : title.includes(term) ? 4 : 0
+    const categoryScore = category === term ? 5 : category.includes(term) ? 2 : 0
+    const descriptionScore = description.includes(term) ? 1 : 0
+    return total + titleScore + categoryScore + descriptionScore
+  }, 0)
+}
+
+function normalizeSearchText(value: string): string {
+  return value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase()
 }
