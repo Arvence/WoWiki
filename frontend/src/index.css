@@ -18,6 +18,14 @@
 		--color-wow-blood: 161 59 43;
 	}
 
+	html {
+		scrollbar-width: none;
+	}
+
+	html::-webkit-scrollbar {
+		display: none;
+	}
+
 	body {
 		@apply m-0 bg-background p-3 font-sans text-text sm:p-5 lg:p-8;
 		background-image: radial-gradient(ellipse at 20% 10%, rgba(139,94,60,0.06), transparent 10%), radial-gradient(ellipse at 80% 90%, rgba(199,156,58,0.03), transparent 10%);
