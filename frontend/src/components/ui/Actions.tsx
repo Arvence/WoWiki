@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { openReportDialog } from '../../features/reports/reportDialog'
+import { isBookmarked, setBookmarked, type BookmarkKind } from '../../features/bookmarks/bookmarkStorage'
 import TextTooltip from './TextTooltip'
 
 const ACTION_TOOLTIP_DELAY_MS = 400
@@ -47,7 +48,7 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
 
   useEffect(() => {
     setLiked(readStoredFlag(`wowiki:liked-${storageKey}:${target.id}`))
-    setSaved(readStoredFlag(`wowiki:saved-${storageKey}:${target.id}`))
+    setSaved((storageKey === 'news' || storageKey === 'community') ? isBookmarked(storageKey as BookmarkKind, target.id) : readStoredFlag(`wowiki:saved-${storageKey}:${target.id}`))
   }, [storageKey, target.id])
 
   useEffect(() => () => {
@@ -75,7 +76,8 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
   const handleSave = () => {
     const nextSaved = !saved
     setSaved(nextSaved)
-    writeStoredFlag(`wowiki:saved-${storageKey}:${target.id}`, nextSaved)
+    if (storageKey === 'news' || storageKey === 'community') setBookmarked(storageKey, target.id, nextSaved)
+    else writeStoredFlag(`wowiki:saved-${storageKey}:${target.id}`, nextSaved)
     setActionMessage(nextSaved ? 'Article saved.' : 'Article removed from saved items.')
   }
 
