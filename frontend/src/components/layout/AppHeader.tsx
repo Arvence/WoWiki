@@ -6,7 +6,7 @@ import { headerNavigation } from "./headerNavigation"
 
 const profileButton = {
   label: "Profile",
-  items: ["Saved Articles", "Settings", "Sign Out", "About", "Support", "Privacy"],
+  items: ["Bookmarks", "Settings", "Sign Out", "About", "Support", "Privacy"],
   dividerBefore: 3,
 }
 
@@ -52,7 +52,7 @@ export default function AppHeader(): JSX.Element {
     else event.currentTarget.blur()
   }
   const selectProfileItem = (item: string) => {
-    const routes: Record<string, string> = { Profile: "/profile", "Saved Articles": "/profile", Settings: "/profile", About: "/about", Support: "/contact", Privacy: "/privacy" }
+    const routes: Record<string, string> = { Profile: "/profile", Bookmarks: "/bookmarks", Settings: "/profile", About: "/about", Support: "/contact", Privacy: "/privacy" }
     if (item === "Sign Out") { logout(); navigate("/") } else if (routes[item]) navigate(routes[item])
     setOpenDropdown(null)
   }
