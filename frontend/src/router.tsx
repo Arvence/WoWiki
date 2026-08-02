@@ -18,10 +18,12 @@ import GuidesPage from './pages/GuidesPage'
 import ToolsPage from './pages/ToolsPage'
 import TalentCalculatorPage from './features/tools/talent-calculator/pages/TalentCalculatorPage'
 import RaidPlannerPage from './features/tools/raid-planner/pages/RaidPlannerPage'
+import BookmarksPage from './features/bookmarks/BookmarksPage'
 
 export const router = createBrowserRouter([
   { path: '/auth', element: <AuthPage /> },
   { path: '/profile', element: <ProfilePage /> },
+  { path: '/bookmarks', element: <BookmarksPage /> },
   { path: '/search', element: <SearchPage /> },
   {
     path: '/',
