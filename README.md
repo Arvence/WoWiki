@@ -1,5 +1,7 @@
 # WoWiki
 
+[![CI](https://github.com/Arvence/WoWiki/actions/workflows/ci.yml/badge.svg)](https://github.com/Arvence/WoWiki/actions/workflows/ci.yml)
+
 WoWiki is a modular World of Warcraft Classic platform built with a React frontend, a NestJS content and game-data API, ASP.NET Core services, and a YARP gateway. User content reports are delivered to the [TaskForge](https://github.com/Arvence/TaskForge) background job processor over a private server-to-server integration.
 
 ## Local architecture
