@@ -1,26 +1,39 @@
+export type TalentRank = {
+  readonly spellId: number
+  readonly description: string
+}
+
+export type TalentPrerequisite = {
+  readonly talentId: string
+  readonly requiredRank: number
+}
+
 export type Talent = {
-  id: string
-  name: string
-  description: string
-  row: number
-  column: number
-  maxRank: number
-  iconId: number
-  prerequisiteId?: string
+  readonly id: string
+  readonly name: string
+  readonly icon: string
+  readonly row: number
+  readonly column: number
+  readonly requiredPoints: number
+  readonly maxRank: number
+  readonly ranks: readonly TalentRank[]
+  readonly prerequisite?: TalentPrerequisite
 }
 
 export type TalentTree = {
-  id: string
-  name: string
-  talents: Talent[]
+  readonly id: string
+  readonly name: string
+  readonly order: number
+  readonly backgroundImage?: string
+  readonly talents: readonly Talent[]
 }
 
 export type TalentClass = {
-  id: string
-  name: string
-  color: string
-  version: 'classic-era' | 'tbc'
-  maxLevel: number
-  maxTalentPoints: number
-  trees: TalentTree[]
+  readonly id: string
+  readonly name: string
+  readonly color: string
+  readonly version: 'classic-era'
+  readonly maxLevel: number
+  readonly maxTalentPoints: number
+  readonly trees: readonly TalentTree[]
 }

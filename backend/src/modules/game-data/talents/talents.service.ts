@@ -1,15 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { normalizeId } from '../../../common/utils/normalize-id'
 import { ValidateTalentBuildDto } from './dto/validate-talent-build.dto'
-import { TalentBuildValidation, TalentClass, TalentClassSummary, TalentTree } from './models/talent.model'
-import { TBC_TALENT_CLASSES } from './seeds/tbc-talents.seed'
+import { TALENT_CLASSES } from './data/talent-registry'
+import { ClassTalents, TalentBuildValidation, TalentClass, TalentClassSummary, TalentTree } from './models/talent'
 
 @Injectable()
 export class TalentsService {
   findAll(): TalentClassSummary[] {
-    return TBC_TALENT_CLASSES.map(({ id, name, color, version, maxLevel, maxTalentPoints, trees }) => ({
-      id,
-      name,
+    return TALENT_CLASSES.map(({ classId, className, color, version, maxLevel, maxTalentPoints, trees }) => ({
+      id: classId,
+      name: className,
       color,
       version,
       maxLevel,
@@ -19,9 +19,9 @@ export class TalentsService {
   }
 
   findOne(classId: string): TalentClass {
-    const talentClass = TBC_TALENT_CLASSES.find((item) => item.id === normalizeId(classId))
+    const talentClass = TALENT_CLASSES.find((item) => item.classId === normalizeId(classId))
     if (!talentClass) throw new NotFoundException(`Talent class ${classId} not found`)
-    return talentClass
+    return this.toTalentClass(talentClass)
   }
 
   validate(classId: string, input: ValidateTalentBuildDto): TalentBuildValidation {
@@ -57,12 +57,12 @@ export class TalentsService {
         const pointsBeforeRow = tree.talents
           .filter((candidate) => candidate.row < talent.row)
           .reduce((sum, candidate) => sum + (normalizedRanks[candidate.id] ?? 0), 0)
-        const requiredPoints = talent.row * 5
+        const requiredPoints = talent.requiredPoints
         if (pointsBeforeRow < requiredPoints) errors.push(`${talent.name} requires ${requiredPoints} points in earlier ${tree.name} rows`)
-        if (talent.prerequisiteId) {
-          const prerequisite = knownTalents.get(talent.prerequisiteId)?.talent
-          if (prerequisite && (normalizedRanks[prerequisite.id] ?? 0) < prerequisite.maxRank) {
-            errors.push(`${talent.name} requires ${prerequisite.name} at rank ${prerequisite.maxRank}`)
+        if (talent.prerequisite) {
+          const prerequisite = knownTalents.get(talent.prerequisite.talentId)?.talent
+          if (!prerequisite || (normalizedRanks[prerequisite.id] ?? 0) < talent.prerequisite.requiredRank) {
+            errors.push(`${talent.name} requires ${prerequisite?.name ?? talent.prerequisite.talentId} at rank ${talent.prerequisite.requiredRank}`)
           }
         }
       }
@@ -79,5 +79,9 @@ export class TalentsService {
 
   private pointsInTree(tree: TalentTree, ranks: Record<string, number>): number {
     return tree.talents.reduce((sum, talent) => sum + (ranks[talent.id] ?? 0), 0)
+  }
+
+  private toTalentClass({ classId, className, color, version, maxLevel, maxTalentPoints, trees }: ClassTalents): TalentClass {
+    return { id: classId, name: className, color, version, maxLevel, maxTalentPoints, trees }
   }
 }

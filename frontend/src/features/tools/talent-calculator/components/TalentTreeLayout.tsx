@@ -58,7 +58,7 @@ type TalentTreePanelProps = {
 }
 
 function TalentTreePanel({ tree, classColor, ranks, maxTalentPoints, onRankChange, onReset }: TalentTreePanelProps): JSX.Element {
-  const rowCount = Math.max(9, ...tree.talents.map((talent) => talent.row + 1))
+  const rowCount = Math.max(7, ...tree.talents.map((talent) => talent.row + 1))
   const treePoints = pointsInTree(tree, ranks)
   const totalPoints = Object.values(ranks).reduce((sum, rank) => sum + rank, 0)
 
@@ -81,8 +81,8 @@ function TalentTreePanel({ tree, classColor, ranks, maxTalentPoints, onRankChang
             const rank = ranks[talent.id] ?? 0
             const canAdd = rank < talent.maxRank
               && totalPoints < maxTalentPoints
-              && pointsBeforeRow(tree, talent.row, ranks) >= talent.row * 5
-              && (!talent.prerequisiteId || (ranks[talent.prerequisiteId] ?? 0) >= (tree.talents.find((candidate) => candidate.id === talent.prerequisiteId)?.maxRank ?? 0))
+              && pointsBeforeRow(tree, talent.row, ranks) >= talent.requiredPoints
+              && (!talent.prerequisite || (ranks[talent.prerequisite.talentId] ?? 0) >= talent.prerequisite.requiredRank)
             return (
               <TalentNode
                 key={talent.id}
@@ -116,6 +116,7 @@ type TalentNodeProps = {
 }
 
 function TalentNode({ talent, rank, canAdd, classColor, onAdd, onRemove }: TalentNodeProps): JSX.Element {
+  const description = talent.ranks[Math.max(0, rank - 1)]?.description ?? ''
   const initials = talent.name
     .split(/\s+/)
     .filter((word) => !['of', 'the', 'and'].includes(word.toLowerCase()))
@@ -127,7 +128,7 @@ function TalentNode({ talent, rank, canAdd, classColor, onAdd, onRemove }: Talen
   return (
     <button
       type="button"
-      title={`${talent.name}\n${talent.description}\nMax rank: ${talent.maxRank}`}
+      title={`${talent.name}\n${description}\nMax rank: ${talent.maxRank}`}
       aria-label={`${talent.name}, rank ${rank} of ${talent.maxRank}`}
       onClick={onAdd}
       onContextMenu={(event) => { event.preventDefault(); onRemove() }}
@@ -146,8 +147,8 @@ function TalentNode({ talent, rank, canAdd, classColor, onAdd, onRemove }: Talen
 
 function TalentConnections({ tree, rowCount, classColor }: { tree: TalentTree; rowCount: number; classColor: string }): JSX.Element {
   const prerequisites = tree.talents.flatMap((talent) => {
-    if (!talent.prerequisiteId) return []
-    const source = tree.talents.find((candidate) => candidate.id === talent.prerequisiteId)
+    if (!talent.prerequisite) return []
+    const source = tree.talents.find((candidate) => candidate.id === talent.prerequisite?.talentId)
     return source ? [{ source, target: talent }] : []
   })
 
@@ -184,9 +185,9 @@ function pointsBeforeRow(tree: TalentTree, row: number, ranks: Record<string, nu
 function treeRemainsValid(tree: TalentTree, ranks: Record<string, number>): boolean {
   return tree.talents.every((talent) => {
     if ((ranks[talent.id] ?? 0) === 0) return true
-    if (pointsBeforeRow(tree, talent.row, ranks) < talent.row * 5) return false
-    if (!talent.prerequisiteId) return true
-    const prerequisite = tree.talents.find((candidate) => candidate.id === talent.prerequisiteId)
-    return prerequisite ? (ranks[prerequisite.id] ?? 0) >= prerequisite.maxRank : true
+    if (pointsBeforeRow(tree, talent.row, ranks) < talent.requiredPoints) return false
+    if (!talent.prerequisite) return true
+    const prerequisite = tree.talents.find((candidate) => candidate.id === talent.prerequisite?.talentId)
+    return prerequisite ? (ranks[prerequisite.id] ?? 0) >= talent.prerequisite.requiredRank : false
   })
 }
