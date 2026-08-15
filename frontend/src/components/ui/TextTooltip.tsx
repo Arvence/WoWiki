@@ -99,7 +99,7 @@ export default function TextTooltip({ text, children, className = '', onlyWhenTr
           id={tooltipId}
           role="tooltip"
           style={{ left: position.left, top: position.top }}
-          className="pointer-events-none fixed z-[100] w-max max-w-[min(22rem,calc(100vw-1rem))] rounded-md border border-border bg-surface px-2.5 py-1.5 text-xs font-medium leading-5 text-text shadow-xl"
+          className="pointer-events-none fixed z-[100] w-max max-w-[min(22rem,calc(100vw-1rem))] whitespace-pre-line rounded-md border border-border bg-surface px-2.5 py-1.5 text-xs font-medium leading-5 text-text shadow-xl"
         >
           {text}
         </span>,

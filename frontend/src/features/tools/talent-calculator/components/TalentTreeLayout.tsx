@@ -1,3 +1,4 @@
+import TextTooltip from '../../../../components/ui/TextTooltip'
 import { talentCalculatorClasses } from '../talentCalculator.config'
 import { useTalentClass } from '../hooks/useTalentClass'
 import type { Talent, TalentTree } from '../types/talent'
@@ -126,22 +127,21 @@ function TalentNode({ talent, rank, canAdd, classColor, onAdd, onRemove }: Talen
     .toUpperCase()
 
   return (
-    <button
-      type="button"
-      title={`${talent.name}\n${description}\nMax rank: ${talent.maxRank}`}
-      aria-label={`${talent.name}, rank ${rank} of ${talent.maxRank}`}
-      onClick={onAdd}
-      onContextMenu={(event) => { event.preventDefault(); onRemove() }}
-      className={`group relative z-10 h-14 w-14 rounded-xl text-xs font-black shadow-[0_8px_18px_rgba(0,0,0,0.3)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_22px_rgba(0,0,0,0.38)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${rank > 0 ? 'bg-primary/15 text-primary' : canAdd ? 'bg-surface text-text' : 'bg-surface/65 text-muted/45'}`}
-      style={{
-        gridColumn: talent.column + 1,
-        gridRow: talent.row + 1,
-        boxShadow: `inset 0 0 0 1px ${classColor}${rank > 0 ? 'bb' : '55'}, 0 8px 18px rgba(0,0,0,0.3)`,
-      }}
-    >
-      <span aria-hidden="true">{initials}</span>
-      <span className="absolute -bottom-1.5 -right-1.5 min-w-6 rounded-full bg-background px-1.5 py-0.5 text-[0.6rem] font-bold text-primary shadow-md">{rank}/{talent.maxRank}</span>
-    </button>
+    <span className="relative z-10 h-14 w-14" style={{ gridColumn: talent.column + 1, gridRow: talent.row + 1 }}>
+      <TextTooltip text={`${talent.name}\n${description}\nRank ${rank}/${talent.maxRank}`} className="h-full w-full" onlyWhenTruncated={false}>
+        <button
+          type="button"
+          aria-label={`${talent.name}, rank ${rank} of ${talent.maxRank}`}
+          onClick={onAdd}
+          onContextMenu={(event) => { event.preventDefault(); onRemove() }}
+          className={`group relative h-full w-full rounded-xl text-xs font-black shadow-[0_8px_18px_rgba(0,0,0,0.3)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_22px_rgba(0,0,0,0.38)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${rank > 0 ? 'bg-primary/15 text-primary' : canAdd ? 'bg-surface text-text' : 'bg-surface/65 text-muted/45'}`}
+          style={{ boxShadow: `inset 0 0 0 1px ${classColor}${rank > 0 ? 'bb' : '55'}, 0 8px 18px rgba(0,0,0,0.3)` }}
+        >
+          <span aria-hidden="true">{initials}</span>
+          <span className="absolute -bottom-1.5 -right-1.5 min-w-6 rounded-full bg-background px-1.5 py-0.5 text-[0.6rem] font-bold text-primary shadow-md">{rank}/{talent.maxRank}</span>
+        </button>
+      </TextTooltip>
+    </span>
   )
 }
 
