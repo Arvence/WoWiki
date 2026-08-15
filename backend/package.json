@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "demo:rebuild": "node scripts/rebuild-demo-db.mjs",
+    "demo:verify": "node scripts/verify-demo-db.mjs",
     "start": "npm run build && node dist/main.js",
     "dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "lint": "eslint \"src/**/*.ts\"",
