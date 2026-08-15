@@ -135,6 +135,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# Local VS Code settings
+.vscode/settings.json
+
 # .NET build and local auth data
 **/bin/
 **/obj/
@@ -151,3 +154,6 @@ services/auth/**/DataProtection-Keys/
 backend/**/*.db
 backend/**/*.db-shm
 backend/**/*.db-wal
+
+# Versioned, immutable demo database template
+!backend/Data/demo/wowiki-demo.db
