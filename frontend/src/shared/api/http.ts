@@ -96,6 +96,14 @@ export const http = {
     })
   },
 
+  put<T>(url: string, body?: unknown, options?: HttpOptions): Promise<T> {
+    return request<T>(url, {
+      ...options,
+      method: 'PUT',
+      body: body === undefined ? undefined : JSON.stringify(body),
+    })
+  },
+
   patch<T>(url: string, body: unknown, options?: HttpOptions): Promise<T> {
     return request<T>(url, { ...options, method: 'PATCH', body: JSON.stringify(body) })
   },

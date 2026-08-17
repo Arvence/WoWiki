@@ -20,7 +20,7 @@ const sections: InfoSection[] = [
   {
     id: 'community',
     title: 'Built around community knowledge',
-    content: <><p>Some of the most useful game knowledge comes from players testing routes, comparing approaches, and explaining details that formal references miss. Community entries provide a dedicated space for those observations and guides.</p><p>Registered members can publish entries and take part in threaded discussions. Reactions, viewer counts, profiles, and reporting connect those contributions to the rest of the experience, while bookmarks let readers keep useful news and community posts on their device.</p></>,
+    content: <><p>Some of the most useful game knowledge comes from players testing routes, comparing approaches, and explaining details that formal references miss. Community entries provide a dedicated space for those observations and guides.</p><p>Registered members can publish entries and take part in threaded discussions. Reactions, viewer counts, profiles, and reporting connect those contributions to the rest of the experience, while bookmarks let readers save useful news and community posts to their account.</p></>,
   },
   {
     id: 'independence',

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useBookmarks } from '../../features/bookmarks/BookmarksContext'
+import type { BookmarkTargetType } from '../../features/bookmarks/types/bookmark'
 import { openReportDialog } from '../../features/reports/reportDialog'
-import { isBookmarked, setBookmarked, type BookmarkKind } from '../../features/bookmarks/bookmarkStorage'
 import TextTooltip from './TextTooltip'
 
 const ACTION_TOOLTIP_DELAY_MS = 400
@@ -39,16 +40,20 @@ type ActionsProps = {
 }
 
 export default function Actions({ target, storageKey, onLike, likeCount, likeOnce = false, showLike = true, showSave = true, showShare = true, showReport = true, showDownload = false, onDownload, downloading = false, orientation = 'horizontal', leadingAction }: ActionsProps): JSX.Element {
+  const { isBookmarked, toggleBookmark } = useBookmarks()
   const [liked, setLiked] = useState(false)
-  const [saved, setSaved] = useState(false)
+  const [storedSaved, setStoredSaved] = useState(false)
   const [updatingLike, setUpdatingLike] = useState(false)
+  const [updatingSave, setUpdatingSave] = useState(false)
   const [actionMessage, setActionMessage] = useState<string | null>(null)
   const [shareFeedback, setShareFeedback] = useState<string | null>(null)
   const shareFeedbackTimer = useRef<number | null>(null)
+  const bookmarkTargetType = isBookmarkTargetType(storageKey) ? storageKey : null
+  const saved = bookmarkTargetType ? isBookmarked(bookmarkTargetType, target.id) : storedSaved
 
   useEffect(() => {
     setLiked(readStoredFlag(`wowiki:liked-${storageKey}:${target.id}`))
-    setSaved((storageKey === 'news' || storageKey === 'community') ? isBookmarked(storageKey as BookmarkKind, target.id) : readStoredFlag(`wowiki:saved-${storageKey}:${target.id}`))
+    if (!isBookmarkTargetType(storageKey)) setStoredSaved(readStoredFlag(`wowiki:saved-${storageKey}:${target.id}`))
   }, [storageKey, target.id])
 
   useEffect(() => () => {
@@ -73,12 +78,25 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
     }
   }
 
-  const handleSave = () => {
-    const nextSaved = !saved
-    setSaved(nextSaved)
-    if (storageKey === 'news' || storageKey === 'community') setBookmarked(storageKey, target.id, nextSaved)
-    else writeStoredFlag(`wowiki:saved-${storageKey}:${target.id}`, nextSaved)
-    setActionMessage(nextSaved ? 'Article saved.' : 'Article removed from saved items.')
+  const handleSave = async () => {
+    if (updatingSave) return
+    setUpdatingSave(true)
+    setActionMessage(null)
+
+    try {
+      const nextSaved = bookmarkTargetType
+        ? await toggleBookmark(bookmarkTargetType, target.id)
+        : !storedSaved
+      if (!bookmarkTargetType) {
+        setStoredSaved(nextSaved)
+        writeStoredFlag(`wowiki:saved-${storageKey}:${target.id}`, nextSaved)
+      }
+      setActionMessage(nextSaved ? 'Article saved.' : 'Article removed from saved items.')
+    } catch (saveError: unknown) {
+      setActionMessage(saveError instanceof Error ? saveError.message : 'Could not update saved items. Please try again.')
+    } finally {
+      setUpdatingSave(false)
+    }
   }
 
   const handleShare = async () => {
@@ -145,10 +163,11 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
 
       {showSave && <TextTooltip text={saved ? 'Remove from saved items' : 'Save article'} onlyWhenTruncated={false} delayMs={ACTION_TOOLTIP_DELAY_MS}><button
         type="button"
-        onClick={handleSave}
+        onClick={() => void handleSave()}
+        disabled={updatingSave}
         aria-label={saved ? `Remove ${target.title} from saved items` : `Save ${target.title}`}
         aria-pressed={saved}
-        className={`inline-flex h-9 w-9 items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${saved ? 'bg-primary/15 text-primary' : 'text-muted hover:bg-primary/10 hover:text-primary'}`}
+        className={`inline-flex h-9 w-9 items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-wait disabled:opacity-60 ${saved ? 'bg-primary/15 text-primary' : 'text-muted hover:bg-primary/10 hover:text-primary'}`}
       >
         <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24" fill={saved ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" aria-hidden="true">
           <path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z" />
@@ -204,4 +223,8 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
       {actionMessage && <span className="sr-only" role="status">{actionMessage}</span>}
     </>
   )
+}
+
+function isBookmarkTargetType(value: string): value is BookmarkTargetType {
+  return value === 'news' || value === 'community'
 }

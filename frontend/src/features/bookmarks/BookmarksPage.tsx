@@ -6,11 +6,12 @@ import { useAuth } from '../auth/AuthContext'
 import { fetchCommunityEntries } from '../community/api/communityService'
 import { fetchNews } from '../news/api/newsService'
 import { formatDate } from '../../shared/utils/date'
-import { BOOKMARK_CHANGE_EVENT, isBookmarked, setBookmarked, type BookmarkKind } from './bookmarkStorage'
+import { useBookmarks } from './BookmarksContext'
+import type { BookmarkTargetType } from './types/bookmark'
 
 type BookmarkItem = {
   id: string
-  kind: BookmarkKind
+  kind: BookmarkTargetType
   title: string
   description: string
   category: string
@@ -20,7 +21,7 @@ type BookmarkItem = {
   path: string
 }
 
-type BookmarkFilter = 'all' | BookmarkKind
+type BookmarkFilter = 'all' | BookmarkTargetType
 
 const FILTER_LABELS: Record<BookmarkFilter, string> = {
   all: 'All bookmarks',
@@ -34,27 +35,17 @@ function BookmarkIcon({ className = 'h-5 w-5', filled = false }: { className?: s
 
 export default function BookmarksPage(): JSX.Element {
   const { user, loading: authLoading } = useAuth()
+  const { bookmarks: storedBookmarks, loading: bookmarksLoading, error: bookmarksError, deleteBookmark } = useBookmarks()
   const [content, setContent] = useState<BookmarkItem[]>([])
-  const [loading, setLoading] = useState(true)
+  const [contentLoading, setContentLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [filter, setFilter] = useState<BookmarkFilter>('all')
-  const [bookmarkRevision, setBookmarkRevision] = useState(0)
-
-  useEffect(() => {
-    const refreshBookmarks = () => setBookmarkRevision((current) => current + 1)
-    window.addEventListener('storage', refreshBookmarks)
-    window.addEventListener(BOOKMARK_CHANGE_EVENT, refreshBookmarks)
-    return () => {
-      window.removeEventListener('storage', refreshBookmarks)
-      window.removeEventListener(BOOKMARK_CHANGE_EVENT, refreshBookmarks)
-    }
-  }, [])
 
   useEffect(() => {
     let cancelled = false
 
     const loadContent = async () => {
-      setLoading(true)
+      setContentLoading(true)
       setError(null)
       const [newsResult, communityResult] = await Promise.allSettled([fetchNews(), fetchCommunityEntries()])
       if (cancelled) return
@@ -91,20 +82,32 @@ export default function BookmarksPage(): JSX.Element {
       else if (newsResult.status === 'rejected' || communityResult.status === 'rejected') setError('Some bookmarked content could not be loaded.')
 
       setContent(items.sort((first, second) => Date.parse(second.date) - Date.parse(first.date)))
-      setLoading(false)
+      setContentLoading(false)
     }
 
     void loadContent()
     return () => { cancelled = true }
   }, [])
 
-  const bookmarks = useMemo(() => content.filter((item) => isBookmarked(item.kind, item.id)), [content, bookmarkRevision])
+  const bookmarkKeys = useMemo(() => new Set(storedBookmarks.map((bookmark) => `${bookmark.targetType}:${bookmark.targetId}`)), [storedBookmarks])
+  const bookmarks = useMemo(() => content.filter((item) => bookmarkKeys.has(`${item.kind}:${item.id}`)), [bookmarkKeys, content])
   const visibleBookmarks = useMemo(() => filter === 'all' ? bookmarks : bookmarks.filter((item) => item.kind === filter), [bookmarks, filter])
   const totals = useMemo(() => ({
     all: bookmarks.length,
     news: bookmarks.filter((item) => item.kind === 'news').length,
     community: bookmarks.filter((item) => item.kind === 'community').length,
   }), [bookmarks])
+  const loading = authLoading || bookmarksLoading || contentLoading
+  const displayedError = error || bookmarksError
+
+  const handleRemove = async (item: BookmarkItem) => {
+    setError(null)
+    try {
+      await deleteBookmark(item.kind, item.id)
+    } catch {
+      setError('Could not remove the bookmark. Please try again.')
+    }
+  }
 
   if (!authLoading && !user) return <Navigate to="/auth" state={{ from: '/bookmarks' }} replace />
 
@@ -116,7 +119,7 @@ export default function BookmarksPage(): JSX.Element {
           <div className="flex flex-col gap-4 border-b border-border pb-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h1 id="bookmarks-heading" className="text-2xl font-bold text-text sm:text-3xl">Bookmarks</h1>
-              <p className="mt-1 text-sm text-muted">Your bookmarks are stored on this device.</p>
+              <p className="mt-1 text-sm text-muted">Your bookmarks are saved to your account.</p>
             </div>
             <div className="flex flex-wrap gap-2" role="group" aria-label="Filter bookmarks">
               {(Object.keys(FILTER_LABELS) as BookmarkFilter[]).map((item) => (
@@ -128,7 +131,7 @@ export default function BookmarksPage(): JSX.Element {
           </div>
 
           {loading && <div className="grid gap-4 py-6 md:grid-cols-2" aria-label="Loading bookmarks">{[0, 1, 2, 3].map((item) => <div key={item} className="h-48 animate-pulse rounded-xl border border-border/40 bg-surface/70" />)}</div>}
-          {error && <p role="alert" className="mt-5 rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">{error}</p>}
+          {displayedError && <p role="alert" className="mt-5 rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">{displayedError}</p>}
 
           {!loading && bookmarks.length === 0 && (
             <div className="my-7 flex flex-col items-center rounded-2xl border border-dashed border-border bg-surface/45 px-6 py-14 text-center">
@@ -156,7 +159,7 @@ export default function BookmarksPage(): JSX.Element {
                     <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted">{item.description}</p>
                     <div className="mt-auto flex items-center justify-between gap-4 border-t border-border/60 pt-4 text-sm">
                       <span className="min-w-0 truncate text-muted">By <span className="font-medium text-text">{item.author}</span></span>
-                      <button type="button" onClick={() => setBookmarked(item.kind, item.id, false)} className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-2 font-semibold text-primary transition hover:bg-primary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label={`Remove ${item.title} from bookmarks`}><BookmarkIcon className="h-4 w-4" filled /> Remove</button>
+                      <button type="button" onClick={() => void handleRemove(item)} className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-2 font-semibold text-primary transition hover:bg-primary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label={`Remove ${item.title} from bookmarks`}><BookmarkIcon className="h-4 w-4" filled /> Remove</button>
                     </div>
                   </div>
                 </article>
