@@ -25,6 +25,18 @@ the gateway-forwarded client address keeps authentication limits partitioned per
 Mutable backend content and game data persist in `backend/Data/wowiki-backend.db`;
 the Auth service keeps identity data in its separate SQLite database.
 
+The repository ships with a versioned demo database. Install it into the active
+backend database before starting the server:
+
+```powershell
+cd backend
+npm run db:demo
+```
+
+Stop the backend and run `npm run db:clear` to remove the active local database.
+The committed demo template remains unchanged and can be installed again at any
+time.
+
 See the [gateway-first request/response map](docs/request-response-map.md) for
 end-to-end flows, endpoint access levels, propagated headers, response shapes,
 and service ownership.
