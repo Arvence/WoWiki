@@ -12,6 +12,7 @@ import { RaidsModule } from './modules/game-data/raids/raids.module'
 import { ItemsModule } from './modules/game-data/items/items.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { ReportsModule } from './modules/reports/reports.module'
+import { StorageModule } from './modules/storage/storage.module'
 import { HealthController } from './health.controller'
 
 @Module({
@@ -30,6 +31,7 @@ import { HealthController } from './health.controller'
     CommunityModule,
     TalentsModule,
     ReportsModule,
+    StorageModule,
   ],
 })
 export class AppModule {}
