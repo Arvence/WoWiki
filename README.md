@@ -92,3 +92,7 @@ The gateway is the required browser entry point. Vite serves frontend assets int
 Gateway API routes include per-client rate limiting, correlation IDs, baseline security headers, request hardening, and structured request logging.
 Content and game-data reads are public. Mutations require an authenticated moderator or admin,
 while community creation, comments, and reactions require an authenticated user.
+
+## License
+
+Original WoWiki code and materials are licensed under the [MIT License](LICENSE). World of Warcraft and other third-party content are excluded; see the [intellectual property notice](NOTICE.md).
