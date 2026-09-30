@@ -347,9 +347,9 @@ export const PRIEST_TALENTS: ClassTalents = {
           requiredPoints: 10,
           maxRank: 3,
           ranks: [
-            { spellId: 14892, description: 'Increases your target\'s armor by 8% for 15 sec after getting a critical effect from' },
-            { spellId: 15362, description: 'Increases your target\'s armor by 16% for 15 sec after getting a critical effect from' },
-            { spellId: 15363, description: 'Increases your target\'s armor by 25% for 15 sec after getting a critical effect from' },
+            { spellId: 14892, description: 'Increases your target\'s armor by 8% for 15 sec after getting a critical effect from your Flash Heal, Heal, Greater Heal, or Prayer of Healing spell.' },
+            { spellId: 15362, description: 'Increases your target\'s armor by 16% for 15 sec after getting a critical effect from your Flash Heal, Heal, Greater Heal, or Prayer of Healing spell.' },
+            { spellId: 15363, description: 'Increases your target\'s armor by 25% for 15 sec after getting a critical effect from your Flash Heal, Heal, Greater Heal, or Prayer of Healing spell.' },
           ],
         },
         {

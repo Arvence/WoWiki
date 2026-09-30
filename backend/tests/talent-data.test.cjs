@@ -80,6 +80,22 @@ test('Classic Priest talent data is complete and structurally valid', () => {
   assert.equal(PRIEST_TALENTS.trees.flatMap((tree) => tree.talents).flatMap((talent) => talent.ranks).some((rank) => /Season of Discovery|Tuning and Overrides|S0\d/.test(rank.description)), false)
 })
 
+test('Priest Inspiration ranks contain their complete descriptions', () => {
+  const inspiration = PRIEST_TALENTS.trees
+    .flatMap((tree) => tree.talents)
+    .find((talent) => talent.id === 'priest-holy-inspiration')
+
+  assert.ok(inspiration)
+  assert.deepEqual(
+    inspiration.ranks.map((rank) => rank.description),
+    [
+      "Increases your target's armor by 8% for 15 sec after getting a critical effect from your Flash Heal, Heal, Greater Heal, or Prayer of Healing spell.",
+      "Increases your target's armor by 16% for 15 sec after getting a critical effect from your Flash Heal, Heal, Greater Heal, or Prayer of Healing spell.",
+      "Increases your target's armor by 25% for 15 sec after getting a critical effect from your Flash Heal, Heal, Greater Heal, or Prayer of Healing spell.",
+    ],
+  )
+})
+
 test('Classic Shaman talent data is complete and structurally valid', () => {
   assert.equal(SHAMAN_TALENT_SOURCE, 'https://www.wowhead.com/classic/talent-calc/shaman')
   validateClassTalents(SHAMAN_TALENTS, [['Elemental', 15], ['Enhancement', 16], ['Restoration', 15]], 46)
