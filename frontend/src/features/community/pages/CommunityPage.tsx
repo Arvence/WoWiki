@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import AppFooter from '../../../components/layout/AppFooter'
 import AppHeader from '../../../components/layout/AppHeader'
+import TextTooltip from '../../../components/ui/TextTooltip'
 import CommunityEntry from '../components/CommunityEntry'
 import { useCommunityEntries } from '../hooks/useCommunityEntries'
 
@@ -28,7 +29,18 @@ export default function CommunityPage(): JSX.Element {
                 </span>
                 <span className="ml-1 flex"><svg fill="currentColor" height="16" viewBox="0 0 20 20" width="16" aria-hidden="true"><path d="M10 13.7a.897.897 0 0 1-.636-.264l-4.6-4.6a.9.9 0 1 1 1.272-1.273L10 11.526l3.964-3.963a.9.9 0 0 1 1.272 1.273l-4.6 4.6A.897.897 0 0 1 10 13.7z" /></svg></span>
               </button>
-              {listingMenuOpen && <div className="absolute right-0 top-full z-30 mt-2 w-11 rounded-lg bg-surface p-1 shadow-xl ring-1 ring-border"><button type="button" aria-label="Detail view" title="Detail view" onClick={() => { setListing('detail'); setListingMenuOpen(false) }} className={`flex h-9 w-9 items-center justify-center rounded-md ${listing === 'detail' ? 'bg-primary/10 text-primary' : 'text-text hover:bg-background'}`}><svg fill="currentColor" height="16" viewBox="0 0 20 20" width="16" aria-hidden="true"><path d="M14.7 2H5.3C3.48 2 2 3.48 2 5.3v9.4C2 16.52 3.48 18 5.3 18h9.4c1.82 0 3.3-1.48 3.3-3.3V5.3C18 3.48 16.52 2 14.7 2zM5.3 3.8h9.4c.83 0 1.5.67 1.5 1.5v1.43H3.8V5.3c0-.83.67-1.5 1.5-1.5zm10.9 4.73v2.93H3.8V8.53h12.4zm-1.5 7.67H5.3c-.83 0-1.5-.67-1.5-1.5v-1.43h12.4v1.43c0 .83-.67 1.5-1.5 1.5z" /></svg></button><button type="button" aria-label="Card view" title="Card view" onClick={() => { setListing('card'); setListingMenuOpen(false) }} className={`flex h-9 w-9 items-center justify-center rounded-md ${listing === 'card' ? 'bg-primary/10 text-primary' : 'text-text hover:bg-background'}`}><svg fill="currentColor" height="16" viewBox="0 0 20 20" width="16" aria-hidden="true"><path d="M5 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3H5zm0 1.8h10A1.2 1.2 0 0 1 16.2 5v10a1.2 1.2 0 0 1-1.2 1.2H5A1.2 1.2 0 0 1 3.8 15V5A1.2 1.2 0 0 1 5 3.8z" /></svg></button></div>}
+              {listingMenuOpen && <div className="absolute right-0 top-full z-30 mt-2 w-11 rounded-lg bg-surface p-1 shadow-xl ring-1 ring-border">
+                <TextTooltip text="Detail view" onlyWhenTruncated={false}>
+                  <button type="button" aria-label="Detail view" aria-pressed={listing === 'detail'} onClick={() => { setListing('detail'); setListingMenuOpen(false) }} className={`flex h-9 w-9 items-center justify-center rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${listing === 'detail' ? 'bg-primary/10 text-primary' : 'text-text hover:bg-background'}`}>
+                    <svg fill="currentColor" height="16" viewBox="0 0 20 20" width="16" aria-hidden="true"><path d="M14.7 2H5.3C3.48 2 2 3.48 2 5.3v9.4C2 16.52 3.48 18 5.3 18h9.4c1.82 0 3.3-1.48 3.3-3.3V5.3C18 3.48 16.52 2 14.7 2zM5.3 3.8h9.4c.83 0 1.5.67 1.5 1.5v1.43H3.8V5.3c0-.83.67-1.5 1.5-1.5zm10.9 4.73v2.93H3.8V8.53h12.4zm-1.5 7.67H5.3c-.83 0-1.5-.67-1.5-1.5v-1.43h12.4v1.43c0 .83-.67 1.5-1.5 1.5z" /></svg>
+                  </button>
+                </TextTooltip>
+                <TextTooltip text="Card view" onlyWhenTruncated={false}>
+                  <button type="button" aria-label="Card view" aria-pressed={listing === 'card'} onClick={() => { setListing('card'); setListingMenuOpen(false) }} className={`flex h-9 w-9 items-center justify-center rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${listing === 'card' ? 'bg-primary/10 text-primary' : 'text-text hover:bg-background'}`}>
+                    <svg fill="currentColor" height="16" viewBox="0 0 20 20" width="16" aria-hidden="true"><path d="M5 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3H5zm0 1.8h10A1.2 1.2 0 0 1 16.2 5v10a1.2 1.2 0 0 1-1.2 1.2H5A1.2 1.2 0 0 1 3.8 15V5A1.2 1.2 0 0 1 5 3.8z" /></svg>
+                  </button>
+                </TextTooltip>
+              </div>}
             </div>
           </div>
 
