@@ -17,7 +17,9 @@ export class CreateReportDto {
 
   @IsString()
   @Length(1, 500)
-  @Matches(/^\/(?!\/)/, { message: 'pagePath must be a local application path' })
+  @Matches(/^\/(?!\/)(?!.*(?:^|\/)\.\.(?:\/|$))[^\s\\]*$/, {
+    message: 'pagePath must be a local application path',
+  })
   pagePath!: string
 
   @IsIn(REPORT_TARGET_TYPES)
