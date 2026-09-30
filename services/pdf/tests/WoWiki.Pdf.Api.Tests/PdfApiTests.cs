@@ -48,6 +48,40 @@ public sealed class PdfApiTests : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Fact]
+    public async Task OversizedArticleFieldsReturnValidationProblem()
+    {
+        var response = await _client.PostAsJsonAsync("/api/pdf/news", new
+        {
+            Title = new string('x', 201),
+            Summary = new string('x', 5_001),
+            Content = new string('x', 50_001),
+            Category = new string('x', 81),
+            Author = new string('x', 101),
+            UpdatedAt = DateTimeOffset.UtcNow,
+        });
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Equal("application/problem+json", response.Content.Headers.ContentType?.MediaType);
+    }
+
+    [Fact]
+    public async Task MalformedArticleReturnsValidationProblem()
+    {
+        var response = await _client.PostAsJsonAsync("/api/pdf/news", new
+        {
+            Title = "Valid title",
+            Summary = string.Empty,
+            Content = "A valid article body.",
+            Category = " ",
+            Author = "WoWiki",
+            UpdatedAt = DateTimeOffset.UtcNow,
+        });
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Equal("application/problem+json", response.Content.Headers.ContentType?.MediaType);
+    }
+
+    [Fact]
     public async Task ValidArticleReturnsDownloadablePdf()
     {
         var response = await _client.PostAsJsonAsync("/api/pdf/news", new

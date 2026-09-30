@@ -37,14 +37,56 @@ app.MapGet("/health", () => Results.Ok(new
 
 app.MapPost("/api/pdf/news", (NewsPdfRequest article) =>
 {
-    if (string.IsNullOrWhiteSpace(article.Title) ||
-        string.IsNullOrWhiteSpace(article.Content) ||
-        string.IsNullOrWhiteSpace(article.Author))
+    var errors = new Dictionary<string, string[]>();
+
+    if (string.IsNullOrWhiteSpace(article.Title))
     {
-        return Results.ValidationProblem(new Dictionary<string, string[]>
-        {
-            ["article"] = ["Title, author, and content are required."]
-        });
+        errors[nameof(article.Title)] = ["Title is required."];
+    }
+    else if (article.Title.Length > 200)
+    {
+        errors[nameof(article.Title)] = ["Title must not exceed 200 characters."];
+    }
+
+    if (article.Summary is null)
+    {
+        errors[nameof(article.Summary)] = ["Summary must be a string."];
+    }
+    else if (article.Summary.Length > 5_000)
+    {
+        errors[nameof(article.Summary)] = ["Summary must not exceed 5000 characters."];
+    }
+
+    if (string.IsNullOrWhiteSpace(article.Content))
+    {
+        errors[nameof(article.Content)] = ["Content is required."];
+    }
+    else if (article.Content.Length > 50_000)
+    {
+        errors[nameof(article.Content)] = ["Content must not exceed 50000 characters."];
+    }
+
+    if (string.IsNullOrWhiteSpace(article.Category))
+    {
+        errors[nameof(article.Category)] = ["Category is required."];
+    }
+    else if (article.Category.Length > 80)
+    {
+        errors[nameof(article.Category)] = ["Category must not exceed 80 characters."];
+    }
+
+    if (string.IsNullOrWhiteSpace(article.Author))
+    {
+        errors[nameof(article.Author)] = ["Author is required."];
+    }
+    else if (article.Author.Length > 100)
+    {
+        errors[nameof(article.Author)] = ["Author must not exceed 100 characters."];
+    }
+
+    if (errors.Count > 0)
+    {
+        return Results.ValidationProblem(errors);
     }
 
     var pdf = NewsPdfDocument.Create(article);
