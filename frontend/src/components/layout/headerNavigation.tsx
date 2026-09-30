@@ -6,7 +6,7 @@ export type HeaderNavigationItem = {
   icon: ReactNode
 }
 
-const iconClassName = 'h-4 w-4 transition group-hover:scale-110'
+const iconClassName = 'h-4 w-4 shrink-0'
 
 export const headerNavigation: readonly HeaderNavigationItem[] = [
   {
