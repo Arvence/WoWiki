@@ -153,7 +153,7 @@ export default function Comments({ comments, onCreate, onLike, formatDate, forma
     }} className="border-t border-border px-5 py-6 sm:px-7 sm:py-7" aria-labelledby="comments-heading">
       <div className="flex min-h-11 items-center justify-between gap-4 border-b border-border pb-3">
         <div className="flex min-w-0 items-center gap-2.5">
-          <h2 id="comments-heading" className="text-xl font-bold text-text">Comments</h2>
+          <h2 id="comments-heading" className="scroll-mt-24 text-xl font-bold text-text">Comments</h2>
           <span className="inline-flex min-w-7 items-center justify-center rounded-full bg-surface-alt px-2 py-1 text-xs font-bold tabular-nums text-primary" aria-label={`${comments.length} comments`}>{comments.length}</span>
         </div>
         <button type="button" onClick={() => setComposerOpen((open) => !open)} aria-expanded={composerOpen} className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${composerOpen ? 'bg-primary/15 text-primary' : 'text-muted hover:bg-primary/10 hover:text-primary'}`} aria-label={composerOpen ? 'Close comment form' : 'Create comment'} title="Create comment">

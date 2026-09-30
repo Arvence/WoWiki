@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import AppFooter from '../../../components/layout/AppFooter'
 import AppHeader from '../../../components/layout/AppHeader'
-import Actions from '../../../components/ui/Actions'
+import DetailPageActions from '../../content/DetailPageActions'
 import Comments from '../components/Comments'
 import ViewerCount from '../../../components/ui/ViewerCount'
 import { formatDate, formatRelativeDate } from '../../../shared/utils/date'
@@ -15,6 +15,7 @@ function formatPublishedAt(value: string): string {
 
 export default function CommunityEntryDetailPage(): JSX.Element {
   const { entryId } = useParams<{ entryId: string }>()
+  const location = useLocation()
   const [entry, setEntry] = useState<CommunityEntryData | null>(null)
   const [comments, setComments] = useState<CommunityCommentData[]>([])
   const [relatedEntries, setRelatedEntries] = useState<CommunityEntryData[]>([])
@@ -48,6 +49,17 @@ export default function CommunityEntryDetailPage(): JSX.Element {
     void loadEntry()
   }, [entryId])
 
+  useEffect(() => {
+    if (!entry || !location.hash) return undefined
+
+    const frame = window.requestAnimationFrame(() => {
+      const targetId = decodeURIComponent(location.hash.slice(1))
+      document.getElementById(targetId)?.scrollIntoView()
+    })
+
+    return () => window.cancelAnimationFrame(frame)
+  }, [entry, location.hash])
+
   const createComment = async (input: { content: string; parentId?: string }) => {
     if (!entryId) throw new Error('Community entry not found')
     const created = await createCommunityComment(entryId, input)
@@ -63,7 +75,7 @@ export default function CommunityEntryDetailPage(): JSX.Element {
     <div className="min-h-screen bg-background">
       <AppHeader />
       <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
-        <Link to="/" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-text">
+        <Link to="/community" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-text">
           <span aria-hidden="true">&larr;</span> Back to community entries
         </Link>
 
@@ -97,10 +109,12 @@ export default function CommunityEntryDetailPage(): JSX.Element {
               </article>
 
               <div className="flex items-center border-t border-border bg-background/30 px-5 py-3 sm:px-7" aria-label="Entry actions">
-                <Actions target={{ id: entry.id, title: entry.title, path: `/community/${entry.id}` }} storageKey="community" />
+                <DetailPageActions target={{ id: entry.id, title: entry.title, path: `/community/${entry.id}` }} storageKey="community" />
               </div>
 
-              <Comments comments={comments} onCreate={createComment} onLike={likeComment} formatDate={formatRelativeDate} formatDateTitle={formatPublishedAt} />
+              <div className="scroll-mt-24">
+                <Comments comments={comments} onCreate={createComment} onLike={likeComment} formatDate={formatRelativeDate} formatDateTitle={formatPublishedAt} />
+              </div>
             </div>
 
             <aside className="space-y-6 lg:sticky lg:top-6" aria-label="Entry details">

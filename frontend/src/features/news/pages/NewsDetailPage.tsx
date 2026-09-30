@@ -4,7 +4,7 @@ import { downloadNewsPdf, fetchNews, fetchNewsById, setNewsLiked } from '../api/
 import AppFooter from '../../../components/layout/AppFooter'
 import AppHeader from '../../../components/layout/AppHeader'
 import CreateNewsCommunityEntry from '../../community/components/CreateNewsCommunityEntry'
-import Actions from '../../../components/ui/Actions'
+import DetailPageActions from '../../content/DetailPageActions'
 import ViewerCount from '../../../components/ui/ViewerCount'
 import { formatDate } from '../../../shared/utils/date'
 import type { News } from '../types/news'
@@ -61,7 +61,7 @@ export default function NewsDetailPage(): JSX.Element {
         {article && (
           <div className="mt-6 grid items-start md:grid-cols-[3.5rem_minmax(0,1fr)] lg:grid-cols-[3.5rem_minmax(0,1fr)_19.5rem]">
             <div className="flex w-fit justify-start border-t border-primary bg-surface/60 px-2 py-2 md:sticky md:top-24 md:w-auto md:justify-center md:border-l md:border-t-0">
-              <Actions
+              <DetailPageActions
                 target={{ id: article.id, title: article.title, path: `/news/${article.id}` }}
                 storageKey="news"
                 orientation="responsive"
