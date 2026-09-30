@@ -19,74 +19,33 @@ import ToolsPage from './pages/ToolsPage'
 import TalentCalculatorPage from './features/tools/talent-calculator/pages/TalentCalculatorPage'
 import RaidPlannerPage from './features/tools/raid-planner/pages/RaidPlannerPage'
 import BookmarksPage from './features/bookmarks/BookmarksPage'
+import RootLayout from './components/layout/RootLayout'
 
 export const router = createBrowserRouter([
-  { path: '/auth', element: <AuthPage /> },
-  { path: '/profile', element: <ProfilePage /> },
-  { path: '/bookmarks', element: <BookmarksPage /> },
-  { path: '/search', element: <SearchPage /> },
   {
     path: '/',
-    element: <App />,
-  },
-  {
-    path: '/news/:newsId',
-    element: <NewsDetailPage />,
-  },
-  {
-    path: '/community',
-    element: <CommunityPage />,
-  },
-  {
-    path: '/community/:entryId',
-    element: <CommunityEntryDetailPage />,
-  },
-  {
-    path: '/database',
-    element: <DatabaseIndexPage />,
-  },
-  {
-    path: '/database/:collection',
-    element: <DatabaseCollectionPage />,
-  },
-  {
-    path: '/guides',
-    element: <GuidesPage />,
-  },
-  {
-    path: '/tools',
-    element: <ToolsPage />,
-  },
-  {
-    path: '/tools/talent-calculator',
-    element: <TalentCalculatorPage />,
-  },
-  {
-    path: '/tools/raid-planner',
-    element: <RaidPlannerPage />,
-  },
-  {
-    path: '/privacy',
-    element: <PrivacyPage />,
-  },
-  {
-    path: '/terms',
-    element: <TermsPage />,
-  },
-  {
-    path: '/contact',
-    element: <ContactPage />,
-  },
-  {
-    path: '/about',
-    element: <AboutPage />,
-  },
-  {
-    path: '/careers',
-    element: <CareersPage />,
-  },
-  {
-    path: '*',
-    element: <NotFoundPage />,
+    element: <RootLayout />,
+    children: [
+      { index: true, element: <App /> },
+      { path: '/auth', element: <AuthPage /> },
+      { path: '/profile', element: <ProfilePage /> },
+      { path: '/bookmarks', element: <BookmarksPage /> },
+      { path: '/search', element: <SearchPage /> },
+      { path: '/news/:newsId', element: <NewsDetailPage /> },
+      { path: '/community', element: <CommunityPage /> },
+      { path: '/community/:entryId', element: <CommunityEntryDetailPage /> },
+      { path: '/database', element: <DatabaseIndexPage /> },
+      { path: '/database/:collection', element: <DatabaseCollectionPage /> },
+      { path: '/guides', element: <GuidesPage /> },
+      { path: '/tools', element: <ToolsPage /> },
+      { path: '/tools/talent-calculator', element: <TalentCalculatorPage /> },
+      { path: '/tools/raid-planner', element: <RaidPlannerPage /> },
+      { path: '/privacy', element: <PrivacyPage /> },
+      { path: '/terms', element: <TermsPage /> },
+      { path: '/contact', element: <ContactPage /> },
+      { path: '/about', element: <AboutPage /> },
+      { path: '/careers', element: <CareersPage /> },
+      { path: '*', element: <NotFoundPage /> },
+    ],
   },
 ])
