@@ -154,7 +154,12 @@ app.Use(async (context, next) =>
     await next();
 });
 
-app.UseExceptionHandler();
+app.UseExceptionHandler(new ExceptionHandlerOptions
+{
+    StatusCodeSelector = exception => exception is BadHttpRequestException badRequest
+        ? badRequest.StatusCode
+        : StatusCodes.Status500InternalServerError,
+});
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
