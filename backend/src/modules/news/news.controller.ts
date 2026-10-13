@@ -4,7 +4,7 @@ import { Roles } from '../auth/roles.decorator'
 import { RolesGuard } from '../auth/roles.guard'
 import type { AuthenticatedRequest } from '../auth/auth.types'
 import { CreateNewsDto } from './dto/create-news.dto'
-import { LikeNewsDto } from './dto/like-news.dto'
+import { SetLikeDto } from '../../common/dto/set-like.dto'
 import { UpdateNewsDto } from './dto/update-news.dto'
 import { NewsService } from './news.service'
 
@@ -24,8 +24,14 @@ export class NewsController {
 
   @Post(':id/like')
   @UseGuards(AuthGuard)
-  setLiked(@Param('id') id: string, @Body() likeNewsDto: LikeNewsDto) {
-    return this.newsService.setLiked(id, likeNewsDto.liked)
+  setLiked(@Param('id') id: string, @Body() setLikeDto: SetLikeDto, @Req() request: AuthenticatedRequest) {
+    return this.newsService.setLiked(request.user.id, id, setLikeDto.liked)
+  }
+
+  @Get(':id/like')
+  @UseGuards(AuthGuard)
+  getReaction(@Param('id') id: string, @Req() request: AuthenticatedRequest) {
+    return this.newsService.getReaction(request.user.id, id)
   }
 
   @Post()

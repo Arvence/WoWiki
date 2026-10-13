@@ -27,6 +27,20 @@ const DATABASE_MIGRATIONS = [
         ON entities(collection, sequence);
     `,
   },
+  {
+    version: 2,
+    sql: `
+      CREATE TABLE reactions (
+        user_id TEXT NOT NULL,
+        target_type TEXT NOT NULL CHECK (target_type IN ('news', 'comments')),
+        target_id TEXT NOT NULL,
+        PRIMARY KEY (user_id, target_type, target_id),
+        FOREIGN KEY (target_type, target_id) REFERENCES entities(collection, id) ON DELETE CASCADE
+      );
+
+      CREATE INDEX reactions_target ON reactions(target_type, target_id);
+    `,
+  },
 ] as const
 
 @Injectable()

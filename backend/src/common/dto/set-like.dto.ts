@@ -1,6 +1,6 @@
 import { IsBoolean } from 'class-validator'
 
-export class LikeNewsDto {
+export class SetLikeDto {
   @IsBoolean()
   liked!: boolean
 }

@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { DatabaseService } from '../../common/database/database.service'
 import { SqliteRepository } from '../../common/repositories/sqlite.repository'
+import { ReactionRepository } from '../../common/repositories/reaction.repository'
 import { CreateCommentDto } from './dto/create-comment.dto'
 import { UpdateCommentDto } from './dto/update-comment.dto'
 import { Comment, CommentTargetType } from './models/comment.model'
@@ -9,15 +10,17 @@ import { COMMENTS } from './seeds/comments.seed'
 @Injectable()
 export class CommentsService {
   private readonly repository: SqliteRepository<Comment>
+  private readonly reactions: ReactionRepository
 
   constructor(database: DatabaseService) {
     this.repository = new SqliteRepository(database, 'comments', COMMENTS, 'Comment')
+    this.reactions = new ReactionRepository(database, 'comments')
   }
 
   findForTarget(targetType: CommentTargetType, targetId: string): Comment[] {
-    return this.repository.findAll().filter(
+    return this.reactions.withCounts(this.repository.findAll().filter(
       (comment) => comment.targetType === targetType && comment.targetId === targetId,
-    )
+    ))
   }
 
   countForTarget(targetType: CommentTargetType, targetId: string): number {
@@ -25,7 +28,7 @@ export class CommentsService {
   }
 
   findOne(id: string): Comment {
-    return this.repository.findOne(id)
+    return this.reactions.withCounts([this.repository.findOne(id)])[0]
   }
 
   create(
@@ -50,12 +53,16 @@ export class CommentsService {
   }
 
   update(id: string, updateCommentDto: UpdateCommentDto): Comment {
-    return this.repository.update(id, updateCommentDto)
+    return this.reactions.withCounts([this.repository.update(id, updateCommentDto)])[0]
   }
 
-  like(id: string): Comment {
-    const comment = this.repository.findOne(id)
-    return this.repository.update(id, { likeCount: comment.likeCount + 1 })
+  getReaction(userId: string, id: string) {
+    return this.reactions.getState(userId, id)
+  }
+
+  setLiked(userId: string, id: string, liked: boolean): Comment {
+    this.reactions.setLiked(userId, id, liked)
+    return this.findOne(id)
   }
 
   remove(id: string): void {
