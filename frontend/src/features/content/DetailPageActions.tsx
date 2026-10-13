@@ -6,20 +6,20 @@ type DetailPageActionsProps = {
   storageKey: string
   orientation?: 'horizontal' | 'vertical' | 'responsive'
   leadingAction?: ReactNode
-  onLike?: (liked: boolean) => Promise<void>
+  likeCount?: number
   showDownload?: boolean
   downloading?: boolean
   onDownload?: () => Promise<void>
 }
 
-export default function DetailPageActions({ target, storageKey, orientation, leadingAction, onLike, showDownload, downloading, onDownload }: DetailPageActionsProps): JSX.Element {
+export default function DetailPageActions({ target, storageKey, orientation, leadingAction, likeCount, showDownload, downloading, onDownload }: DetailPageActionsProps): JSX.Element {
   return (
     <Actions
       target={target}
       storageKey={storageKey}
       orientation={orientation}
       leadingAction={leadingAction}
-      onLike={onLike}
+      likeCount={likeCount}
       showDownload={showDownload}
       downloading={downloading}
       onDownload={onDownload}

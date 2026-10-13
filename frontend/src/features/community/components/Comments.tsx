@@ -21,7 +21,6 @@ type CreateCommentInput = {
 type CommentsProps = {
   comments: CommentItem[]
   onCreate: (input: CreateCommentInput) => Promise<void>
-  onLike: (commentId: string) => Promise<void>
   formatDate: (value: string) => string
   formatDateTitle?: (value: string) => string
 }
@@ -84,7 +83,7 @@ function CommentComposer({ parentId, compact = false, onCancel, onCreate }: Comp
   )
 }
 
-export default function Comments({ comments, onCreate, onLike, formatDate, formatDateTitle = formatDate }: CommentsProps): JSX.Element {
+export default function Comments({ comments, onCreate, formatDate, formatDateTitle = formatDate }: CommentsProps): JSX.Element {
   const { user } = useAuth()
   const navigate = useNavigate()
   const [composerOpen, setComposerOpen] = useState(false)
@@ -119,7 +118,7 @@ export default function Comments({ comments, onCreate, onLike, formatDate, forma
             {!collapsed && <>
               <p className="mt-1 whitespace-pre-line text-sm leading-6 text-text/90">{comment.content}</p>
               <div className="mt-2 flex items-center gap-1">
-                <Actions target={{ id: comment.id, title: `${comment.author}'s comment`, path: `#comment-${comment.id}` }} storageKey="comment" onLike={async () => onLike(comment.id)} likeCount={comment.likeCount} likeOnce showSave={false} showShare={false} showReport={false} />
+                <Actions target={{ id: comment.id, title: `${comment.author}'s comment`, path: `#comment-${comment.id}` }} storageKey="comment" likeCount={comment.likeCount} showSave={false} showShare={false} showReport={false} />
                 <button type="button" onClick={() => setReplyingTo(replyingTo === comment.id ? null : comment.id)} className="inline-flex h-8 w-8 items-center justify-center rounded text-muted hover:bg-primary/10 hover:text-primary" aria-label={`Reply to ${comment.author}`} title="Reply">
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="m9 17-5-5 5-5" /><path d="M4 12h10a6 6 0 0 1 6 6v1" /></svg>
                 </button>

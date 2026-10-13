@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { downloadNewsPdf, fetchNews, fetchNewsById, setNewsLiked } from '../api/newsService'
+import { downloadNewsPdf, fetchNews, fetchNewsById } from '../api/newsService'
 import AppFooter from '../../../components/layout/AppFooter'
 import AppHeader from '../../../components/layout/AppHeader'
 import CreateNewsCommunityEntry from '../../community/components/CreateNewsCommunityEntry'
@@ -66,7 +66,7 @@ export default function NewsDetailPage(): JSX.Element {
                 storageKey="news"
                 orientation="responsive"
                 leadingAction={<CreateNewsCommunityEntry newsId={article.id} newsTitle={article.title} action />}
-                onLike={async (liked) => setArticle(await setNewsLiked(article.id, liked))}
+                likeCount={article.likeCount ?? 0}
                 showDownload
                 downloading={downloadingPdf}
                 onDownload={async () => {

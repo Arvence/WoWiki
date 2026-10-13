@@ -20,10 +20,6 @@ export async function createCommunityComment(entryId: string, input: { content: 
   return http.post<CommunityCommentData>(`/api/community/${entryId}/comments`, input, { errorMessage: 'Failed to post comment' })
 }
 
-export async function likeCommunityComment(commentId: string): Promise<CommunityCommentData> {
-  return http.post<CommunityCommentData>(`/api/comments/${commentId}/like`, undefined, { errorMessage: 'Failed to like comment' })
-}
-
 export type CreateCommunityEntryInput = Omit<CommunityEntryData, 'id' | 'author' | 'publishedAt' | 'commentCount' | 'viewerCount'>
 
 export async function createCommunityEntry(input: CreateCommunityEntryInput): Promise<CommunityEntryData> {

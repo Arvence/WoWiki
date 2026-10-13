@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import Actions from '../../../components/ui/Actions'
 import ViewerCount from '../../../components/ui/ViewerCount'
 import { formatDate } from '../../../shared/utils/date'
-import { setNewsLiked } from '../api/newsService'
 import type { News } from '../types/news'
 
 type NewsListProps = {
@@ -98,7 +97,7 @@ export default function NewsList({ news, loading, error, columns = 1 }: NewsList
               <p className="mt-1 line-clamp-2 max-w-3xl text-sm leading-5 text-muted">{article.summary}</p>
 
               <footer className="mt-2.5 flex flex-wrap items-center gap-2">
-                <Actions target={{ id: article.id, title: article.title, path: `/news/${article.id}` }} storageKey="news" onLike={async (liked) => { await setNewsLiked(article.id, liked) }} />
+                <Actions target={{ id: article.id, title: article.title, path: `/news/${article.id}` }} storageKey="news" likeCount={article.likeCount ?? 0} />
                 <span className="text-primary/35" aria-hidden="true">&bull;</span>
                 <ViewerCount count={article.viewerCount} compact />
               </footer>

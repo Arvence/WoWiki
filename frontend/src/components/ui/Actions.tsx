@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../features/auth/AuthContext'
+import { useReaction } from '../../features/reactions/useReaction'
 import { useBookmarks } from '../../features/bookmarks/BookmarksContext'
 import type { BookmarkTargetType } from '../../features/bookmarks/types/bookmark'
 import { openReportDialog } from '../../features/reports/reportDialog'
@@ -25,9 +28,7 @@ function writeStoredFlag(key: string, value: boolean): void {
 type ActionsProps = {
   target: { id: string; title: string; path: string }
   storageKey: string
-  onLike?: (liked: boolean) => Promise<void>
   likeCount?: number
-  likeOnce?: boolean
   showLike?: boolean
   showSave?: boolean
   showShare?: boolean
@@ -39,11 +40,15 @@ type ActionsProps = {
   leadingAction?: ReactNode
 }
 
-export default function Actions({ target, storageKey, onLike, likeCount, likeOnce = false, showLike = true, showSave = true, showShare = true, showReport = true, showDownload = false, onDownload, downloading = false, orientation = 'horizontal', leadingAction }: ActionsProps): JSX.Element {
+export default function Actions({ target, storageKey, likeCount, showLike = true, showSave = true, showShare = true, showReport = true, showDownload = false, onDownload, downloading = false, orientation = 'horizontal', leadingAction }: ActionsProps): JSX.Element {
   const { isBookmarked, toggleBookmark } = useBookmarks()
-  const [liked, setLiked] = useState(false)
+  const { user } = useAuth()
+  const navigate = useNavigate()
+  const reactionTarget = showLike ? storageKey === 'news' ? 'news' : storageKey === 'comment' ? 'comments' : null : null
+  const reaction = useReaction(reactionTarget, target.id)
+  const liked = reaction.liked
+  const displayedLikeCount = reaction.likeCount ?? likeCount
   const [storedSaved, setStoredSaved] = useState(false)
-  const [updatingLike, setUpdatingLike] = useState(false)
   const [updatingSave, setUpdatingSave] = useState(false)
   const [actionMessage, setActionMessage] = useState<string | null>(null)
   const [shareFeedback, setShareFeedback] = useState<string | null>(null)
@@ -52,7 +57,6 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
   const saved = bookmarkTargetType ? isBookmarked(bookmarkTargetType, target.id) : storedSaved
 
   useEffect(() => {
-    setLiked(readStoredFlag(`wowiki:liked-${storageKey}:${target.id}`))
     if (!isBookmarkTargetType(storageKey)) setStoredSaved(readStoredFlag(`wowiki:saved-${storageKey}:${target.id}`))
   }, [storageKey, target.id])
 
@@ -61,20 +65,17 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
   }, [])
 
   const handleLike = async () => {
-    if (updatingLike || (likeOnce && liked)) return
-
-    const nextLiked = !liked
-    setUpdatingLike(true)
+    if (reaction.busy) return
+    if (!user) {
+      navigate('/auth', { state: { from: window.location.pathname } })
+      return
+    }
     setActionMessage(null)
 
     try {
-      await onLike?.(nextLiked)
-      setLiked(nextLiked)
-      writeStoredFlag(`wowiki:liked-${storageKey}:${target.id}`, nextLiked)
+      await reaction.toggle()
     } catch {
       setActionMessage('Could not update your like. Please try again.')
-    } finally {
-      setUpdatingLike(false)
     }
   }
 
@@ -145,19 +146,19 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
       <div className={`flex items-center ${orientationClasses}`}>
       {leadingAction}
 
-      {showLike && <TextTooltip text={liked ? `Unlike ${target.title}` : `Like ${target.title}`} onlyWhenTruncated={false} delayMs={ACTION_TOOLTIP_DELAY_MS}>
+      {reactionTarget && <TextTooltip text={liked ? `Unlike ${target.title}` : `Like ${target.title}`} onlyWhenTruncated={false} delayMs={ACTION_TOOLTIP_DELAY_MS}>
         <button
           type="button"
           onClick={() => void handleLike()}
-          disabled={updatingLike || (likeOnce && liked)}
+          disabled={reaction.busy}
           aria-label={liked ? `Unlike ${target.title}` : `Like ${target.title}`}
           aria-pressed={liked}
-          className={`inline-flex h-9 items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-60 ${likeCount === undefined ? 'w-9' : 'min-w-9 px-2'} ${liked ? 'bg-wow-blood/20 text-wow-blood' : 'text-muted hover:bg-wow-blood/15 hover:text-wow-blood'}`}
+          className={`inline-flex h-9 items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-60 ${displayedLikeCount === undefined ? 'w-9' : 'min-w-9 px-2'} ${liked ? 'bg-wow-blood/20 text-wow-blood' : 'text-muted hover:bg-wow-blood/15 hover:text-wow-blood'}`}
         >
           <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24" fill={liked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.9-8.6a5.5 5.5 0 0 0-.1-7.8Z" />
           </svg>
-          {likeCount !== undefined && <span className="ml-1 text-xs tabular-nums">{likeCount}</span>}
+          {displayedLikeCount !== undefined && <span className="ml-1 text-xs tabular-nums">{displayedLikeCount}</span>}
         </button>
       </TextTooltip>}
 
@@ -221,6 +222,7 @@ export default function Actions({ target, storageKey, onLike, likeCount, likeOnc
 
       </div>
       {actionMessage && <span className="sr-only" role="status">{actionMessage}</span>}
+      {reaction.error && <span className="sr-only" role="status">{reaction.error}</span>}
     </>
   )
 }

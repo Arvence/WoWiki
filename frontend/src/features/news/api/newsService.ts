@@ -12,10 +12,6 @@ export async function fetchNewsById(newsId: string): Promise<News> {
   })
 }
 
-export async function setNewsLiked(newsId: string, liked: boolean): Promise<News> {
-  return http.post<News>(`/api/news/${newsId}/like`, { liked }, { errorMessage: 'Failed to update like' })
-}
-
 export async function downloadNewsPdf(article: News): Promise<void> {
   const response = await http.postForResponse('/api/pdf/news', article, {
     errorMessage: 'Failed to create PDF',

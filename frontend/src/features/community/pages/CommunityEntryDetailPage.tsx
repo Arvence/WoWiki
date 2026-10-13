@@ -6,7 +6,7 @@ import DetailPageActions from '../../content/DetailPageActions'
 import Comments from '../components/Comments'
 import ViewerCount from '../../../components/ui/ViewerCount'
 import { formatDate, formatRelativeDate } from '../../../shared/utils/date'
-import { createCommunityComment, fetchCommunityComments, fetchCommunityEntries, fetchCommunityEntryById, likeCommunityComment } from '../api/communityService'
+import { createCommunityComment, fetchCommunityComments, fetchCommunityEntries, fetchCommunityEntryById } from '../api/communityService'
 import type { CommunityCommentData, CommunityEntryData } from '../types/community'
 
 function formatPublishedAt(value: string): string {
@@ -66,11 +66,6 @@ export default function CommunityEntryDetailPage(): JSX.Element {
     setComments((current) => [...current, created])
   }
 
-  const likeComment = async (commentId: string) => {
-    const updated = await likeCommunityComment(commentId)
-    setComments((current) => current.map((comment) => comment.id === commentId ? updated : comment))
-  }
-
   return (
     <div className="min-h-screen bg-background">
       <AppHeader />
@@ -113,7 +108,7 @@ export default function CommunityEntryDetailPage(): JSX.Element {
               </div>
 
               <div className="scroll-mt-24">
-                <Comments comments={comments} onCreate={createComment} onLike={likeComment} formatDate={formatRelativeDate} formatDateTitle={formatPublishedAt} />
+                <Comments comments={comments} onCreate={createComment} formatDate={formatRelativeDate} formatDateTitle={formatPublishedAt} />
               </div>
             </div>
 
