@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { HttpError } from '../../shared/api/http'
 import { useAuth } from '../auth/AuthContext'
 import { deleteBookmark as deleteBookmarkRequest, getBookmarks, saveBookmark as saveBookmarkRequest } from './api/bookmarkService'
 import type { Bookmark, BookmarkTargetType } from './types/bookmark'
@@ -43,8 +42,7 @@ export function BookmarksProvider({ children }: { children: ReactNode }): JSX.El
       .then(([storedBookmarks, migratedBookmarks]) => {
         if (!cancelled) setBookmarks(mergeBookmarks(storedBookmarks, migratedBookmarks))
       })
-      .catch((loadError: unknown) => {
-        handleAuthenticationError(loadError)
+      .catch(() => {
         if (!cancelled) setError('Could not load your bookmarks. Please try again.')
       })
       .finally(() => {
@@ -81,7 +79,6 @@ export function BookmarksProvider({ children }: { children: ReactNode }): JSX.El
         ))
         return savedBookmark
       } catch (saveError: unknown) {
-        handleAuthenticationError(saveError)
         setBookmarks((current) => current.filter((bookmark) => bookmark.targetType !== targetType || bookmark.targetId !== targetId))
         throw saveError
       }
@@ -96,7 +93,6 @@ export function BookmarksProvider({ children }: { children: ReactNode }): JSX.El
       try {
         await deleteBookmarkRequest(targetType, targetId)
       } catch (deleteError: unknown) {
-        handleAuthenticationError(deleteError)
         setBookmarks((current) => mergeBookmarks(current, [existingBookmark]))
         throw deleteError
       }
@@ -181,8 +177,4 @@ function readLegacyBookmarkTargets(): LegacyBookmarkTarget[] {
     return []
   }
   return targets
-}
-
-function handleAuthenticationError(error: unknown): void {
-  if (error instanceof HttpError && error.status === 401) window.dispatchEvent(new Event('wowiki:auth-expired'))
 }

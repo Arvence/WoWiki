@@ -1,5 +1,4 @@
 import { useCallback, useRef, useState } from 'react'
-import { HttpError } from '../../../../shared/api/http'
 import { useAuth } from '../../../auth/AuthContext'
 import { createRaidPlan, deleteRaidPlan, getRaidPlans, updateRaidPlan } from '../api/raidPlanService'
 import { readLocalRaidPlan, removeLocalRaidPlan, writeLocalRaidPlan } from '../storage/localRaidPlanStorage'
@@ -47,9 +46,6 @@ export function useRaidPlanLibrary() {
       const mergedPlans = mergeRaidPlans(accountPlans.map(raidPlanFromApi), migrationResult.migratedPlan)
       if (loadVersion.current === version) setPlans(mergedPlans)
       return { accountPlans: mergedPlans, ...migrationResult }
-    } catch (error) {
-      handleAuthenticationError(error)
-      throw error
     } finally {
       if (loadVersion.current === version) setLoadingPlans(false)
     }
@@ -71,9 +67,6 @@ export function useRaidPlanLibrary() {
       const savedPlan = raidPlanFromApi(response)
       setPlans((currentPlans) => mergeRaidPlans(currentPlans, savedPlan))
       return { savedPlan, updatedExistingPlan }
-    } catch (error) {
-      handleAuthenticationError(error)
-      throw error
     } finally {
       setBusy(false)
     }
@@ -91,9 +84,6 @@ export function useRaidPlanLibrary() {
       const remainingPlans = plans.filter((savedPlan) => savedPlan.id !== plan.id)
       setPlans(remainingPlans)
       return remainingPlans[0] ?? emptyRaidPlan()
-    } catch (error) {
-      handleAuthenticationError(error)
-      throw error
     } finally {
       setBusy(false)
     }
@@ -134,10 +124,4 @@ function migrateLocalRaidPlanOnce(): Promise<RaidPlan | null> {
 function mergeRaidPlans(plans: RaidPlan[], plan: RaidPlan | null): RaidPlan[] {
   if (!plan) return sortRaidPlans(plans)
   return sortRaidPlans([...plans.filter((savedPlan) => savedPlan.id !== plan.id), plan])
-}
-
-function handleAuthenticationError(error: unknown) {
-  if (error instanceof HttpError && error.status === 401) {
-    window.dispatchEvent(new Event('wowwiki:auth-expired'))
-  }
 }

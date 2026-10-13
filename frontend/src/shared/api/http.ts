@@ -1,28 +1,24 @@
 import type { ApiErrorResponse } from '../types/api-error'
 
-type HttpOptions = Omit<RequestInit, 'body' | 'method'> & {
-  errorMessage?: string
-  notFoundMessage?: string
-}
+export const AUTH_EXPIRED_EVENT = 'wowiki:auth-expired'
+
+type HttpOptions = Omit<RequestOptions, 'body' | 'method'>
 
 type RequestOptions = RequestInit & {
   errorMessage?: string
   notFoundMessage?: string
+  expireSessionOnUnauthorized?: boolean
 }
 
 export class HttpError extends Error {
-  constructor(
-    message: string,
-    readonly status: number,
-    readonly response?: ApiErrorResponse,
-  ) {
+  constructor(message: string, readonly status: number, readonly response?: ApiErrorResponse) {
     super(message)
     this.name = 'HttpError'
   }
 }
 
 async function sendRequest(url: string, options: RequestOptions = {}): Promise<Response> {
-  const { errorMessage = 'Request failed', notFoundMessage, headers: initialHeaders, ...requestOptions } = options
+  const { errorMessage = 'Request failed', notFoundMessage, expireSessionOnUnauthorized = true, headers: initialHeaders, ...requestOptions } = options
   const headers = new Headers(initialHeaders)
 
   if (requestOptions.body !== undefined && !(requestOptions.body instanceof FormData) && !headers.has('Content-Type')) {
@@ -38,10 +34,10 @@ async function sendRequest(url: string, options: RequestOptions = {}): Promise<R
   }
 
   if (!response.ok) {
-    const body = await parseResponseBody(response)
-    if (response.status === 401 && url.endsWith('/auth/me')) {
-      window.dispatchEvent(new Event('wowiki:auth-expired'))
+    if (response.status === 401 && expireSessionOnUnauthorized) {
+      window.dispatchEvent(new Event(AUTH_EXPIRED_EVENT))
     }
+    const body = await parseResponseBody(response)
     const apiError = isApiErrorResponse(body) ? body : undefined
     const backendMessage = apiError ? getApiErrorMessage(apiError) : undefined
     const message = response.status === 404 && notFoundMessage ? notFoundMessage : backendMessage || errorMessage

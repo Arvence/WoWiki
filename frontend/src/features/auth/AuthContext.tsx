@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { AUTH_EXPIRED_EVENT } from '../../shared/api/http'
 import { fetchCurrentUser, login as loginRequest, logout as logoutRequest, register as registerRequest, updateProfile as updateProfileRequest } from './authService'
 import type { AuthUser } from './types'
 
@@ -13,8 +14,8 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
   }, [])
   useEffect(() => {
     const expire = () => setUser(null)
-    window.addEventListener('wowiki:auth-expired', expire)
-    return () => window.removeEventListener('wowiki:auth-expired', expire)
+    window.addEventListener(AUTH_EXPIRED_EVENT, expire)
+    return () => window.removeEventListener(AUTH_EXPIRED_EVENT, expire)
   }, [])
   const value = useMemo<AuthContextValue>(() => ({
     user, loading,
