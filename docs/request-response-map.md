@@ -213,12 +213,20 @@ and `roles`. Passwords and internal credential fields are never returned.
 | --- | --- | --- | --- |
 | News | List and detail | Like/unlike | Create, update, delete |
 | Community | List, detail, comments | Create entry and comment | Update and delete entry |
-| Comments | Detail | Like | Update and delete |
+| Comments | Detail | Like/unlike | Update and delete |
 | User reports | Submit content report | None | Review UI not yet implemented |
 
 For news, community entries, and comments, the server derives the author from
 the authenticated user. The server also owns publication and update timestamps;
 it does not trust those identity fields from the browser.
+
+For news and comments, authenticated `GET /api/{news|comments}/:id/like`
+returns the current user's `liked` state and the total `likeCount`.
+`POST` to the same path accepts `{ "liked": true }` or `{ "liked": false }`
+and returns the updated content. Repeating either request is safe. SQLite
+enforces one reaction per user, target type, and target ID, and removes reactions
+when their content is deleted. Counts come from these records; legacy counters
+and browser-only flags have no user ownership and are not imported as reactions.
 
 ### Backend game-data API
 
