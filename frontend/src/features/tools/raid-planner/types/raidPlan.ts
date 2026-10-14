@@ -159,8 +159,8 @@ export function raidPlanFromApi(raidPlan: ApiRaidPlan): RaidPlan {
 }
 
 export function raidPlanToApiInput(raidPlan: RaidPlan): RaidPlanWriteInput {
-  const scheduledAt = new Date(`${raidPlan.date}T${raidPlan.startTime}:00`)
-  if (Number.isNaN(scheduledAt.getTime())) throw new Error('Choose a valid raid date and start time')
+  const scheduledAt = parseRaidPlanSchedule(raidPlan.date, raidPlan.startTime)
+  if (!scheduledAt) throw new Error('Choose a valid raid date and start time')
 
   return {
     raidId: raidPlan.raid.trim(),
@@ -175,6 +175,15 @@ export function raidPlanToApiInput(raidPlan: RaidPlan): RaidPlanWriteInput {
       group: raider.group,
     })),
   }
+}
+
+export function parseRaidPlanSchedule(date: string, startTime: string): Date | null {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(startTime)) return null
+
+  const scheduledAt = new Date(`${date}T${startTime}:00`)
+  if (Number.isNaN(scheduledAt.getTime()) || formatLocalDate(scheduledAt) !== date) return null
+  const localTime = `${twoDigits(scheduledAt.getHours())}:${twoDigits(scheduledAt.getMinutes())}`
+  return localTime === startTime ? scheduledAt : null
 }
 
 export function sortRaidPlans(raidPlans: RaidPlan[]): RaidPlan[] {

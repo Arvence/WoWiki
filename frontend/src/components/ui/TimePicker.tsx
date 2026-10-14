@@ -34,7 +34,8 @@ const doneButtonClasses = [
 ].join(' ')
 
 export default function TimePicker({ value, onChange, ariaLabel = 'Select time', disabled = false, minuteStep = 15, className = '' }: TimePickerProps): JSX.Element {
-  const time = parseTimeValue(value) ?? { hour: 12, minute: 0 }
+  const selectedTime = parseTimeValue(value)
+  const time = selectedTime ?? { hour: 12, minute: 0 }
   const period = time.hour >= 12 ? 'PM' : 'AM'
   const hour12 = time.hour % 12 || 12
   const [open, setOpen] = useState(false)
@@ -93,9 +94,11 @@ export default function TimePicker({ value, onChange, ariaLabel = 'Select time',
   const clearTime = () => {
     onChange('')
     setOpen(false)
+    triggerRef.current?.focus()
   }
 
   const finishSelection = () => {
+    if (!selectedTime) onChange(formatTimeValue(time))
     setOpen(false)
     triggerRef.current?.focus()
   }
@@ -124,8 +127,8 @@ export default function TimePicker({ value, onChange, ariaLabel = 'Select time',
           <circle cx="12" cy="12" r="9" />
           <path d="M12 7v5l3 2" />
         </svg>
-        <span className={`min-w-0 flex-1 truncate tabular-nums ${value ? 'text-text' : 'text-muted/70'}`}>
-          {value ? formatDisplayTime(time) : 'Choose time'}
+        <span className={`min-w-0 flex-1 truncate tabular-nums ${selectedTime ? 'text-text' : 'text-muted/70'}`}>
+          {selectedTime ? formatDisplayTime(time) : 'Choose time'}
         </span>
         <svg
           className={`h-3.5 w-3.5 shrink-0 text-muted transition ${open ? 'rotate-180' : ''}`}

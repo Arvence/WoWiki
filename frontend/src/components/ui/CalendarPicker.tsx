@@ -108,6 +108,7 @@ export default function CalendarPicker({ value, onChange, ariaLabel = 'Select da
   const clearDate = () => {
     onChange('')
     setOpen(false)
+    triggerRef.current?.focus()
   }
 
   return (

@@ -189,6 +189,7 @@ export default function RaidConfiguration({ plan, plans, dirty, accountStorage, 
             value={plan.date}
             onChange={(value) => onChange('date', value)}
             ariaLabel="Select raid date"
+            disabled={busy || loadingPlans}
           />
         </div>
 
@@ -199,6 +200,7 @@ export default function RaidConfiguration({ plan, plans, dirty, accountStorage, 
             onChange={(value) => onChange('startTime', value)}
             ariaLabel="Select raid start time"
             minuteStep={15}
+            disabled={busy || loadingPlans}
           />
         </div>
 
@@ -220,6 +222,10 @@ export default function RaidConfiguration({ plan, plans, dirty, accountStorage, 
           </div>
         </div>
       </div>
+
+      <p className="mt-2 text-xs text-muted">
+        Dates and times use your local timezone ({Intl.DateTimeFormat().resolvedOptions().timeZone}).
+      </p>
 
       <label className="mt-3 grid gap-1.5">
         <span className="text-[0.65rem] font-black uppercase tracking-[0.12em] text-muted">

@@ -54,6 +54,7 @@ export function useRaidPlanLibrary() {
   const savePlan = useCallback(async (plan: RaidPlan): Promise<SaveRaidPlanResult> => {
     setBusy(true)
     try {
+      const input = raidPlanToApiInput(plan)
       const updatedExistingPlan = Boolean(user && plan.id && plans.some((savedPlan) => savedPlan.id === plan.id))
       if (!user) {
         const savedPlan = { ...plan, id: plan.id ?? createRaidPlanId(), updatedAt: new Date().toISOString() }
@@ -62,8 +63,8 @@ export function useRaidPlanLibrary() {
       }
 
       const response = updatedExistingPlan && plan.id
-        ? await updateRaidPlan(plan.id, raidPlanToApiInput(plan))
-        : await createRaidPlan(raidPlanToApiInput(plan))
+        ? await updateRaidPlan(plan.id, input)
+        : await createRaidPlan(input)
       const savedPlan = raidPlanFromApi(response)
       setPlans((currentPlans) => mergeRaidPlans(currentPlans, savedPlan))
       return { savedPlan, updatedExistingPlan }

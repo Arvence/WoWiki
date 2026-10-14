@@ -1,4 +1,4 @@
-import type { RaidPlan } from '../types/raidPlan'
+import { parseRaidPlanSchedule, type RaidPlan } from '../types/raidPlan'
 
 export function buildRaidCalendarUrl(plan: RaidPlan): string {
   const parameters = new URLSearchParams({
@@ -7,8 +7,8 @@ export function buildRaidCalendarUrl(plan: RaidPlan): string {
     details: plan.notes || `Raid roster for ${plan.raid || 'WoWiki'}`,
   })
 
-  if (plan.date && plan.startTime) {
-    const start = new Date(`${plan.date}T${plan.startTime}:00`)
+  const start = parseRaidPlanSchedule(plan.date, plan.startTime)
+  if (start) {
     const end = new Date(start.getTime() + 3 * 60 * 60 * 1000)
     parameters.set('dates', `${formatCalendarDate(start)}/${formatCalendarDate(end)}`)
   }
