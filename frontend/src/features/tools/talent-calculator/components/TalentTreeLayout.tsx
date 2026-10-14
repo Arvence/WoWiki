@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import TextTooltip from '../../../../components/ui/TextTooltip'
 import { talentCalculatorClasses } from '../talentCalculator.config'
 import { useTalentClass } from '../hooks/useTalentClass'
@@ -117,6 +118,9 @@ type TalentNodeProps = {
 }
 
 function TalentNode({ talent, rank, canAdd, classColor, onAdd, onRemove }: TalentNodeProps): JSX.Element {
+  const [failedIcon, setFailedIcon] = useState<string | null>(null)
+  const icon = talent.icon?.trim().toLowerCase().replace(/^classic_/, '') ?? ''
+  const iconUrl = /^[a-z0-9_]+$/.test(icon) ? `https://classicdb.ch/images/icons/large/${icon}.jpg` : null
   const description = talent.ranks[Math.max(0, rank - 1)]?.description ?? ''
   const initials = talent.name
     .split(/\s+/)
@@ -137,7 +141,19 @@ function TalentNode({ talent, rank, canAdd, classColor, onAdd, onRemove }: Talen
           className={`group relative h-full w-full rounded-xl text-xs font-black shadow-[0_8px_18px_rgba(0,0,0,0.3)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_22px_rgba(0,0,0,0.38)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${rank > 0 ? 'bg-primary/15 text-primary' : canAdd ? 'bg-surface text-text' : 'bg-surface/65 text-muted/45'}`}
           style={{ boxShadow: `inset 0 0 0 1px ${classColor}${rank > 0 ? 'bb' : '55'}, 0 8px 18px rgba(0,0,0,0.3)` }}
         >
-          <span aria-hidden="true">{initials}</span>
+          <span className="absolute inset-[3px] flex items-center justify-center overflow-hidden rounded-[0.6rem]" aria-hidden="true">
+            {iconUrl && failedIcon !== iconUrl ? (
+              <img
+                key={iconUrl}
+                src={iconUrl}
+                alt=""
+                draggable={false}
+                decoding="async"
+                onError={() => setFailedIcon(iconUrl)}
+                className={`h-full w-full object-cover transition ${rank > 0 || canAdd ? '' : 'opacity-40 grayscale'}`}
+              />
+            ) : initials}
+          </span>
           <span className="absolute -bottom-1.5 -right-1.5 min-w-6 rounded-full bg-background px-1.5 py-0.5 text-[0.6rem] font-bold text-primary shadow-md">{rank}/{talent.maxRank}</span>
         </button>
       </TextTooltip>
