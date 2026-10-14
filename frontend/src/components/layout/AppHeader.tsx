@@ -90,15 +90,15 @@ export default function AppHeader(): JSX.Element {
               aria-keyshortcuts="Control+K Meta+K"
               autoComplete="off"
               placeholder="Search news, discussions, and database..."
-              className="w-full min-w-0 rounded-sm border border-border/45 bg-background/45 py-2 pl-9 pr-[5.5rem] text-sm text-text outline-none transition-colors duration-150 placeholder:text-muted/70 hover:border-border/80 hover:bg-background/60 focus:border-primary/55 focus:bg-background/70 focus:ring-2 focus:ring-primary/20 [&::-webkit-search-cancel-button]:hidden"
+              className="w-full min-w-0 rounded-lg border border-border/45 bg-background/45 py-2 pl-9 pr-[5.5rem] text-sm text-text outline-none transition-colors duration-150 placeholder:text-muted/70 hover:border-border/80 hover:bg-background/60 focus:border-primary/55 focus:bg-background/70 focus:ring-2 focus:ring-primary/20 [&::-webkit-search-cancel-button]:hidden"
             />
             <div className="absolute inset-y-0 right-1 flex items-center gap-1">
               {searchQuery ? (
-                <button type="button" onClick={clearSearch} aria-label="Clear search" className="flex h-7 w-7 items-center justify-center rounded-sm text-muted transition-colors duration-150 hover:bg-surface-alt hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
+                <button type="button" onClick={clearSearch} aria-label="Clear search" className="flex h-7 w-7 items-center justify-center rounded-md text-muted transition-colors duration-150 hover:bg-surface-alt hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path strokeLinecap="round" d="m7 7 10 10M17 7 7 17" /></svg>
                 </button>
               ) : <kbd className="hidden rounded-sm border border-border/50 bg-surface/70 px-1.5 py-0.5 text-[0.6rem] font-bold text-muted xl:block">Ctrl K</kbd>}
-              <button type="submit" disabled={!searchQuery.trim()} aria-label="Submit search" title="Search" className="flex h-7 w-7 items-center justify-center rounded-sm bg-primary text-background transition-colors duration-150 hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:cursor-default disabled:bg-surface-alt disabled:text-muted/60 disabled:shadow-none">
+              <button type="submit" disabled={!searchQuery.trim()} aria-label="Submit search" title="Search" className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-background transition-colors duration-150 hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:cursor-default disabled:bg-surface-alt disabled:text-muted/60 disabled:shadow-none">
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="m9 6 6 6-6 6" /></svg>
               </button>
             </div>
@@ -107,7 +107,7 @@ export default function AppHeader(): JSX.Element {
 
         <button
           type="button"
-          className="col-start-2 row-start-1 inline-flex h-9 w-9 items-center justify-center justify-self-end rounded-sm text-primary transition-colors duration-150 hover:bg-primary/10 hover:text-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 sm:col-start-3 lg:hidden"
+          className="col-start-2 row-start-1 inline-flex h-9 w-9 items-center justify-center justify-self-end rounded-lg text-primary transition-colors duration-150 hover:bg-primary/10 hover:text-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 sm:col-start-3 lg:hidden"
           aria-label="Toggle navigation"
           aria-expanded={mobileMenuOpen}
           onClick={() => setMobileMenuOpen((open) => !open)}
@@ -128,7 +128,7 @@ export default function AppHeader(): JSX.Element {
                   <Link
                     to={item.to}
                     aria-current={isActive ? 'page' : undefined}
-                    className={`group inline-flex items-center gap-2 rounded-md px-2.5 py-2 text-sm font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 xl:px-3 ${isActive ? 'bg-primary/15 text-primary-hover' : 'text-primary hover:bg-primary/10 hover:text-primary-hover'}`}
+                    className={`group inline-flex items-center gap-2 rounded-lg px-2.5 py-2 text-sm font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 xl:px-3 ${isActive ? 'bg-primary/15 text-primary-hover' : 'text-primary hover:bg-primary/10 hover:text-primary-hover'}`}
                   >
                     {item.icon}
                     {item.label}
@@ -141,7 +141,7 @@ export default function AppHeader(): JSX.Element {
             {user ? <DropdownMenu label={user.displayName} items={profileButton.items} isOpen={openDropdown === profileButton.label} onToggle={() => setOpenDropdown((current) => current === profileButton.label ? null : profileButton.label)} onOpen={() => setOpenDropdown(profileButton.label)} onClose={() => setOpenDropdown(null)} variant="profile" align="right" dividerBefore={profileButton.dividerBefore} onSelect={selectProfileItem} avatarText={user.displayName} profileSubtitle={user.email} /> : (
               <Link
                 to="/auth"
-                className="group/signin inline-flex items-center gap-1.5 rounded-sm border border-primary-hover/70 bg-primary px-3 py-1.5 text-xs font-bold text-background transition-colors duration-150 hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+                className="group/signin inline-flex items-center gap-1.5 rounded-lg border border-primary-hover/70 bg-primary px-3 py-1.5 text-xs font-bold text-background transition-colors duration-150 hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
               >
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M10 17l5-5-5-5M15 12H3M14 4h4a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-4" />
@@ -166,7 +166,7 @@ export default function AppHeader(): JSX.Element {
                   to={item.to}
                   onClick={() => setMobileMenuOpen(false)}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`group flex items-center gap-2 rounded-sm px-2.5 py-2 text-sm font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 ${isActive ? 'bg-primary/15 text-primary-hover' : 'text-primary hover:bg-primary/10 hover:text-primary-hover'}`}
+                  className={`group flex items-center gap-2 rounded-lg px-2.5 py-2 text-sm font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 ${isActive ? 'bg-primary/15 text-primary-hover' : 'text-primary hover:bg-primary/10 hover:text-primary-hover'}`}
                 >
                   {item.icon}
                   {item.label}
@@ -188,7 +188,7 @@ export default function AppHeader(): JSX.Element {
                   </div>
                 ))}
               </div>
-            </details> : <Link to="/auth" onClick={() => setMobileMenuOpen(false)} className="block rounded-sm bg-primary px-3 py-2 text-center text-sm font-bold text-background transition-colors duration-150 hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface">Sign in</Link>}
+            </details> : <Link to="/auth" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg bg-primary px-3 py-2 text-center text-sm font-bold text-background transition-colors duration-150 hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface">Sign in</Link>}
           </nav>
         </div>
       ) : null}
