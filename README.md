@@ -43,7 +43,24 @@ and service ownership.
 
 ## Run locally
 
-Start each component in a separate terminal:
+Install the root and application dependencies once, then start the full local
+environment from the repository root:
+
+```powershell
+npm ci
+npm ci --prefix backend
+npm ci --prefix frontend
+npm run start:all
+```
+
+This starts NestJS and Vite with hot reload plus Auth, PDF, and the gateway on
+their existing ports. Logs are labeled by service in the same terminal. Press
+Ctrl+C to stop the entire group; if one service exits, the others stop too.
+Local storage uses SQLite, so Docker is not required. Existing data is preserved.
+
+Use `npm run start:backend` or `npm run start:frontend` from the root to run either
+application independently. `start:auth`, `start:pdf`, and `start:gateway` are also
+available individually. The existing application-level commands still work:
 
 ```powershell
 cd backend
@@ -67,7 +84,7 @@ dotnet run --project src/WoWiki.Pdf.Api
 
 ```powershell
 cd services/gateway
-dotnet run --project src/WoWiki.Gateway
+dotnet run --project src/WoWiki.Gateway -- --environment Development
 ```
 
 Open `http://localhost:8080`.

@@ -2,9 +2,16 @@
   "name": "wowiki",
   "private": true,
   "scripts": {
+    "start:backend": "npm --prefix backend run dev",
+    "start:frontend": "npm --prefix frontend run dev",
+    "start:auth": "cd services/auth && dotnet run --project src/WoWiki.Auth.Api",
+    "start:pdf": "cd services/pdf && dotnet run --project src/WoWiki.Pdf.Api -- --environment Development",
+    "start:gateway": "cd services/gateway && dotnet run --project src/WoWiki.Gateway -- --environment Development",
+    "start:all": "concurrently --kill-others --names backend,frontend,auth,pdf,gateway --prefix-colors cyan,magenta,green,yellow,blue \"npm run start:backend\" \"npm run start:frontend\" \"npm run start:auth\" \"npm run start:pdf\" \"npm run start:gateway\"",
     "test:e2e": "node tests/e2e/run.mjs"
   },
   "devDependencies": {
-    "@playwright/test": "^1.64.0"
+    "@playwright/test": "^1.64.0",
+    "concurrently": "^10.0.6"
   }
 }
