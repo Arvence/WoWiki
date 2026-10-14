@@ -16,7 +16,7 @@ export default function App(): JSX.Element {
       <FeaturedContent />
 
       <div className="xl:-mx-8">
-        <main className="mx-auto grid max-w-[104rem] grid-cols-1 gap-6 px-4 py-6 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-4 lg:px-2 xl:max-w-[108rem] xl:grid-cols-[minmax(0,1fr)_420px]">
+        <main className="mx-auto grid max-w-[104rem] grid-cols-1 gap-6 px-0 py-6 sm:py-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-4 lg:px-2 xl:max-w-[108rem] xl:grid-cols-[minmax(0,1fr)_420px]">
           <section>
             <Feed beforeNews={!desktopLayout ? <div className="mb-6"><Sidebar /></div> : undefined} />
           </section>
