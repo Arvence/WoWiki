@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer'
-import { ArrayMaxSize, IsArray, IsInt, IsISO8601, IsOptional, IsString, Length, Matches, Max, MaxLength, Min, ValidateNested } from 'class-validator'
+import { ArrayMaxSize, IsArray, IsIn, IsInt, IsISO8601, IsOptional, IsString, Length, Matches, MaxLength, ValidateNested } from 'class-validator'
 import { RaidPlanRaiderDto } from './raid-plan-raider.dto'
 
 export class CreateRaidPlanDto {
@@ -13,8 +13,7 @@ export class CreateRaidPlanDto {
   scheduledAtUtc!: string
 
   @IsInt()
-  @Min(1)
-  @Max(40)
+  @IsIn([10, 20, 25, 40])
   raidSize!: number
 
   @IsString()
