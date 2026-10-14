@@ -78,6 +78,23 @@ user-report delivery. Run TaskForge separately on its default
 [TaskForge user-report integration](docs/taskforge-user-reports.md) for the
 network boundary and configuration.
 
+## Portfolio browser tests
+
+On Windows with Node.js 24 and the .NET 10 SDK, install dependencies in the root,
+`backend`, and `frontend`, then run:
+
+```powershell
+npx playwright install chromium
+npm run test:e2e
+```
+
+The six focused Playwright journeys use real Auth, NestJS, Vite, and gateway
+processes on isolated ports `15100`, `15000`, `13000`, and `18080`. Each run builds
+the services, copies the demo content into a temporary database, creates a fresh
+identity database, and removes both after shutdown. Your development databases
+and running services are preserved. PDF and TaskForge are outside this suite's
+scope. Failures save screenshots and traces under `test-results/`.
+
 ## Repository structure
 
 ```text
