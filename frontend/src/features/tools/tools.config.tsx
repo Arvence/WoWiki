@@ -6,6 +6,8 @@ export type ToolDefinition = {
   description: string
   href?: string
   image?: string
+  imageClassName?: string
+  imageOverlayClassName?: string
   icon: ReactNode
 }
 
@@ -38,6 +40,9 @@ export const tools: readonly ToolDefinition[] = [
     title: 'Item Comparator',
     status: 'Soon',
     description: 'Compare equipment side by side and see the stat differences that matter for your build.',
+    image: '/images/tools/item-comparator-legendary-weapons.png',
+    imageClassName: 'object-cover object-[center_30%]',
+    imageOverlayClassName: 'from-background/95 from-[6rem] via-background/60 via-[10rem] to-transparent to-[16rem]',
     icon: <svg className={iconClassName} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 4h8M9 4 5 20M15 4l4 16M3 14h6M15 14h6" /><path d="M3 14a3 3 0 0 0 6 0M15 14a3 3 0 0 0 6 0" /></svg>,
   },
   {
