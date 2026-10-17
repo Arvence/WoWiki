@@ -1,35 +1,19 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
-import { fetchNews } from '../api/newsService'
+import { useMemo, useState, type ReactNode } from 'react'
 import type { News } from '../types/news'
 import NewsList from './NewsList'
-import RecentNews from './RecentNews'
 
 const newsCategories = ['All', 'News', 'Patch Notes', 'Guide', 'Lore']
 
 type FeedProps = {
+  news: News[]
+  loading: boolean
+  error: string | null
   beforeNews?: ReactNode
 }
 
-export default function Feed({ beforeNews }: FeedProps): JSX.Element {
-  const [news, setNews] = useState<News[]>([])
+export default function Feed({ news, loading, error, beforeNews }: FeedProps): JSX.Element {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [newsColumns, setNewsColumns] = useState<1 | 2 | 3>(1)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    const loadNews = async () => {
-      try {
-        setNews(await fetchNews())
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An unexpected error occurred')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    void loadNews()
-  }, [])
 
   const visibleNews = useMemo(
     () => news
@@ -39,9 +23,8 @@ export default function Feed({ beforeNews }: FeedProps): JSX.Element {
   )
 
   return (
-    <div id="news" className="scroll-mt-24">
+    <div>
       {beforeNews}
-      <RecentNews news={news} loading={loading} error={error} />
 
       {!loading && !error && news.length > 0 && (
         <div className="mb-4 flex flex-wrap items-center gap-3">

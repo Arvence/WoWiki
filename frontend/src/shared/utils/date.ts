@@ -5,11 +5,7 @@ export function formatDate(value: string, options: Intl.DateTimeFormatOptions, l
   return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat(locale, options).format(date)
 }
 
-export function formatRelativeDate(
-  value: string,
-  fallbackOptions: Intl.DateTimeFormatOptions = { dateStyle: 'long' },
-  locale = 'en',
-): string {
+export function formatRelativeDate(value: string, fallbackOptions: Intl.DateTimeFormatOptions = { dateStyle: 'long' }, locale = 'en'): string {
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return value
 
@@ -23,7 +19,12 @@ export function formatCompactAge(value: string): string {
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return value
 
-  const elapsedDays = Math.max(0, Math.floor((Date.now() - date.getTime()) / DAY_IN_MILLISECONDS))
+  const elapsedMinutes = Math.max(0, Math.floor((Date.now() - date.getTime()) / 60_000))
+  if (elapsedMinutes === 0) return 'now'
+  if (elapsedMinutes < 60) return `${elapsedMinutes}m`
+  if (elapsedMinutes < 1_440) return `${Math.floor(elapsedMinutes / 60)}h`
+
+  const elapsedDays = Math.floor(elapsedMinutes / 1_440)
   if (elapsedDays < 7) return `${elapsedDays}d`
   if (elapsedDays < 30) return `${Math.floor(elapsedDays / 7)}w`
   if (elapsedDays < 365) return `${Math.floor(elapsedDays / 30)}mo`
