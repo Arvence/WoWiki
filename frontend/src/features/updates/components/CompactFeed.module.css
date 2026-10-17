@@ -14,31 +14,31 @@
 }
 
 .panel {
-  --panel-border: #293f56;
-  --head-border: #283342;
-  --head-background: #1b2d4040;
-  --logo-border: #5b86a7;
-  --logo-background: #182d42;
-  --logo-color: #78bade;
-  --heading-color: #f1f7fd;
-  --view-color: #a2cae6;
-  --button-background: #1b2b3a;
-  --button-border: #314456;
-  --button-color: #94abc1;
-  --button-hover: #243b53;
-  --entry-background: #192634;
-  --entry-border: #263442;
-  --entry-hover: #22364a;
-  --entry-hover-border: #456380;
-  --title-color: #87d1fb;
-  --time-color: #90a0ae;
-  --focus-color: #c3ddf9;
+  --panel-border: rgb(var(--color-border) / .7);
+  --head-border: rgb(var(--color-border) / .6);
+  --head-background: rgb(var(--color-surface-alt) / .4);
+  --logo-border: rgb(var(--color-primary) / .6);
+  --logo-background: rgb(var(--color-primary) / .08);
+  --logo-color: rgb(var(--color-primary));
+  --heading-color: rgb(var(--color-text));
+  --view-color: rgb(var(--color-primary));
+  --button-background: rgb(var(--color-background) / .55);
+  --button-border: rgb(var(--color-border) / .8);
+  --button-color: rgb(var(--color-primary));
+  --button-hover: rgb(var(--color-primary) / .12);
+  --entry-background: rgb(var(--color-surface) / .75);
+  --entry-border: rgb(var(--color-border) / .45);
+  --entry-hover: rgb(var(--color-surface-alt) / .8);
+  --entry-hover-border: rgb(var(--color-primary) / .55);
+  --title-color: rgb(var(--color-text));
+  --time-color: rgb(var(--color-text-muted));
+  --focus-color: rgb(var(--color-primary));
   position: relative;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--panel-border);
   border-radius: 10px;
-  background: #101720;
+  background: rgb(var(--color-surface) / .4);
   line-height: normal;
 }
 
@@ -46,38 +46,15 @@
   position: absolute;
   inset: 0 0 auto;
   height: 2px;
-  background: linear-gradient(90deg, transparent 2%, #339fe6 30%, #79caff 55%, transparent 94%);
-  opacity: .78;
+  background: linear-gradient(90deg, transparent 2%, rgb(var(--color-primary) / .6) 30%, rgb(var(--color-primary)) 55%, transparent 94%);
+  opacity: .65;
   pointer-events: none;
   content: '';
 }
 
-.news {
-  --panel-border: #3a332b;
-  --head-border: #383228;
-  --head-background: #392b1b30;
-  --logo-border: #987b54;
-  --logo-background: #30291f;
-  --logo-color: #c8a16b;
-  --heading-color: #f1e8dc;
-  --view-color: #d2b489;
-  --button-background: #29251e;
-  --button-border: #4b3c2c;
-  --button-color: #c0a27c;
-  --button-hover: #3b3125;
-  --entry-background: #24231f;
-  --entry-border: #343029;
-  --entry-hover: #302b24;
-  --entry-hover-border: #65513a;
-  --title-color: #e0d9d0;
-  --time-color: #a69d90;
-  --focus-color: #d2b489;
-  background: #181818;
-}
-
-.news::before {
-  background: linear-gradient(90deg, transparent 2%, #886637 30%, #caa16b 55%, transparent 94%);
-  opacity: .65;
+.tracker::before {
+  background: linear-gradient(90deg, transparent 2%, #339fe6 30%, #79caff 55%, transparent 94%);
+  opacity: .78;
 }
 
 .head {
@@ -149,9 +126,9 @@
   gap: 2px;
   margin-left: 3px;
   padding: 3px;
-  border: 1px solid #30435a;
+  border: 1px solid var(--button-border);
   border-radius: 7px;
-  background: #0b1520;
+  background: rgb(var(--color-background) / .7);
 }
 
 .segment button {
@@ -161,20 +138,20 @@
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: #8d9fb3;
+  color: var(--time-color);
   font-size: 10px;
   font-weight: 780;
 }
 
 .segment button:hover {
-  background: #1c3248;
-  color: #e1f3ff;
+  background: var(--button-hover);
+  color: var(--title-color);
 }
 
 .segment button[aria-pressed='true'] {
-  background: #20608d;
-  color: #ecf9ff;
-  box-shadow: inset 0 0 0 1px #428fc3;
+  background: rgb(var(--color-primary));
+  color: rgb(var(--color-background));
+  box-shadow: inset 0 0 0 1px rgb(var(--color-primary-hover));
 }
 
 .spacer {
