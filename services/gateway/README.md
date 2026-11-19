@@ -29,8 +29,7 @@ generation remain in their owning services.
 | `/api/*` | NestJS backend on port `5000` |
 | `/images/*` | NestJS backend on port `5000` |
 
-`/api/internal/*` is deliberately not proxied. TaskForge uses the private
-backend address for its user-report callback.
+The gateway rejects `/api/internal/*` with `404`.
 
 `GET /gateway/health` reports whether the gateway process is accepting requests. Downstream
 services expose and own their health checks independently, so one unavailable service does not

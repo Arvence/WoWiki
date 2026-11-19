@@ -80,9 +80,7 @@ public sealed class GatewayIntegrationTests : IAsyncLifetime
     {
         using var client = CreateClient(_factory!);
 
-        var response = await client.PostAsJsonAsync(
-            "/api/internal/taskforge/user-reports/1/ready",
-            new { externalReference = "WOW-1" });
+        var response = await client.PostAsync("/api/internal/example", null);
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }

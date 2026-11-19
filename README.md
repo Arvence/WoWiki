@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Arvence/WoWiki/actions/workflows/ci.yml/badge.svg)](https://github.com/Arvence/WoWiki/actions/workflows/ci.yml)
 
-WoWiki is a modular World of Warcraft Classic platform built with a React frontend, a NestJS content and game-data API, ASP.NET Core services, and a YARP gateway. User content reports are delivered to the [TaskForge](https://github.com/Arvence/TaskForge) background job processor over a private server-to-server integration.
+WoWiki is a modular World of Warcraft Classic platform built with a React frontend, a NestJS content and game-data API, ASP.NET Core services, and a YARP gateway. The NestJS backend saves user content reports in SQLite.
 
 ## Local architecture
 
@@ -89,12 +89,6 @@ dotnet run --project src/WoWiki.Gateway -- --environment Development
 
 Open `http://localhost:8080`.
 
-TaskForge is optional for general browsing but required for asynchronous
-user-report delivery. Run TaskForge separately on its default
-`http://localhost:8275` address before testing the report workflow. See
-[TaskForge user-report integration](docs/taskforge-user-reports.md) for the
-network boundary and configuration.
-
 ## Portfolio browser tests
 
 On Windows with Node.js 24 and the .NET 10 SDK, install dependencies in the root,
@@ -109,8 +103,8 @@ The six focused Playwright journeys use real Auth, NestJS, Vite, and gateway
 processes on isolated ports `15100`, `15000`, `13000`, and `18080`. Each run builds
 the services, copies the demo content into a temporary database, creates a fresh
 identity database, and removes both after shutdown. Your development databases
-and running services are preserved. PDF and TaskForge are outside this suite's
-scope. Failures save screenshots and traces under `test-results/`.
+and running services are preserved. PDF is outside this suite's scope.
+Failures save screenshots and traces under `test-results/`.
 
 ## Repository structure
 

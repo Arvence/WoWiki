@@ -17,7 +17,6 @@ type CreatedReport = CreateReportInput & {
   id: string
   status: 'pending'
   createdAt: string
-  taskForgeSubmissionStatus: 'pending' | 'submitted' | 'failed'
 }
 
 export async function createReport(input: CreateReportInput): Promise<CreatedReport> {
