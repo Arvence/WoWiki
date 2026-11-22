@@ -30,5 +30,5 @@ export class CreateNewsDto {
   @IsOptional()
   @MaxLength(2048)
   @IsImageUrl({ message: 'imageUrl must be an HTTP(S) URL or a local /images path' })
-  imageUrl?: string
+  imageUrl?: string | null
 }
