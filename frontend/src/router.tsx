@@ -3,6 +3,7 @@ import App from './App'
 import CommunityEntryDetailPage from './features/community/pages/CommunityEntryDetailPage'
 import CommunityPage from './features/community/pages/CommunityPage'
 import NewsDetailPage from './features/news/pages/NewsDetailPage'
+import NewsEditorPage from './features/news/pages/NewsEditorPage'
 import ContactPage from './pages/ContactPage'
 import PrivacyPage from './pages/PrivacyPage'
 import TermsPage from './pages/TermsPage'
@@ -32,6 +33,7 @@ export const router = createBrowserRouter([
       { path: '/bookmarks', element: <BookmarksPage /> },
       { path: '/search', element: <SearchPage /> },
       { path: '/news/:newsId', element: <NewsDetailPage /> },
+      { path: '/news/editor', element: <NewsEditorPage /> },
       { path: '/community', element: <CommunityPage /> },
       { path: '/community/:entryId', element: <CommunityEntryDetailPage /> },
       { path: '/database', element: <DatabaseIndexPage /> },

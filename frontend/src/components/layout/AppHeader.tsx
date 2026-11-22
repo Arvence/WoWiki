@@ -16,6 +16,9 @@ function isNavigationItemActive(pathname: string, to: string): boolean {
 
 export default function AppHeader(): JSX.Element {
   const { user, logout } = useAuth()
+  const canEditNews = user?.roles.some((role) => role === 'moderator' || role === 'admin')
+  const profileItems = canEditNews ? ["News editor", ...profileButton.items] : profileButton.items
+  const profileDivider = profileButton.dividerBefore + (canEditNews ? 1 : 0)
   const navigate = useNavigate()
   const location = useLocation()
   const [searchQuery, setSearchQuery] = useState("")
@@ -56,7 +59,7 @@ export default function AppHeader(): JSX.Element {
     else event.currentTarget.blur()
   }
   const selectProfileItem = (item: string) => {
-    const routes: Record<string, string> = { Profile: "/profile", Bookmarks: "/bookmarks", Settings: "/profile", About: "/about", Support: "/contact", Privacy: "/privacy" }
+    const routes: Record<string, string> = { Profile: "/profile", "News editor": "/news/editor", Bookmarks: "/bookmarks", Settings: "/profile", About: "/about", Support: "/contact", Privacy: "/privacy" }
     if (item === "Sign Out") { logout(); navigate("/") } else if (routes[item]) navigate(routes[item])
     setOpenDropdown(null)
   }
@@ -138,7 +141,7 @@ export default function AppHeader(): JSX.Element {
             })}
           </nav>
           <div className="ml-1 flex items-center gap-2 border-l border-border/70 pl-3">
-            {user ? <DropdownMenu label={user.displayName} items={profileButton.items} isOpen={openDropdown === profileButton.label} onToggle={() => setOpenDropdown((current) => current === profileButton.label ? null : profileButton.label)} onOpen={() => setOpenDropdown(profileButton.label)} onClose={() => setOpenDropdown(null)} variant="profile" align="right" dividerBefore={profileButton.dividerBefore} onSelect={selectProfileItem} avatarText={user.displayName} profileSubtitle={user.email} /> : (
+            {user ? <DropdownMenu label={user.displayName} items={profileItems} isOpen={openDropdown === profileButton.label} onToggle={() => setOpenDropdown((current) => current === profileButton.label ? null : profileButton.label)} onOpen={() => setOpenDropdown(profileButton.label)} onClose={() => setOpenDropdown(null)} variant="profile" align="right" dividerBefore={profileDivider} onSelect={selectProfileItem} avatarText={user.displayName} profileSubtitle={user.email} /> : (
               <Link
                 to="/auth"
                 className="group/signin inline-flex items-center gap-1.5 rounded-lg border border-primary-hover/70 bg-primary px-3 py-1.5 text-xs font-bold text-background transition-colors duration-150 hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
@@ -182,8 +185,8 @@ export default function AppHeader(): JSX.Element {
                 <span className="text-muted">&#9662;</span>
               </summary>
               <div className="space-y-1 px-3 pb-2">
-                {profileButton.items.map((item, index) => (
-                  <div key={item} className={index === profileButton.dividerBefore ? 'border-t border-border pt-2' : ''}>
+                {profileItems.map((item, index) => (
+                  <div key={item} className={index === profileDivider ? 'border-t border-border pt-2' : ''}>
                     <button type="button" onClick={() => { selectProfileItem(item); setMobileMenuOpen(false) }} className={`block w-full rounded-md px-2 py-2 text-left text-sm transition hover:bg-background/90 ${item === 'Sign Out' ? 'text-danger' : 'text-text'}`}>{item}</button>
                   </div>
                 ))}

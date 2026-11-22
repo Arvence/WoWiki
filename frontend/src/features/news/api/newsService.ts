@@ -1,4 +1,4 @@
-import type { News } from '../types/news'
+import type { EditorNews, News, NewsContent } from '../types/news'
 import { http } from '../../../shared/api/http'
 
 export async function fetchNews(): Promise<News[]> {
@@ -10,6 +10,30 @@ export async function fetchNewsById(newsId: string): Promise<News> {
     errorMessage: 'Failed to load news article',
     notFoundMessage: 'News article not found',
   })
+}
+
+export function fetchEditorNews(signal?: AbortSignal): Promise<EditorNews[]> {
+  return http.get<EditorNews[]>('/api/news/editor', { signal })
+}
+
+export function saveNewsContent(newsId: string | undefined, content: NewsContent): Promise<EditorNews> {
+  return newsId ? http.patch<EditorNews>(`/api/news/${newsId}`, content) : http.post<EditorNews>('/api/news/drafts', content)
+}
+
+export function saveNewsSchedule(newsId: string, scheduledAtLocal: string, enforcePublicationDeadline: boolean): Promise<EditorNews> {
+  return http.put<EditorNews>(`/api/news/${newsId}/schedule`, { scheduledAtLocal, enforcePublicationDeadline })
+}
+
+export function retryNewsSchedule(newsId: string): Promise<EditorNews> {
+  return http.post<EditorNews>(`/api/news/${newsId}/schedule/retry`)
+}
+
+export function removeNewsSchedule(newsId: string): Promise<EditorNews> {
+  return http.post<EditorNews>(`/api/news/${newsId}/unschedule`)
+}
+
+export function publishNewsNow(newsId: string): Promise<EditorNews> {
+  return http.post<EditorNews>(`/api/news/${newsId}/publish`)
 }
 
 export async function downloadNewsPdf(article: News): Promise<void> {

@@ -10,3 +10,11 @@ export interface News {
   viewerCount?: number
   likeCount?: number
 }
+
+export type NewsContent = Pick<News, 'title' | 'summary' | 'content' | 'category'> & { imageUrl: string | null }
+
+export type EditorNews = News & {
+  status: 'draft' | 'scheduled' | 'published'
+  scheduledAtUtc?: string
+  enforcePublicationDeadline: boolean
+}
