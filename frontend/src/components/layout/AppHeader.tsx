@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import DropdownMenu from "../ui/DropdownMenu"
 import { useAuth } from "../../features/auth/AuthContext"
-import { headerNavigation } from "./headerNavigation"
+import { adminIcon, adminNavigation, headerNavigation } from "./headerNavigation"
 
 const profileButton = {
   label: "Profile",
@@ -14,16 +14,19 @@ function isNavigationItemActive(pathname: string, to: string): boolean {
   return pathname === to || pathname.startsWith(`${to}/`)
 }
 
-export default function AppHeader(): JSX.Element {
+function navigationClasses(active: boolean, mobile = false) {
+  return `group ${mobile ? 'flex w-full' : 'inline-flex xl:px-3'} items-center gap-2 rounded-lg px-2.5 py-2 text-sm font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 ${active ? 'bg-primary/15 text-primary-hover' : 'text-primary hover:bg-primary/10 hover:text-primary-hover'}`
+}
+
+export default function AppHeader({ confirmSignOut }: { confirmSignOut?: () => boolean } = {}): JSX.Element {
   const { user, logout } = useAuth()
-  const canEditNews = user?.roles.some((role) => role === 'moderator' || role === 'admin')
-  const profileItems = canEditNews ? ["News editor", ...profileButton.items] : profileButton.items
-  const profileDivider = profileButton.dividerBefore + (canEditNews ? 1 : 0)
+  const canAdminister = user?.roles.some((role) => role === 'moderator' || role === 'admin')
   const navigate = useNavigate()
   const location = useLocation()
   const [searchQuery, setSearchQuery] = useState("")
   const searchInputRef = useRef<HTMLInputElement>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const mobileProfileRef = useRef<HTMLDetailsElement>(null)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   useEffect(() => {
     setSearchQuery(location.pathname === "/search" ? new URLSearchParams(location.search).get("q") ?? "" : "")
@@ -40,6 +43,26 @@ export default function AppHeader(): JSX.Element {
     window.addEventListener("keydown", focusSearch)
     return () => window.removeEventListener("keydown", focusSearch)
   }, [])
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+    const closeOutside = (event: PointerEvent) => {
+      const profile = mobileProfileRef.current
+      if (profile?.open && !profile.contains(event.target as Node)) profile.open = false
+    }
+    const closeWithEscape = (event: globalThis.KeyboardEvent) => {
+      const profile = mobileProfileRef.current
+      if (event.key !== 'Escape' || !profile?.open) return
+      if (profile.contains(document.activeElement)) profile.querySelector('summary')?.focus()
+      profile.open = false
+    }
+    document.addEventListener('pointerdown', closeOutside)
+    document.addEventListener('keydown', closeWithEscape)
+    return () => {
+      document.removeEventListener('pointerdown', closeOutside)
+      document.removeEventListener('keydown', closeWithEscape)
+    }
+  }, [mobileMenuOpen])
 
   const submitSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -59,9 +82,28 @@ export default function AppHeader(): JSX.Element {
     else event.currentTarget.blur()
   }
   const selectProfileItem = (item: string) => {
-    const routes: Record<string, string> = { Profile: "/profile", "News editor": "/news/editor", Bookmarks: "/bookmarks", Settings: "/profile", About: "/about", Support: "/contact", Privacy: "/privacy" }
-    if (item === "Sign Out") { logout(); navigate("/") } else if (routes[item]) navigate(routes[item])
+    const routes: Record<string, string> = { Profile: "/profile", Bookmarks: "/bookmarks", Settings: "/profile", About: "/about", Support: "/contact", Privacy: "/privacy" }
+    if (item === "Sign Out") {
+      if (confirmSignOut && !confirmSignOut()) return
+      void logout()
+      navigate("/")
+    } else if (routes[item]) navigate(routes[item])
     setOpenDropdown(null)
+  }
+
+  const renderAdminMenu = (mobile = false) => {
+    const menu = mobile ? 'mobile-admin' : 'admin'
+    const isActive = adminNavigation.some(({ to }) => isNavigationItemActive(location.pathname, to))
+    return (
+      <DropdownMenu label="Admin" leadingIcon={adminIcon} items={adminNavigation.map(({ label }) => label)}
+        isOpen={openDropdown === menu} onToggle={() => setOpenDropdown((current) => current === menu ? null : menu)}
+        onClose={() => setOpenDropdown(null)} align={mobile ? 'left' : 'right'} triggerClassName={navigationClasses(isActive, mobile)}
+        onSelect={(label) => {
+          const item = adminNavigation.find((tool) => tool.label === label)
+          if (item) navigate(item.to)
+          if (mobile) setMobileMenuOpen(false)
+        }} />
+    )
   }
 
   return (
@@ -113,7 +155,7 @@ export default function AppHeader(): JSX.Element {
           className="col-start-2 row-start-1 inline-flex h-9 w-9 items-center justify-center justify-self-end rounded-lg text-primary transition-colors duration-150 hover:bg-primary/10 hover:text-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 sm:col-start-3 lg:hidden"
           aria-label="Toggle navigation"
           aria-expanded={mobileMenuOpen}
-          onClick={() => setMobileMenuOpen((open) => !open)}
+          onClick={() => { setOpenDropdown(null); setMobileMenuOpen((open) => !open) }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -131,7 +173,7 @@ export default function AppHeader(): JSX.Element {
                   <Link
                     to={item.to}
                     aria-current={isActive ? 'page' : undefined}
-                    className={`group inline-flex items-center gap-2 rounded-lg px-2.5 py-2 text-sm font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 xl:px-3 ${isActive ? 'bg-primary/15 text-primary-hover' : 'text-primary hover:bg-primary/10 hover:text-primary-hover'}`}
+                    className={navigationClasses(isActive)}
                   >
                     {item.icon}
                     {item.label}
@@ -139,9 +181,13 @@ export default function AppHeader(): JSX.Element {
                 </span>
               )
             })}
+            {canAdminister && <span className="inline-flex items-center">
+              <span className="mx-1.5 h-5 border-l border-border/80" aria-hidden="true" />
+              {renderAdminMenu()}
+            </span>}
           </nav>
           <div className="ml-1 flex items-center gap-2 border-l border-border/70 pl-3">
-            {user ? <DropdownMenu label={user.displayName} items={profileItems} isOpen={openDropdown === profileButton.label} onToggle={() => setOpenDropdown((current) => current === profileButton.label ? null : profileButton.label)} onOpen={() => setOpenDropdown(profileButton.label)} onClose={() => setOpenDropdown(null)} variant="profile" align="right" dividerBefore={profileDivider} onSelect={selectProfileItem} avatarText={user.displayName} profileSubtitle={user.email} /> : (
+            {user ? <DropdownMenu label={user.displayName} items={profileButton.items} isOpen={openDropdown === profileButton.label} onToggle={() => setOpenDropdown((current) => current === profileButton.label ? null : profileButton.label)} onClose={() => setOpenDropdown(null)} variant="profile" align="right" dividerBefore={profileButton.dividerBefore} onSelect={selectProfileItem} avatarText={user.displayName} profileSubtitle={user.email} /> : (
               <Link
                 to="/auth"
                 className="group/signin inline-flex items-center gap-1.5 rounded-lg border border-primary-hover/70 bg-primary px-3 py-1.5 text-xs font-bold text-background transition-colors duration-150 hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
@@ -169,14 +215,15 @@ export default function AppHeader(): JSX.Element {
                   to={item.to}
                   onClick={() => setMobileMenuOpen(false)}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`group flex items-center gap-2 rounded-lg px-2.5 py-2 text-sm font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 ${isActive ? 'bg-primary/15 text-primary-hover' : 'text-primary hover:bg-primary/10 hover:text-primary-hover'}`}
+                  className={navigationClasses(isActive, true)}
                 >
                   {item.icon}
                   {item.label}
                 </Link>
               )
             })}
-            {user ? <details className="rounded-xl bg-primary/[0.07]">
+            {canAdminister && renderAdminMenu(true)}
+            {user ? <details ref={mobileProfileRef} className="rounded-xl bg-primary/[0.07]">
               <summary className="flex cursor-pointer items-center justify-between gap-2 rounded-xl px-3 py-2 text-sm font-medium text-text transition hover:bg-primary/10">
                 <span className="flex items-center gap-2">
                   <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary font-bold uppercase text-background" aria-hidden="true">{user.displayName.charAt(0)}</span>
@@ -185,8 +232,8 @@ export default function AppHeader(): JSX.Element {
                 <span className="text-muted">&#9662;</span>
               </summary>
               <div className="space-y-1 px-3 pb-2">
-                {profileItems.map((item, index) => (
-                  <div key={item} className={index === profileDivider ? 'border-t border-border pt-2' : ''}>
+                {profileButton.items.map((item, index) => (
+                  <div key={item} className={index === profileButton.dividerBefore ? 'border-t border-border pt-2' : ''}>
                     <button type="button" onClick={() => { selectProfileItem(item); setMobileMenuOpen(false) }} className={`block w-full rounded-md px-2 py-2 text-left text-sm transition hover:bg-background/90 ${item === 'Sign Out' ? 'text-danger' : 'text-text'}`}>{item}</button>
                   </div>
                 ))}

@@ -8,6 +8,10 @@ export type HeaderNavigationItem = {
 
 const iconClassName = 'h-4 w-4 shrink-0'
 
+export const adminNavigation = [{ label: 'News Editor', to: '/news/editor' }] as const
+
+export const adminIcon = <svg className={iconClassName} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="m12 3 8 3v5c0 5-3.7 8.4-8 10-4.3-1.6-8-5-8-10V6l8-3Z" /><path strokeLinecap="round" strokeLinejoin="round" d="m9 12 2 2 4-4" /></svg>
+
 export const headerNavigation: readonly HeaderNavigationItem[] = [
   {
     label: 'Community',

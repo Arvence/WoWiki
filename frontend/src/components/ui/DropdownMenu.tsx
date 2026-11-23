@@ -5,7 +5,7 @@ interface DropdownMenuProps {
   items: readonly string[]
   isOpen: boolean
   onToggle: () => void
-  onOpen: () => void
+  onOpen?: () => void
   onClose: () => void
   variant?: 'default' | 'profile' | 'select' | 'nav'
   align?: 'left' | 'right'
@@ -17,10 +17,12 @@ interface DropdownMenuProps {
   value?: string
   disabled?: boolean
   ariaLabel?: string
+  triggerClassName?: string
 }
 
-export default function DropdownMenu({ label, items, isOpen, onToggle, onOpen, onClose, variant = 'default', align = 'left', dividerBefore, onSelect, avatarText = 'P', profileSubtitle, leadingIcon, value, disabled = false, ariaLabel }: DropdownMenuProps): JSX.Element {
+export default function DropdownMenu({ label, items, isOpen, onToggle, onOpen, onClose, variant = 'default', align = 'left', dividerBefore, onSelect, avatarText = 'P', profileSubtitle, leadingIcon, value, disabled = false, ariaLabel, triggerClassName }: DropdownMenuProps): JSX.Element {
   const rootRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
   const isProfile = variant === 'profile'
   const isSelect = variant === 'select'
   const isNav = variant === 'nav'
@@ -33,7 +35,9 @@ export default function DropdownMenu({ label, items, isOpen, onToggle, onOpen, o
       if (!rootRef.current?.contains(event.target as Node)) onClose()
     }
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
+      if (event.key !== 'Escape') return
+      if (rootRef.current?.contains(document.activeElement)) triggerRef.current?.focus()
+      onClose()
     }
 
     document.addEventListener('pointerdown', closeOnOutsideClick)
@@ -54,16 +58,17 @@ export default function DropdownMenu({ label, items, isOpen, onToggle, onOpen, o
       ref={rootRef}
       className={`relative ${isSelect ? 'w-full' : ''}`}
       onMouseEnter={isSelect ? undefined : onOpen}
-      onMouseLeave={isSelect ? undefined : onClose}
+      onMouseLeave={isSelect || !onOpen ? undefined : onClose}
     >
       <button
+        ref={triggerRef}
         type="button"
         onClick={onToggle}
         disabled={disabled}
         aria-haspopup="menu"
         aria-expanded={isOpen}
         aria-label={ariaLabel ?? (isProfile ? 'Open profile menu' : undefined)}
-        className={getTriggerClasses(variant)}
+        className={triggerClassName ?? getTriggerClasses(variant)}
       >
         {isProfile && (
           <span
