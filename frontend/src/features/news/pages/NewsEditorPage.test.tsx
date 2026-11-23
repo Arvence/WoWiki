@@ -132,7 +132,7 @@ it('does not load the editorial list for a regular user', async () => {
   expect(container.textContent).toContain('You need a moderator or administrator account')
 })
 
-it('handles submission failure after a successful check and preserves the pending schedule for retry', async () => {
+it('rechecks availability after an unconfirmed submission and preserves the pending schedule for retry', async () => {
   const pending = { ...draft, scheduledAtUtc: '2030-07-01T10:00:00.000Z', scheduleId: 'pending-schedule' }
   await renderEditor('moderator', [draft])
   await selectDraft()
@@ -143,13 +143,12 @@ it('handles submission failure after a successful check and preserves the pendin
   await setField('publicationTime', '12:00')
   await act(async () => button('Save schedule').click())
   expect(container.textContent).toContain('The scheduling system did not confirm the schedule.')
-  expect(container.textContent).toContain('Scheduling system is unavailable.')
+  expect(container.textContent).toContain('Scheduling system is online.')
   expect(detailValue('Schedule ID')).toBe('pending-schedule')
   expect(detailValue('Registration')).toBe('Pending')
   expect(details()?.querySelector('a[href="#publication-heading"]')?.textContent).toBe('Edit schedule')
-  expect(button('Retry registration').disabled).toBe(true)
-  expect(fetchSchedulingAvailability).toHaveBeenCalledTimes(1)
-  await act(async () => button('Retry').click())
+  expect(button('Retry registration').disabled).toBe(false)
+  expect(fetchSchedulingAvailability).toHaveBeenCalledTimes(2)
   await act(async () => button('Retry registration').click())
   expect(retryNewsSchedule).toHaveBeenCalledWith(draft.id)
   expect(container.textContent).toContain('Publication scheduled.')

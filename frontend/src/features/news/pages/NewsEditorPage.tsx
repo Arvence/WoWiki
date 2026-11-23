@@ -175,7 +175,8 @@ function NewsEditor(): JSX.Element {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not save News.')
       if (action === 'schedule' && err instanceof HttpError && (err.status === 0 || err.status >= 500)) {
-        setAvailability('unavailable')
+        setAvailability('checking')
+        setAvailabilityAttempt((attempt) => attempt + 1)
       }
       if (publicationAction && selected) {
         await fetchEditorArticle(selected.id).then(setSelected).catch(() => undefined)

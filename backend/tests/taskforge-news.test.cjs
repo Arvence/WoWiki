@@ -64,6 +64,41 @@ test('definite rejection clears the reservation and an idempotent terminal respo
   assert.throws(() => news.pendingSchedule(draft.id), /no pending/)
 })
 
+test('a rejected replacement leaves the article a draft even if cancellation of the old job fails', async (t) => {
+  const oldJobId = randomUUID()
+  let submissions = 0
+  let cancelledJob
+  let replacementScheduleId
+  const { news, scheduling, draft, setNow } = await fixture(t, ({ request, response, raw }) => {
+    if (request.url.endsWith('/cancel')) {
+      cancelledJob = request.url.split('/')[3]
+      return send(response, 503, {})
+    }
+    if (++submissions === 1) return send(response, 201, job(oldJobId))
+    replacementScheduleId = JSON.parse(raw).payload.scheduleId
+    send(response, 400, {})
+  })
+
+  const scheduled = await scheduling.schedule(draft.id, publishAt)
+  await assert.rejects(scheduling.schedule(draft.id, '2030-01-01T03:00'), (error) => {
+    assert.equal(error.getStatus(), 422)
+    assert.match(error.message, /The article is a draft/)
+    return true
+  })
+  assert.equal(cancelledJob, oldJobId)
+  assert.ok(replacementScheduleId && replacementScheduleId !== scheduled.scheduleId)
+  const article = news.findOneForEditor(draft.id)
+  assert.equal(article.status, 'draft')
+  assert.equal(article.scheduledAtUtc, undefined)
+  assert.equal(article.scheduleId, undefined)
+  assert.equal(article.taskForgeJobId, undefined)
+
+  setNow(Date.parse('2030-01-01T02:01:00Z'))
+  assert.equal(news.publishScheduled(draft.id, scheduled.scheduleId, oldJobId), 'stale')
+  assert.equal(news.publishScheduled(draft.id, replacementScheduleId, randomUUID()), 'stale')
+  assert.throws(() => news.findOne(draft.id), /not found/)
+})
+
 test('rescheduling and removal invalidate locally before cancellation, and Publish Now wins against an in-flight registration', async (t) => {
   const jobs = [randomUUID(), randomUUID(), randomUUID()]
   const cancellations = []

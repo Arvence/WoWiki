@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, Logger, NotFoundException, ServiceUnavailableException } from '@nestjs/common'
+import { ConflictException, Injectable, Logger, NotFoundException, ServiceUnavailableException, UnprocessableEntityException } from '@nestjs/common'
 import type { NewsRecord } from './models/news.model'
 import { NewsService } from './news.service'
 import { TaskForgeClient, TaskForgeRequestError } from './taskforge.client'
@@ -54,8 +54,9 @@ export class NewsSchedulingService {
       }
       this.news.discardPendingSchedule(id, scheduleId)
       this.logger.warn(`TaskForge rejected News schedule registration with HTTP ${error.status}`)
-      if (error.status === 409) throw new ConflictException('The scheduling system rejected this schedule. Save a new schedule.')
-      throw new ServiceUnavailableException('The scheduling system rejected registration. The article is a draft. Check availability before scheduling again.')
+      const message = 'The scheduling system rejected registration. The article is a draft. Save a new schedule to try again.'
+      if (error.status === 409) throw new ConflictException(message)
+      throw new UnprocessableEntityException(message)
     }
 
     const canRun = !job.cancellationRequested && ['Queued', 'Processing', 'Retrying'].includes(job.status)
