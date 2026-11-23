@@ -7,6 +7,10 @@ export default defineConfig({
     port: 3000,
     strictPort: true,
     proxy: {
+      '/api/auth/': {
+        target: 'http://localhost:5100',
+        changeOrigin: true,
+      },
       '/api': {
         target: 'http://127.0.0.1:5000',
         changeOrigin: true,
