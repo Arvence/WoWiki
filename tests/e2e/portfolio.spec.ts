@@ -77,6 +77,33 @@ test('a moderator can publish news visible on the public detail page', async ({ 
   await expect(page.getByText(newsInput.content, { exact: true })).toBeVisible()
 })
 
+test('a moderator can save a private draft and publish it from the News Editor', async ({ page, request }) => {
+  await register(page.request, true)
+  const title = 'News Editor draft publication check'
+  await page.goto('/news/editor')
+  await page.getByLabel('Title', { exact: true }).fill(title)
+  await page.getByLabel('Category', { exact: true }).selectOption('News')
+  await page.getByLabel('Summary', { exact: true }).fill(newsInput.summary)
+  await page.getByLabel('Content', { exact: true }).fill(newsInput.content)
+
+  const [response] = await Promise.all([
+    page.waitForResponse((response) => new URL(response.url()).pathname === '/api/news/drafts' && response.request().method() === 'POST'),
+    page.getByRole('button', { name: 'Save draft', exact: true }).click(),
+  ])
+  expect(response.status()).toBe(201)
+  const draft = await response.json()
+  expect(draft.status).toBe('draft')
+  await expect(page.getByText('Draft saved.', { exact: true })).toBeVisible()
+  expect((await request.get(`/api/news/${draft.id}`)).status()).toBe(404)
+
+  await page.getByRole('button', { name: 'Publish Now', exact: true }).click()
+  await expect(page.getByText('Article published.', { exact: true })).toBeVisible()
+  await page.getByRole('link', { name: 'View article', exact: true }).click()
+  await expect(page).toHaveURL(`/news/${draft.id}`)
+  await expect(page.getByRole('heading', { name: title, exact: true })).toBeVisible()
+  expect((await request.get(`/api/news/${draft.id}`)).status()).toBe(200)
+})
+
 test('save an account raid and retrieve the same plan after reload', async ({ page }) => {
   await register(page.request)
   await page.goto('/tools/raid-planner')
