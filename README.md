@@ -25,8 +25,8 @@ the gateway-forwarded client address keeps authentication limits partitioned per
 Mutable backend content and game data persist in `backend/Data/wowiki-backend.db`;
 the Auth service keeps identity data in its separate SQLite database.
 
-The repository ships with a versioned demo database. Install it into the active
-backend database before starting the server:
+To start with demo content when you have no active backend database, install the
+versioned demo database before starting the server:
 
 ```powershell
 cd backend
@@ -56,7 +56,7 @@ npm run start:all
 This starts NestJS and Vite with hot reload plus Auth, PDF, and the gateway on
 their existing ports. Logs are labeled by service in the same terminal. Press
 Ctrl+C to stop the entire group; if one service exits, the others stop too.
-Local storage uses SQLite, so Docker is not required. Existing data is preserved.
+The core WoWiki services use SQLite and can run without Docker. Existing data is preserved.
 
 Use `npm run start:backend` or `npm run start:frontend` from the root to run either
 application independently. `start:auth`, `start:pdf`, and `start:gateway` are also
@@ -89,6 +89,15 @@ dotnet run --project src/WoWiki.Gateway -- --environment Development
 
 Open `http://localhost:8080`.
 
+For scheduled News publishing, run TaskForge separately and set these environment
+variables before starting WoWiki's NestJS backend, including when you use `npm run start:all`:
+
+- `TASKFORGE_URL` is the TaskForge Server base URL, for example `http://127.0.0.1:8275` for a local instance on that port.
+- `TASKFORGE_API_KEY` is the application API key for `wowiki`. Keep it in the backend process environment.
+
+The News Editor checks TaskForge API readiness. The publishing worker runs inside
+the configured NestJS backend. Draft editing and Publish Now also work without TaskForge.
+
 ## Portfolio browser tests
 
 On Windows with Node.js 24 and the .NET 10 SDK, install dependencies in the root,
@@ -99,7 +108,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-The six focused Playwright journeys use real Auth, NestJS, Vite, and gateway
+The Playwright journeys use real Auth, NestJS, Vite, and gateway
 processes on isolated ports `15100`, `15000`, `13000`, and `18080`. Each run builds
 the services, copies the demo content into a temporary database, creates a fresh
 identity database, and removes both after shutdown. Your development databases
@@ -116,7 +125,9 @@ services/pdf/      ASP.NET Core PDF generation service
 services/gateway/  YARP public entry point and request routing
 ```
 
-The gateway is the required browser entry point. Vite serves frontend assets internally and does not proxy application APIs.
+Use the gateway for the full application. When opening Vite directly for development,
+Vite proxies `/api/auth/*` to the Auth service and `/api/*` and `/images/*` to NestJS.
+Use the gateway for `/api/pdf/*`.
 Gateway API routes include per-client rate limiting, correlation IDs, baseline security headers, request hardening, and structured request logging.
 Content and game-data reads are public. Mutations require an authenticated moderator or admin,
 while community creation, comments, and reactions require an authenticated user.
