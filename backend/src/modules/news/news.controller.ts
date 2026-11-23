@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Header, HttpCode, Param, Patch, Post, Put, Req, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Header, HttpCode, Param, Patch, Post, Put, Query, Req, UseGuards } from '@nestjs/common'
 import { AuthGuard } from '../auth/auth.guard'
 import { Roles } from '../auth/roles.decorator'
 import { RolesGuard } from '../auth/roles.guard'
@@ -23,8 +23,24 @@ export class NewsController {
   @Header('Cache-Control', 'no-store')
   @Roles('moderator', 'admin')
   @UseGuards(AuthGuard, RolesGuard)
-  findForEditor() {
-    return this.newsService.findForEditor()
+  findForEditor(@Query('q') query?: string) {
+    return this.newsService.findForEditor(query)
+  }
+
+  @Get('editor/scheduling-availability')
+  @Header('Cache-Control', 'no-store')
+  @Roles('moderator', 'admin')
+  @UseGuards(AuthGuard, RolesGuard)
+  schedulingAvailability() {
+    return this.scheduling.availability()
+  }
+
+  @Get('editor/:id')
+  @Header('Cache-Control', 'no-store')
+  @Roles('moderator', 'admin')
+  @UseGuards(AuthGuard, RolesGuard)
+  findOneForEditor(@Param('id') id: string) {
+    return this.newsService.findOneForEditor(id)
   }
 
   @Get(':id')

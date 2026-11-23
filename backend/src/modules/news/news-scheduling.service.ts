@@ -1,6 +1,6 @@
 import { ConflictException, Injectable, Logger, NotFoundException, ServiceUnavailableException } from '@nestjs/common'
 import type { NewsRecord } from './models/news.model'
-import { NewsService, toEditorNews } from './news.service'
+import { NewsService } from './news.service'
 import { TaskForgeClient, TaskForgeRequestError } from './taskforge.client'
 
 @Injectable()
@@ -8,6 +8,11 @@ export class NewsSchedulingService {
   private readonly logger = new Logger(NewsSchedulingService.name)
 
   constructor(private readonly news: NewsService, private readonly taskForge: TaskForgeClient) {}
+
+  async availability(): Promise<{ status: 'available' | 'unavailable' | 'not-configured' }> {
+    if (!this.taskForge.configured) return { status: 'not-configured' }
+    return { status: await this.taskForge.isReady() ? 'available' : 'unavailable' }
+  }
 
   async schedule(id: string, scheduledAtLocal: string, enforcePublicationDeadline?: boolean) {
     this.requireConfiguration()
@@ -24,13 +29,13 @@ export class NewsSchedulingService {
   async removeSchedule(id: string) {
     const { article, previousJobId } = this.news.removeSchedule(id)
     await this.cancel(previousJobId)
-    return toEditorNews(article)
+    return this.news.toEditorNews(article)
   }
 
   async publishNow(id: string) {
     const { article, previousJobId } = this.news.publishNow(id)
     await this.cancel(previousJobId)
-    return toEditorNews(article)
+    return this.news.toEditorNews(article)
   }
 
   async remove(id: string): Promise<void> {
@@ -45,12 +50,12 @@ export class NewsSchedulingService {
     } catch (error) {
       if (!(error instanceof TaskForgeRequestError)) throw error
       if (error.retryable) {
-        throw new ServiceUnavailableException('TaskForge did not confirm the schedule. Retry registration for this draft.')
+        throw new ServiceUnavailableException('The scheduling system did not confirm the schedule. Retry registration for this draft.')
       }
       this.news.discardPendingSchedule(id, scheduleId)
       this.logger.warn(`TaskForge rejected News schedule registration with HTTP ${error.status}`)
-      if (error.status === 409) throw new ConflictException('TaskForge rejected the schedule key. Save a new schedule.')
-      throw new ServiceUnavailableException('TaskForge rejected registration. The article is a draft. Check the TaskForge configuration before scheduling again.')
+      if (error.status === 409) throw new ConflictException('The scheduling system rejected this schedule. Save a new schedule.')
+      throw new ServiceUnavailableException('The scheduling system rejected registration. The article is a draft. Check availability before scheduling again.')
     }
 
     const canRun = !job.cancellationRequested && ['Queued', 'Processing', 'Retrying'].includes(job.status)
@@ -62,18 +67,18 @@ export class NewsSchedulingService {
       await this.cancel(job.id)
       throw error
     }
-    if (confirmed) return toEditorNews(confirmed)
+    if (confirmed) return this.news.toEditorNews(confirmed)
 
     if (!canRun) {
       this.news.discardPendingSchedule(id, scheduleId)
-      throw new ConflictException('The TaskForge job can no longer run. Save a new schedule.')
+      throw new ConflictException('This scheduled job can no longer run. Save a new schedule.')
     }
     await this.cancel(job.id)
     throw new ConflictException('The schedule changed before registration finished')
   }
 
   private requireConfiguration(): void {
-    if (!this.taskForge.configured) throw new ServiceUnavailableException('TaskForge scheduling is not configured')
+    if (!this.taskForge.configured) throw new ServiceUnavailableException('Scheduling system is not configured.')
   }
 
   private async cancel(jobId: string | undefined): Promise<void> {

@@ -1,4 +1,4 @@
-import type { EditorNews, News, NewsContent } from '../types/news'
+import type { EditorNews, EditorNewsPreview, News, NewsContent } from '../types/news'
 import { http } from '../../../shared/api/http'
 
 export async function fetchNews(): Promise<News[]> {
@@ -12,12 +12,30 @@ export async function fetchNewsById(newsId: string): Promise<News> {
   })
 }
 
-export function fetchEditorNews(signal?: AbortSignal): Promise<EditorNews[]> {
-  return http.get<EditorNews[]>('/api/news/editor', { signal })
+export function fetchEditorNews(query: string, signal?: AbortSignal): Promise<EditorNewsPreview[]> {
+  const search = query.trim()
+  return http.get<EditorNewsPreview[]>(`/api/news/editor${search ? `?${new URLSearchParams({ q: search })}` : ''}`, {
+    signal, errorMessage: 'Could not load articles.',
+  })
+}
+
+export function fetchEditorArticle(newsId: string): Promise<EditorNews> {
+  return http.get<EditorNews>(`/api/news/editor/${encodeURIComponent(newsId)}`, { errorMessage: 'Could not load the article.' })
+}
+
+export type SchedulingAvailability = 'available' | 'unavailable' | 'not-configured'
+
+export async function fetchSchedulingAvailability(signal?: AbortSignal): Promise<SchedulingAvailability> {
+  const result = await http.get<{ status: SchedulingAvailability }>('/api/news/editor/scheduling-availability', { signal })
+  return result?.status === 'available' || result?.status === 'not-configured' ? result.status : 'unavailable'
 }
 
 export function saveNewsContent(newsId: string | undefined, content: NewsContent): Promise<EditorNews> {
   return newsId ? http.patch<EditorNews>(`/api/news/${newsId}`, content) : http.post<EditorNews>('/api/news/drafts', content)
+}
+
+export function deleteNewsArticle(newsId: string): Promise<void> {
+  return http.delete(`/api/news/${encodeURIComponent(newsId)}`, { errorMessage: 'Could not delete the article.' })
 }
 
 export function saveNewsSchedule(newsId: string, scheduledAtLocal: string, enforcePublicationDeadline: boolean): Promise<EditorNews> {

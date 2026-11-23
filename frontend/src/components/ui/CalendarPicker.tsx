@@ -7,6 +7,7 @@ export type CalendarPickerProps = {
   disabled?: boolean
   min?: string
   max?: string
+  todayValue?: string
   className?: string
 }
 
@@ -43,9 +44,9 @@ const todayButtonClasses = [
   'focus-visible:ring-primary/50 disabled:opacity-40',
 ].join(' ')
 
-export default function CalendarPicker({ value, onChange, ariaLabel = 'Select date', disabled = false, min, max, className = '' }: CalendarPickerProps): JSX.Element {
+export default function CalendarPicker({ value, onChange, ariaLabel = 'Select date', disabled = false, min, max, todayValue, className = '' }: CalendarPickerProps): JSX.Element {
   const selectedDate = useMemo(() => parseDateValue(value), [value])
-  const today = useMemo(startOfToday, [])
+  const today = useMemo(() => parseDateValue(todayValue ?? '') ?? startOfToday(), [todayValue])
   const [open, setOpen] = useState(false)
   const [visibleMonth, setVisibleMonth] = useState(() => startOfMonth(selectedDate ?? today))
   const rootRef = useRef<HTMLDivElement>(null)

@@ -9,6 +9,8 @@ const { NestFactory } = require('@nestjs/core')
 const { AppModule } = require('../dist/app.module')
 const { DatabaseService } = require('../dist/common/database/database.service')
 const { NewsService } = require('../dist/modules/news/news.service')
+const { NewsSchedulingService } = require('../dist/modules/news/news-scheduling.service')
+const { TaskForgeClient } = require('../dist/modules/news/taskforge.client')
 const { resolveEuScheduleTime } = require('../dist/modules/news/news-schedule-time')
 
 const content = { title: 'Classic realm update', summary: 'Upcoming events', content: 'The full article.', category: 'News' }
@@ -25,8 +27,18 @@ test('only editors can read or change unpublished News and existing posts stay p
   await new Promise((resolve) => authServer.listen(0, '127.0.0.1', resolve))
   replaceEnv(t, 'AUTH_SERVICE_URL', `http://127.0.0.1:${authServer.address().port}`)
   t.after(() => new Promise((resolve) => authServer.close(resolve)))
+  let readiness = 'ready'
+  let readinessRequests = 0
   const taskForge = createServer(async (request, response) => {
     if (request.url === '/api/executions/wait') return
+    if (request.url === '/api/ready') {
+      assert.equal(request.method, 'GET')
+      readinessRequests++
+      if (readiness === 'timeout') return
+      if (readiness === 'disconnected') return response.destroy()
+      return response.writeHead(readiness === 'ready' ? 200 : 503, { 'Content-Type': 'application/json' })
+        .end(JSON.stringify({ status: readiness === 'ready' ? 'Ready' : 'Unavailable' }))
+    }
     if (request.url?.endsWith('/cancel')) return response.writeHead(200).end()
     for await (const _chunk of request) { /* read the submission before responding */ }
     response.writeHead(201, { 'Content-Type': 'application/json' })
@@ -57,6 +69,7 @@ test('only editors can read or change unpublished News and existing posts stay p
       method,
       headers: { 'Content-Type': 'application/json', ...(session ? { Cookie: `session=${session}` } : {}) },
       body: body && JSON.stringify(body),
+      signal: AbortSignal.timeout(5000),
     })
     assert.equal(response.status, status, `${method} ${path}`)
     return response.json()
@@ -74,7 +87,17 @@ test('only editors can read or change unpublished News and existing posts stay p
   assert.equal((await request(`/${legacyId}`, 200)).id, legacyId)
   await request('/editor', 401)
   await request('/editor', 403, 'GET', undefined, 'reader')
+  const availability = '/editor/scheduling-availability'
+  await request(availability, 401)
+  await request(availability, 403, 'GET', undefined, 'reader')
+  assert.equal(readinessRequests, 0)
+  const checkAvailability = () => request(availability, 200, 'GET', undefined, 'editor')
+  assert.deepEqual(await checkAvailability(), { status: 'available' })
   await request('/drafts', 403, 'POST', content, 'reader')
+  await request(`/${legacyId}/like`, 201, 'POST', { liked: true }, 'reader')
+  const legacyDetails = await request(`/editor/${legacyId}`, 200, 'GET', undefined, 'editor')
+  assert.equal(legacyDetails.likeCount, 1)
+  assert.equal(legacyDetails.viewerCount, (await request(`/${legacyId}`, 200)).viewerCount)
 
   const immediate = await request('', 201, 'POST', content, 'editor')
   assert.deepEqual(immediate, await request(`/${immediate.id}`, 200))
@@ -88,33 +111,67 @@ test('only editors can read or change unpublished News and existing posts stay p
   const schedule = { scheduledAtLocal: '2030-07-01T12:00' }
   await request(`${path}/schedule`, 403, 'PUT', schedule, 'reader')
   await request(`${path}/schedule`, 400, 'PUT', { ...schedule, enforcePublicationDeadline: null }, 'editor')
-  const prepared = await request(`${path}/schedule`, 200, 'PUT', { ...schedule, timeZone: 'Europe/London', status: 'scheduled', taskForgeJobId: 'spoofed' }, 'editor')
+  const prepared = await request(`${path}/schedule`, 200, 'PUT', { ...schedule, timeZone: 'Europe/London', status: 'scheduled', taskForgeJobId: 'spoofed', scheduleId: 'spoofed' }, 'editor')
   assert.equal(prepared.status, 'scheduled')
   assert.equal(prepared.scheduledAtUtc, '2030-07-01T10:00:00.000Z')
   assert.equal(prepared.scheduleTimeZone, undefined)
-  assert.equal(prepared.taskForgeJobId, undefined)
+  assert.equal(prepared.taskForgeJobId, '85b1aa9e-4bda-418a-b481-892555ef3c2c')
+  assert.match(prepared.scheduleId, /^[a-f\d-]{36}$/i)
 
   const database = app.get(DatabaseService)
   const row = database.connection.prepare("SELECT data FROM entities WHERE collection = 'news' AND id = ?").get(draft.id)
   assert.equal(JSON.parse(row.data).taskForgeJobId, '85b1aa9e-4bda-418a-b481-892555ef3c2c')
+  for (const scenario of ['unavailable', 'disconnected', 'timeout']) {
+    readiness = scenario
+    assert.deepEqual(await checkAvailability(), { status: 'unavailable' })
+  }
+  readiness = 'ready'
+  assert.deepEqual(await checkAvailability(), { status: 'available' })
+  assert.equal(readinessRequests, 5)
+  assert.deepEqual(database.connection.prepare("SELECT data FROM entities WHERE collection = 'news' AND id = ?").get(draft.id), row)
   await assertHidden(draft.id)
 
   const articles = await request('/editor', 200, 'GET', undefined, 'editor')
+  assert.equal(articles.length, 10)
+  assert.equal(articles[0].id, draft.id)
+  assert.equal(articles[0].content, undefined)
+  assert.equal(articles[0].scheduledAtUtc, prepared.scheduledAtUtc)
+  assert.equal(articles[0].taskForgeJobId, undefined)
+  assert.equal(articles[0].scheduleId, undefined)
+  const results = await request('/editor?q=UPCOMING%20events', 200, 'GET', undefined, 'editor')
+  assert.deepEqual(results.map(({ id }) => id), [draft.id, immediate.id])
+  assert.deepEqual(await request('/editor?q=missing-publication', 200, 'GET', undefined, 'editor'), [])
   assert.equal(articles.find((article) => article.id === legacyId)?.status, 'published')
   assert.equal(articles.find((article) => article.id === draft.id)?.status, 'scheduled')
+  await request(`/editor/${draft.id}`, 401)
+  await request(`/editor/${draft.id}`, 403, 'GET', undefined, 'reader')
+  assert.deepEqual(await request(`/editor/${draft.id}`, 200, 'GET', undefined, 'editor'), prepared)
   const edited = await request(path, 200, 'PATCH', { title: 'Edited before publication', status: 'published' }, 'editor')
   assert.equal(edited.status, 'scheduled')
   assert.equal(edited.scheduledAtUtc, prepared.scheduledAtUtc)
+  assert.equal(edited.scheduleId, prepared.scheduleId)
+  assert.equal(edited.taskForgeJobId, prepared.taskForgeJobId)
   await request(`${path}/publish`, 403, 'POST', undefined, 'reader')
   const published = await request(`${path}/publish`, 200, 'POST', undefined, 'editor')
   assert.equal(published.status, 'published')
   assert.equal(published.scheduledAtUtc, undefined)
+  assert.equal(published.scheduleId, undefined)
+  assert.equal(published.taskForgeJobId, undefined)
   assert.deepEqual(await request(`${path}/publish`, 200, 'POST', undefined, 'editor'), published)
   const publicArticle = await request(path, 200)
   assert.equal(publicArticle.title, 'Edited before publication')
   assert.equal(publicArticle.status, undefined)
   assert.equal(publicArticle.taskForgeJobId, undefined)
   await request(`${path}/unschedule`, 409, 'POST', undefined, 'editor')
+})
+
+test('scheduling availability reports missing configuration without an HTTP request', async (t) => {
+  replaceEnv(t, 'TASKFORGE_URL', 'http://127.0.0.1:1')
+  replaceEnv(t, 'TASKFORGE_API_KEY', '')
+  const fetchMock = t.mock.method(globalThis, 'fetch', async () => { throw new Error('Unexpected readiness request') })
+  const scheduling = new NewsSchedulingService(undefined, new TaskForgeClient())
+  assert.deepEqual(await scheduling.availability(), { status: 'not-configured' })
+  assert.equal(fetchMock.mock.callCount(), 0)
 })
 
 test('schedule transitions reject stale identities and repeated publication is harmless', (t) => {
@@ -137,6 +194,10 @@ test('schedule transitions reject stale identities and repeated publication is h
   assert.throws(() => service.findOne(id), /not found/)
   assert.equal(service.publishScheduled(id, second.scheduleId, 'current-job'), 'published')
   const published = service.findOne(id)
+  assert.equal(published.scheduleId, undefined)
+  assert.equal(published.taskForgeJobId, undefined)
+  assert.equal(service.findAll().find((article) => article.id === id)?.taskForgeJobId, undefined)
+  assert.equal(service.findOneForEditor(id).taskForgeJobId, 'current-job')
   assert.equal(service.publishScheduled(id, second.scheduleId, 'current-job'), 'already-published')
   assert.deepEqual(service.findOne(id), published)
 

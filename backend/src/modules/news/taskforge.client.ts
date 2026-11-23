@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common'
 const applicationId = 'wowiki'
 const waitSeconds = 20
 const requestTimeoutMs = 5000
+const readinessTimeoutMs = 1500
 const jobIdPattern = /^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i
 
 export type TaskForgeAssignment = {
@@ -41,6 +42,15 @@ export class TaskForgeClient {
 
   get configured(): boolean {
     return Boolean(this.baseUrl && this.apiKey && /^[A-Za-z0-9_-]{32,128}$/.test(this.apiKey))
+  }
+
+  async isReady(): Promise<boolean> {
+    try {
+      const response = await this.request('/api/ready', [200], { timeoutMs: readinessTimeoutMs })
+      return asObject(response).status === 'Ready'
+    } catch {
+      return false
+    }
   }
 
   async submitNews(newsId: string, scheduleId: string, scheduledAtUtc: string): Promise<TaskForgeJob> {

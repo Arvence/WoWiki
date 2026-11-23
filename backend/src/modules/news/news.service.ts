@@ -22,15 +22,6 @@ function toPublicNews({ status: _status, scheduledAtUtc: _scheduledAtUtc, schedu
   return article
 }
 
-export function toEditorNews(news: NewsRecord) {
-  return {
-    ...toPublicNews(news),
-    status: news.status ?? 'published',
-    scheduledAtUtc: news.scheduledAtUtc,
-    enforcePublicationDeadline: news.enforcePublicationDeadline ?? false,
-  }
-}
-
 @Injectable()
 export class NewsService {
   private readonly repository: SqliteRepository<NewsRecord>
@@ -54,12 +45,41 @@ export class NewsService {
     return toPublicNews(this.createArticle(createNewsDto, 'published'))
   }
 
-  findForEditor() {
-    return this.reactions.withCounts(this.repository.findAll()).map(toEditorNews)
+  findForEditor(query = '') {
+    const search = typeof query === 'string' ? query.trim().slice(0, 160) : ''
+    const rows = this.database.connection.prepare(`
+      SELECT data FROM entities
+      WHERE collection = 'news' AND (? = ''
+        OR instr(lower(json_extract(data, '$.title')), lower(?)) > 0
+        OR instr(lower(json_extract(data, '$.summary')), lower(?)) > 0
+        OR instr(lower(json_extract(data, '$.category')), lower(?)) > 0)
+      ORDER BY json_extract(data, '$.updatedAt') DESC, sequence DESC
+      LIMIT 10
+    `).all(search, search, search, search) as { data: string }[]
+    return rows.map(({ data }) => {
+      const { id, title, summary, category, updatedAt, imageUrl, scheduledAtUtc, status = 'published' } = JSON.parse(data) as NewsRecord
+      return { id, title, summary, category, updatedAt, imageUrl, status, scheduledAtUtc: status === 'scheduled' ? scheduledAtUtc : undefined }
+    })
+  }
+
+  findOneForEditor(id: string) {
+    return this.toEditorNews(this.repository.findOne(id))
+  }
+
+  toEditorNews(news: NewsRecord) {
+    const [article] = this.reactions.withCounts([news])
+    return {
+      ...toPublicNews(article),
+      status: article.status ?? 'published',
+      scheduledAtUtc: article.scheduledAtUtc,
+      scheduleId: article.scheduleId,
+      taskForgeJobId: article.taskForgeJobId,
+      enforcePublicationDeadline: article.enforcePublicationDeadline ?? false,
+    }
   }
 
   createDraft(input: CreateNewsDto & { author: string; updatedAt: string }) {
-    return toEditorNews(this.createArticle(input, 'draft'))
+    return this.toEditorNews(this.createArticle(input, 'draft'))
   }
 
   getReaction(userId: string, id: string) {
@@ -77,7 +97,7 @@ export class NewsService {
     const { imageUrl, ...content } = input
     const changes = imageUrl === undefined ? content : { ...content, imageUrl: imageUrl ?? undefined }
     const article = this.database.transaction(() => this.repository.update(id, changes))
-    return toEditorNews(this.reactions.withCounts([article])[0])
+    return this.toEditorNews(article)
   }
 
   prepareSchedule(id: string, scheduledAtLocal: string, enforcePublicationDeadline = false) {

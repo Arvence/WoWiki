@@ -16,5 +16,9 @@ export type NewsContent = Pick<News, 'title' | 'summary' | 'content' | 'category
 export type EditorNews = News & {
   status: 'draft' | 'scheduled' | 'published'
   scheduledAtUtc?: string
+  scheduleId?: string
+  taskForgeJobId?: string
   enforcePublicationDeadline: boolean
 }
+
+export type EditorNewsPreview = Pick<EditorNews, 'id' | 'title' | 'summary' | 'category' | 'updatedAt' | 'imageUrl' | 'status' | 'scheduledAtUtc'>
