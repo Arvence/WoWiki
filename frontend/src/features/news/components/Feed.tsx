@@ -2,7 +2,7 @@ import { useMemo, useState, type ReactNode } from 'react'
 import type { News } from '../types/news'
 import NewsList from './NewsList'
 
-const newsCategories = ['All', 'News', 'Patch Notes', 'Guide', 'Lore']
+const newsCategories = ['All', 'News', 'Patch Notes', 'Guides', 'Lore', 'Exploration', 'Events']
 
 type FeedProps = {
   news: News[]
@@ -17,7 +17,8 @@ export default function Feed({ news, loading, error, beforeNews }: FeedProps): J
 
   const visibleNews = useMemo(
     () => news
-      .filter((article) => selectedCategory === 'All' || article.category === selectedCategory)
+      .filter((article) => selectedCategory === 'All' || article.category === selectedCategory
+        || (selectedCategory === 'Guides' && article.category === 'Guide'))
       .sort((first, second) => new Date(second.updatedAt).getTime() - new Date(first.updatedAt).getTime()),
     [news, selectedCategory],
   )
