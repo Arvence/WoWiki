@@ -25,7 +25,8 @@ function preloadImage(source: string): Promise<boolean> {
 export default function ToolsPage(): JSX.Element {
   const [imagesReady, setImagesReady] = useState(TOOL_IMAGE_SOURCES.length === 0)
   const [unavailableImages, setUnavailableImages] = useState<ReadonlySet<string>>(new Set())
-  const toolClassName = 'group relative isolate flex aspect-[2/3] w-full min-w-0 flex-col justify-end overflow-hidden rounded-2xl bg-surface p-5 text-left shadow-[0_14px_38px_rgba(0,0,0,0.22)] transition hover:-translate-y-1 hover:bg-primary/[0.08] hover:shadow-[0_20px_46px_rgba(0,0,0,0.3)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 sm:p-6'
+  const toolClassName = 'relative isolate flex aspect-[2/3] w-full min-w-0 flex-col justify-end overflow-hidden rounded-2xl bg-surface p-5 text-left shadow-[0_14px_38px_rgba(0,0,0,0.22)] sm:p-6'
+  const toolLinkClassName = `${toolClassName} transition hover:-translate-y-1 hover:bg-primary/[0.08] hover:shadow-[0_20px_46px_rgba(0,0,0,0.3)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40`
 
   useEffect(() => {
     let active = true
@@ -77,6 +78,9 @@ export default function ToolsPage(): JSX.Element {
                         <span className={`absolute inset-0 -z-10 bg-gradient-to-t ${tool.imageOverlayClassName ?? 'from-background/95 via-background/25 to-transparent'}`} aria-hidden="true" />
                       </>
                     )}
+                    {!tool.image && (
+                      <span className="pointer-events-none absolute inset-x-0 top-[42%] px-5 text-center text-xs font-semibold uppercase tracking-[0.16em] text-muted/70">Artwork pending</span>
+                    )}
                     <div className="flex items-start justify-between gap-4">
                       <h2 className="text-lg font-black leading-6 text-text">{tool.title}</h2>
                       {tool.status && <span className="shrink-0 rounded-full bg-primary/[0.1] px-2.5 py-1 text-[0.58rem] font-bold uppercase tracking-[0.1em] text-primary">{tool.status}</span>}
@@ -86,8 +90,8 @@ export default function ToolsPage(): JSX.Element {
                 )
 
                 return tool.href
-                  ? <Link key={tool.title} to={tool.href} className={toolClassName}>{content}</Link>
-                  : <button key={tool.title} type="button" className={toolClassName}>{content}</button>
+                  ? <Link key={tool.title} to={tool.href} className={toolLinkClassName}>{content}</Link>
+                  : <article key={tool.title} className={toolClassName}>{content}</article>
               })}
             </div>
           </section>
