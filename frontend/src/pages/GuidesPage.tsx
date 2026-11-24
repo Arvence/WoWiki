@@ -3,12 +3,12 @@ import AppFooter from '../components/layout/AppFooter'
 import AppHeader from '../components/layout/AppHeader'
 
 const guideSections = [
-  { title: 'Class Builds', description: 'Talents, rotations, gear priorities, and role advice for every Classic class.', link: '/database/classes', linkLabel: 'Browse classes' },
-  { title: 'Dungeon Guides', description: 'Boss mechanics, efficient routes, useful quests, and preparation for five-player content.', link: '/database/dungeons', linkLabel: 'Explore dungeons' },
-  { title: 'Raid Guides', description: 'Encounter strategies, group composition, consumables, and loot planning for raid teams.', link: '/database/raids', linkLabel: 'Explore raids' },
-  { title: 'PvP Guides', description: 'Battleground tactics, class matchups, honor progression, and practical gearing advice.', link: '/community', linkLabel: 'Read community advice' },
-  { title: 'Leveling Guides', description: 'Quest routes, zone progression, professions, and gold-saving tips for the journey to max level.', link: '/community', linkLabel: 'Find leveling entries' },
-  { title: 'Profession Guides', description: 'Training paths, material planning, crafted upgrades, and complementary profession pairings.', link: '/database/items', linkLabel: 'Browse useful items' },
+  { title: 'Class Reference', description: 'Look up Classic classes, combat roles, and armor types.', link: '/database/classes', linkLabel: 'Browse classes' },
+  { title: 'Dungeon Reference', description: 'Browse sample dungeon records with locations, levels, and group sizes.', link: '/database/dungeons', linkLabel: 'Explore dungeons' },
+  { title: 'Raid Reference', description: 'Find sample raid records and their locations and recommended levels.', link: '/database/raids', linkLabel: 'Explore raids' },
+  { title: 'PvP Discussions', description: 'Explore community posts for topics such as battlegrounds and gearing.', link: '/community', linkLabel: 'Browse community posts' },
+  { title: 'Leveling Discussions', description: 'Explore community posts for topics such as questing, gold, and professions.', link: '/community', linkLabel: 'Browse community posts' },
+  { title: 'Item Reference', description: 'Search the sample item catalog for weapons, armor, and rewards.', link: '/database/items', linkLabel: 'Browse items' },
 ]
 
 export default function GuidesPage(): JSX.Element {
@@ -19,7 +19,7 @@ export default function GuidesPage(): JSX.Element {
         <header className="border-b border-border pb-8">
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-primary">Plan your adventure</p>
           <h1 className="mt-3 text-4xl font-light tracking-tight text-text sm:text-5xl">World of Warcraft Guides</h1>
-          <p className="mt-4 max-w-3xl text-base leading-8 text-muted">Practical, focused walkthroughs for leveling, building your character, and overcoming Azeroth’s toughest encounters.</p>
+          <p className="mt-4 max-w-3xl text-base leading-8 text-muted">A starting point for Classic reference records and community discussions.</p>
         </header>
         <section className="grid gap-4 py-8 sm:grid-cols-2 lg:grid-cols-3" aria-label="Guide categories">
           {guideSections.map((guide, index) => (

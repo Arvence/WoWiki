@@ -8,7 +8,6 @@ import ContactPage from './pages/ContactPage'
 import PrivacyPage from './pages/PrivacyPage'
 import TermsPage from './pages/TermsPage'
 import AboutPage from './pages/AboutPage'
-import CareersPage from './pages/CareersPage'
 import DatabaseCollectionPage from './pages/DatabaseCollectionPage'
 import DatabaseIndexPage from './pages/DatabaseIndexPage'
 import AuthPage from './features/auth/AuthPage'
@@ -46,7 +45,6 @@ export const router = createBrowserRouter([
       { path: '/terms', element: <TermsPage /> },
       { path: '/contact', element: <ContactPage /> },
       { path: '/about', element: <AboutPage /> },
-      { path: '/careers', element: <CareersPage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

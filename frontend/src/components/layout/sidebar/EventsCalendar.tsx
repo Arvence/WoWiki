@@ -42,10 +42,10 @@ export default function EventsCalendar(): JSX.Element {
         <div className="relative z-10 flex items-start justify-between gap-3">
           <div>
             <p className="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-primary">Community schedule</p>
-            <h4 id="classic-events-title" className="mt-0.5 text-sm font-semibold text-text lg:mt-1 lg:text-base">WoW Classic Events</h4>
+            <h4 id="classic-events-title" className="mt-0.5 text-sm font-semibold text-text lg:mt-1 lg:text-base">Sample WoW Classic Events</h4>
           </div>
-          <TextTooltip text="If you want to share your event, please contact us." onlyWhenTruncated={false}>
-            <button type="button" className="flex h-7 w-7 items-center justify-center rounded-full bg-background/45 text-xs font-bold text-muted shadow-sm transition hover:bg-primary hover:text-background focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50" aria-label="How to share an event">?</button>
+          <TextTooltip text="This calendar repeats example events to demonstrate the calendar." onlyWhenTruncated={false}>
+            <button type="button" className="flex h-7 w-7 items-center justify-center rounded-full bg-background/45 text-xs font-bold text-muted shadow-sm transition hover:bg-primary hover:text-background focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50" aria-label="About the sample calendar">?</button>
           </TextTooltip>
         </div>
 
@@ -71,7 +71,7 @@ export default function EventsCalendar(): JSX.Element {
                 type="button"
                 onClick={() => setSelectedDate(date)}
                 className={`relative flex h-8 items-center justify-center rounded-lg text-[0.7rem] transition duration-200 lg:h-auto lg:aspect-square lg:rounded-full lg:text-xs ${selected ? 'scale-105 bg-primary font-bold text-background shadow-[0_5px_14px_rgba(212,160,74,0.28)]' : inMonth ? 'text-text hover:bg-background/65 hover:text-primary' : 'text-muted/30 hover:bg-background/35'} ${isToday && !selected ? 'font-bold text-primary ring-1 ring-inset ring-primary/60' : ''}`}
-                aria-label={`${dateFormatter.format(date)}: ${event ? event.title : 'No event scheduled'}`}
+                aria-label={`${dateFormatter.format(date)}: ${event ? event.title : 'No sample event'}`}
                 aria-pressed={selected}
               >
                 {date.getDate()}
@@ -98,7 +98,7 @@ export default function EventsCalendar(): JSX.Element {
             <p className="text-[0.65rem] font-semibold uppercase tracking-wider text-primary">Event notes</p>
             <p className="mt-1 text-xs leading-5 text-muted">{selectedEvent.preparation}</p>
           </div>
-        </> : <div className="mt-3 rounded-xl bg-surface/45 px-3 py-4 text-center"><p className="text-sm font-medium text-text">No event scheduled</p><p className="mt-1 text-xs leading-5 text-muted">Select a marked date to view a community event.</p></div>}
+        </> : <div className="mt-3 rounded-xl bg-surface/45 px-3 py-4 text-center"><p className="text-sm font-medium text-text">No sample event</p><p className="mt-1 text-xs leading-5 text-muted">Select a marked date to view an example.</p></div>}
       </article>
     </section>
   )
