@@ -18,21 +18,22 @@ npm run dev
 
 Database files and their WAL sidecars are ignored by Git.
 
-## Demo database
+## Archived demo database
 
-The repository includes the versioned `Data/demo/wowiki-demo.db` template, so
-installing demo data does not require a download. Stop the backend, then copy the
-template into the active local database:
+The first-run experience uses the built-in seeds. The versioned
+`Data/demo/wowiki-demo.db` is an optional archive with 27 sourced WoW Classic
+records. To load it, stop the backend and back up the active database first.
+This command replaces the selected local backend database:
 
 ```powershell
 npm run db:demo
 npm run dev
 ```
 
-The demo contains 27 sourced WoW Classic records. It replaces the active local
-database but never modifies the committed template.
+The archive has no item, character, or community entries. The committed
+template remains unchanged when you install it.
 
-To clear the active local database, stop the backend and run:
+To delete the active local database, stop the backend and back it up, then run:
 
 ```powershell
 npm run db:clear

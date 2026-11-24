@@ -4,6 +4,10 @@
 
 WoWiki is a modular World of Warcraft Classic platform built with a React frontend, a NestJS content and game-data API, ASP.NET Core services, and a YARP gateway. The NestJS backend saves user content reports in SQLite.
 
+WoWiki has completed its intended portfolio scope and is in maintenance mode.
+Maintenance covers bug fixes, security updates, necessary dependency updates,
+and minor asset and documentation updates.
+
 ## Local architecture
 
 The browser uses one origin: `http://localhost:8080`.
@@ -25,17 +29,12 @@ the gateway-forwarded client address keeps authentication limits partitioned per
 Mutable backend content and game data persist in `backend/Data/wowiki-backend.db`;
 the Auth service keeps identity data in its separate SQLite database.
 
-To start with demo content when you have no active backend database, install the
-versioned demo database before starting the server:
-
-```powershell
-cd backend
-npm run db:demo
-```
-
-Stop the backend and run `npm run db:clear` to remove the active local database.
-The committed demo template remains unchanged and can be installed again at any
-time.
+A fresh backend database automatically loads starter News, community entries,
+and game records, including items. Subsequent starts preserve local changes.
+The optional [archived demo snapshot](backend/README.md#archived-demo-database)
+contains a different set of records. `db:demo` replaces the active backend
+database and `db:clear` deletes it. Stop the backend and back up the active
+database before using either command.
 
 See the [gateway-first request/response map](docs/request-response-map.md) for
 end-to-end flows, endpoint access levels, propagated headers, response shapes,
@@ -43,8 +42,9 @@ and service ownership.
 
 ## Run locally
 
-Install the root and application dependencies once, then start the full local
-environment from the repository root:
+Use Windows, Node.js 24, and the .NET 10 SDK. Install the root and application
+dependencies from their lockfiles, then start the full local environment from
+the repository root:
 
 ```powershell
 npm ci
@@ -97,6 +97,9 @@ variables before starting WoWiki's NestJS backend, including when you use `npm r
 
 The News Editor checks TaskForge API readiness. The publishing worker runs inside
 the configured NestJS backend. Draft editing and Publish Now also work without TaskForge.
+New accounts have the `user` role. To see the moderator workflow with a disposable
+account and database, run the [browser journey for the News Editor](tests/e2e/portfolio.spec.ts).
+The test assigns the existing moderator role only in its temporary identity database.
 
 ## Portfolio browser tests
 
@@ -110,8 +113,9 @@ npm run test:e2e
 
 The Playwright journeys use real Auth, NestJS, Vite, and gateway
 processes on isolated ports `15100`, `15000`, `13000`, and `18080`. Each run builds
-the services, copies the demo content into a temporary database, creates a fresh
-identity database, and removes both after shutdown. Your development databases
+the services and creates fresh content and identity databases in a temporary
+directory. The backend loads the same starter content as a first local launch.
+Both databases are removed after shutdown. Your development databases
 and running services are preserved. PDF is outside this suite's scope.
 Failures save screenshots and traces under `test-results/`.
 

@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process'
-import { copyFileSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, rmSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -16,7 +16,6 @@ function run(command, args, cwd = root) {
 }
 
 try {
-  copyFileSync(join(root, 'backend/Data/demo/wowiki-demo.db'), join(dataDirectory, 'backend.db'))
   run(process.execPath, [process.env.npm_execpath, '--prefix', 'backend', 'run', 'build'])
   for (const [service, project] of [['auth', 'WoWiki.Auth.Api'], ['gateway', 'WoWiki.Gateway']]) {
     run('dotnet', ['build', `services/${service}/src/${project}`, '--output', join(dataDirectory, service), '--nologo'])
